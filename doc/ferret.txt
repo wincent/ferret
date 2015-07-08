@@ -343,7 +343,7 @@ A mirror exists at:
 
 Official releases are listed at:
 
-  http://www.vim.org/scripts/script.php?script_id=5218
+  http://www.vim.org/scripts/script.php?script_id=5220
 
 
 LICENSE                                                        *ferret-license*
