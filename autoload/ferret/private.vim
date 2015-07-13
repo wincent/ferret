@@ -125,7 +125,11 @@ function! ferret#private#acks(command) abort
   endif
 
   execute 'args' l:filenames
+
+  silent doautocmd User FerretWillWrite
   execute 'argdo' '%s' . a:command . 'ge | update'
+  silent doautocmd User FerretDidWrite
+
 endfunction
 
 " Populate the :args list with the filenames currently in the quickfix window.
