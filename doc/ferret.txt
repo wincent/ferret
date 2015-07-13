@@ -2,16 +2,17 @@
 
 CONTENTS                                                      *ferret-contents*
 
-1. Intro           |ferret-intro|
-2. Installation    |ferret-installation|
-3. Commands        |ferret-commands|
-4. Options         |ferret-options|
-5. Mappings        |ferret-mappings|
-6. Overrides       |ferret-overrides|
-7. Website         |ferret-website|
-8. License         |ferret-license|
-9. Authors         |ferret-authors|
-10. History        |ferret-history|
+1. Intro                 |ferret-intro|
+2. Installation          |ferret-installation|
+3. Commands              |ferret-commands|
+4. Options               |ferret-options|
+5. Mappings              |ferret-mappings|
+5. Custom autocommands   |ferret-custom-autocommands|
+7. Overrides             |ferret-overrides|
+8. Website               |ferret-website|
+9. License               |ferret-license|
+10. Authors              |ferret-authors|
+11. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
@@ -274,6 +275,25 @@ unless prevented from doing so by |g:FerretQFMap|:
   - `d` (|visual-mode|): delete visual selection
   - `dd` (|Normal-mode|): delete current line
   - `d`{motion} (|Normal-mode|): delete range indicated by {motion}
+
+
+CUSTOM AUTOCOMMANDS                                *ferret-custom-autocommands*
+
+                                               *FerretWillWrite* *FerretDidWrite*
+For maximum compatibility with other plug-ins, Ferret runs the following
+"User" autocommands before and after running the file writing operations
+during `:Acks`:
+
+FerretWillWrite
+FerretDidWrite
+
+For example, to call a pair of custom functions in response to these events,
+you might do: >
+
+   autocmd! User FerretWillWrite
+   autocmd User FerretWillWrite call CustomWillWrite()
+   autocmd! User FerretDidWrite
+   autocmd User FerretDidWrite call CustomDidWrite()
 
 
 OVERRIDES                                                    *ferret-overrides*
