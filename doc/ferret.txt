@@ -2,16 +2,17 @@
 
 CONTENTS                                                      *ferret-contents*
 
-1. Intro           |ferret-intro|
-2. Installation    |ferret-installation|
-3. Commands        |ferret-commands|
-4. Options         |ferret-options|
-5. Mappings        |ferret-mappings|
-6. Overrides       |ferret-overrides|
-7. Website         |ferret-website|
-8. License         |ferret-license|
-9. Authors         |ferret-authors|
-10. History        |ferret-history|
+1. Intro                 |ferret-intro|
+2. Installation          |ferret-installation|
+3. Commands              |ferret-commands|
+4. Options               |ferret-options|
+5. Mappings              |ferret-mappings|
+6. Custom autocommands   |ferret-custom-autocommands|
+8. Overrides             |ferret-overrides|
+9. Website               |ferret-website|
+10. License              |ferret-license|
+11. Authors              |ferret-authors|
+12. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
@@ -276,6 +277,25 @@ unless prevented from doing so by |g:FerretQFMap|:
   - `d`{motion} (|Normal-mode|): delete range indicated by {motion}
 
 
+CUSTOM AUTOCOMMANDS                                *ferret-custom-autocommands*
+
+                                               *FerretWillWrite* *FerretDidWrite*
+For maximum compatibility with other plug-ins, Ferret runs the following
+"User" autocommands before and after running the file writing operations
+during |:Acks|:
+
+  - FerretWillWrite
+  - FerretDidWrite
+
+For example, to call a pair of custom functions in response to these events,
+you might do: >
+
+   autocmd! User FerretWillWrite
+   autocmd User FerretWillWrite call CustomWillWrite()
+   autocmd! User FerretDidWrite
+   autocmd User FerretDidWrite call CustomDidWrite()
+
+
 OVERRIDES                                                    *ferret-overrides*
 
 Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially
@@ -379,8 +399,18 @@ Ferret is written and maintained by Greg Hurrell <greg@hurrell.net>.
 The idea for vim-dispatch integration was taken from Miles Sterrett's ack.vim
 plug-in (https://github.com/mileszs/ack.vim).
 
+Other contributors that have submitted patches include (in alphabetical
+order):
+
+  Joe Lencioni
+
 
 HISTORY                                                        *ferret-history*
+
+0.2 (not yet released)
+
+- Added |FerretDidWrite| and |FerretWillWrite| autocommands (patch from Joe
+  Lencioni)
 
 0.1 (8 July 2015)
 
