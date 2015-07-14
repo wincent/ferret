@@ -399,8 +399,18 @@ Ferret is written and maintained by Greg Hurrell <greg@hurrell.net>.
 The idea for vim-dispatch integration was taken from Miles Sterrett's ack.vim
 plug-in (https://github.com/mileszs/ack.vim).
 
+Other contributors that have submitted patches include (in alphabetical
+order):
+
+  Joe Lencioni
+
 
 HISTORY                                                        *ferret-history*
+
+0.2 (not yet released)
+
+- Added |FerretDidWrite| and |FerretWillWrite| autocommands (patch from Joe
+  Lencioni)
 
 0.1 (8 July 2015)
 
