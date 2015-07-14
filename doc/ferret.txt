@@ -7,12 +7,12 @@ CONTENTS                                                      *ferret-contents*
 3. Commands              |ferret-commands|
 4. Options               |ferret-options|
 5. Mappings              |ferret-mappings|
-5. Custom autocommands   |ferret-custom-autocommands|
-7. Overrides             |ferret-overrides|
-8. Website               |ferret-website|
-9. License               |ferret-license|
-10. Authors              |ferret-authors|
-11. History              |ferret-history|
+6. Custom autocommands   |ferret-custom-autocommands|
+8. Overrides             |ferret-overrides|
+9. Website               |ferret-website|
+10. License              |ferret-license|
+11. Authors              |ferret-authors|
+12. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
