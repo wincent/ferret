@@ -282,10 +282,10 @@ CUSTOM AUTOCOMMANDS                                *ferret-custom-autocommands*
                                                *FerretWillWrite* *FerretDidWrite*
 For maximum compatibility with other plug-ins, Ferret runs the following
 "User" autocommands before and after running the file writing operations
-during `:Acks`:
+during |:Acks|:
 
-FerretWillWrite
-FerretDidWrite
+  - FerretWillWrite
+  - FerretDidWrite
 
 For example, to call a pair of custom functions in response to these events,
 you might do: >
