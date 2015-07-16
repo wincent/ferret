@@ -46,9 +46,9 @@ despite the fact that Vim itself is single-threaded.
 
 2. Streamlined multi-file replace ~
 
-The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute"), which allows
-you to run a multi-file replace across all the files placed in the |quickfix|
-window by a previous invocation of |:Ack|.
+The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute", accessible via
+shortcut <leader>r), which allows you to run a multi-file replace across all
+the files placed in the |quickfix| window by a previous invocation of |:Ack|.
 
 3. Quickfix listing enhancements ~
 
@@ -256,6 +256,15 @@ instead, create a different one in your |.vimrc| instead using |:nmap|: >
   " Instead of <leader>s, use <leader>z.
   nmap <leader>z <Plug>(FerretAckWord)
 
+                                                        *<Plug>(FerretAcks)*
+Ferret maps <leader>r to |<Plug>(FerretAcks)|, which triggers the |:Acks|
+command and fills the prompt with the last search term from Ferret. to use an
+alternative mapping instead, create a different one in your |.vimrc| instead
+using |:nmap|: >
+
+  " Instead of <leader>r, use <leader>u.
+  nmap <leader>u <Plug>(FerretAcks)
+
 Circumstances where mappings do not get set up ~
 
 Note that Ferret will not try to set up the <leader> mappings if any of the
@@ -403,6 +412,7 @@ Other contributors that have submitted patches include (in alphabetical
 order):
 
   Joe Lencioni
+  Nelo-Thara Wallus
 
 
 HISTORY                                                        *ferret-history*
@@ -410,7 +420,8 @@ HISTORY                                                        *ferret-history*
 0.2 (not yet released)
 
 - Added |FerretDidWrite| and |FerretWillWrite| autocommands (patch from Joe
-  Lencioni)
+  Lencioni).
+- Add |<Plug>(FerretAcks)| mapping (patch from Nelo-Thara Wallus).
 
 0.1 (8 July 2015)
 

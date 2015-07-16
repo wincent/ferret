@@ -65,6 +65,7 @@ function! s:escape(arg) abort
 endfunction
 
 function! ferret#private#ack(command) abort
+  let g:ferret_lastsearch = s:escape(a:command)
   if empty(&grepprg)
     return
   endif
@@ -75,7 +76,7 @@ function! ferret#private#ack(command) abort
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat
     try
-      let &l:makeprg=&grepprg . ' ' . s:escape(a:command)
+      let &l:makeprg=&grepprg . ' ' . g:ferret_lastsearch
       let &l:errorformat=&grepformat
       Make
     finally
@@ -83,7 +84,7 @@ function! ferret#private#ack(command) abort
       let &l:errorformat=l:original_errorformat
     endtry
   else
-    cexpr system(&grepprg . ' ' . s:escape(a:command))
+    cexpr system(&grepprg . ' ' . g:ferret_lastsearch)
     cwindow
   endif
 endfunction
