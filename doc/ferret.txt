@@ -9,10 +9,11 @@ CONTENTS                                                      *ferret-contents*
 5. Mappings              |ferret-mappings|
 6. Custom autocommands   |ferret-custom-autocommands|
 7. Overrides             |ferret-overrides|
-8. Website               |ferret-website|
-9. License               |ferret-license|
-10. Authors              |ferret-authors|
-11. History              |ferret-history|
+8. Related               |ferret-related|
+9. Website               |ferret-website|
+10. License              |ferret-license|
+11. Authors              |ferret-authors|
+12. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
@@ -358,6 +359,14 @@ To prevent any of these |quickfix|-specific overrides from being set up, you
 can set |g:FerretQFOptions| to 0 in your |.vimrc|: >
 
   let g:FerretQFOptions=0
+
+
+RELATED                                                        *ferret-related*
+
+Just as Ferret aims to improve the multi-file search and replace experience,
+Loupe does the same for within-file searching:
+
+  https://github.com/wincent/loupe
 
 
 WEBSITE                                                        *ferret-website*
