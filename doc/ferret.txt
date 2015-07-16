@@ -258,12 +258,12 @@ instead, create a different one in your |.vimrc| instead using |:nmap|: >
 
                                                         *<Plug>(FerretAcks)*
 Ferret maps <leader>r to |<Plug>(FerretAcks)|, which triggers the |:Acks|
-command and fills the prompt with the last search term from ferret. to use an
+command and fills the prompt with the last search term from Ferret. to use an
 alternative mapping instead, create a different one in your |.vimrc| instead
 using |:nmap|: >
 
   " Instead of <leader>r, use <leader>u.
-  nmap <leader>u <Plug>(FerretAckWord)
+  nmap <leader>u <Plug>(FerretAcks)
 
 Circumstances where mappings do not get set up ~
 
