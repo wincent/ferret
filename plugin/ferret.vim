@@ -65,7 +65,7 @@ endif
 " Populate the :args list with the filenames currently in the quickfix window.
 command! -bar Qargs execute 'args' ferret#qargs()
 
-let s:commands=exists('g:FerretQFCommands') ? g:FerrerQFCommands : 1
+let s:commands=exists('g:FerretQFCommands') ? g:FerretQFCommands : 1
 if s:commands
   " Keep quickfix result centered, if possible, when jumping from result to result.
   cabbrev <silent> <expr> cn ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cn <bar> normal zz<cr>' : 'cn')
