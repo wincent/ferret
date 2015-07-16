@@ -46,9 +46,9 @@ despite the fact that Vim itself is single-threaded.
 
 2. Streamlined multi-file replace ~
 
-The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute"), which allows
-you to run a multi-file replace across all the files placed in the |quickfix|
-window by a previous invocation of |:Ack|.
+The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute", accessible via
+shortcut <leader>r), which allows you to run a multi-file replace across all
+the files placed in the |quickfix| window by a previous invocation of |:Ack|.
 
 3. Quickfix listing enhancements ~
 
