@@ -412,6 +412,7 @@ Other contributors that have submitted patches include (in alphabetical
 order):
 
   Joe Lencioni
+  Nelo-Thara Wallus
 
 
 HISTORY                                                        *ferret-history*
@@ -419,7 +420,8 @@ HISTORY                                                        *ferret-history*
 0.2 (not yet released)
 
 - Added |FerretDidWrite| and |FerretWillWrite| autocommands (patch from Joe
-  Lencioni)
+  Lencioni).
+- Add |<Plug>(FerretAcks)| mapping (patch from Nelo-Thara Wallus).
 
 0.1 (8 July 2015)
 
