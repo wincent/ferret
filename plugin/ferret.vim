@@ -58,7 +58,8 @@ if s:map
   if !hasmapto('<Plug>(FerretAcks)') && maparg('<leader>r', 'n') ==# ''
       nmap <unique> <leader>r <Plug>(FerretAcks)
   endif
-  nnoremap <Plug>(FerretAcks) :Acks<space>/<c-r>=eval(g:ferret_lastsearch)<CR>/
+  nnoremap <Plug>(FerretAcks)
+        \ :Acks <c-r>=(exists('g:ferret_lastsearch') ? '/' . eval(g:ferret_lastsearch) . '/' : '')<CR>
 endif
 
 " Populate the :args list with the filenames currently in the quickfix window.
