@@ -71,7 +71,7 @@ function! ferret#private#ack(command) abort
   endif
 
   " Prefer vim-dispatch unless otherwise instructed.
-  let l:dispatch = exists('g:FerretDispatch') ? g:FerretDispatch : 1
+  let l:dispatch = get(g:, 'FerretDispatch', 1)
   if l:dispatch && exists(':Make') == 2
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat

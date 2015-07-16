@@ -37,7 +37,7 @@ command! -nargs=+ -complete=file Ack call ferret#private#ack(<q-args>)
 command! -nargs=+ -complete=file Lack call ferret#private#lack(<q-args>)
 command! -nargs=1 Acks call ferret#private#acks(<q-args>)
 
-let s:map=exists('g:FerretMap') ? g:FerretMap : 1
+let s:map=get(g:, 'FerretMap', 1)
 if s:map
   if !hasmapto('<Plug>(FerretAck)') && maparg('<leader>a', 'n') ==# ''
     nmap <unique> <leader>a <Plug>(FerretAck)
@@ -65,7 +65,7 @@ endif
 " Populate the :args list with the filenames currently in the quickfix window.
 command! -bar Qargs execute 'args' ferret#qargs()
 
-let s:commands=exists('g:FerretQFCommands') ? g:FerretQFCommands : 1
+let s:commands=get(g:, 'FerretQFCommands', 1)
 if s:commands
   " Keep quickfix result centered, if possible, when jumping from result to result.
   cabbrev <silent> <expr> cn ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cn <bar> normal zz<cr>' : 'cn')
