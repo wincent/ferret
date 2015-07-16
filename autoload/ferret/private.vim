@@ -86,6 +86,7 @@ function! ferret#private#ack(command) abort
     cexpr system(&grepprg . ' ' . s:escape(a:command))
     cwindow
   endif
+  let g:ferret_lastsearch = s:escape(a:command)
 endfunction
 
 function! ferret#private#lack(command) abort
