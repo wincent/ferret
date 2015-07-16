@@ -417,7 +417,7 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-0.2 (not yet released)
+0.2 (16 July 2015)
 
 - Added |FerretDidWrite| and |FerretWillWrite| autocommands (patch from Joe
   Lencioni).
