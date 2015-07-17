@@ -59,7 +59,7 @@ if s:map
       nmap <unique> <leader>r <Plug>(FerretAcks)
   endif
   nnoremap <Plug>(FerretAcks)
-        \ :Acks <c-r>=(exists('g:ferret_lastsearch') ? '/' . eval(g:ferret_lastsearch) . '//' : ' ')<CR><Left>
+        \ :Acks <c-r>=(exists('g:ferret_lastsearch') ? '/' . g:ferret_lastsearch . '//' : ' ')<CR><Left>
 endif
 
 " Populate the :args list with the filenames currently in the quickfix window.

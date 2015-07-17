@@ -20,7 +20,9 @@ function! s:delete(first, last)
   execute "normal \<C-W>\<C-P>"
 endfunction
 
-" Escape space-delimited arguments for use by `system()`.
+" Parses arguments, extracting a search pattern (which is stored in
+" g:ferret_lastsearch) and escaping space-delimited arguments for use by
+" `system()`. A string containing all the escaped arguments is returned.
 "
 " The basic strategy is to split on spaces, expand wildcards for non-option
 " arguments, shellescape each word, and join.
@@ -34,17 +36,20 @@ endfunction
 "   :Ack that's\ nice\ dear
 "
 " and so on...
-function! s:escape(arg) abort
+function! s:parse(arg) abort
+  if exists('g:ferret_lastsearch')
+    unlet g:ferret_lastsearch
+  endif
+
   let l:escaped_spaces_replaced_with_markers=substitute(a:arg, '\\ ', '<!!S!!>', 'g')
   let l:split_on_spaces=split(l:escaped_spaces_replaced_with_markers)
-
-  let l:seen_search_pattern=0
   let l:expanded_args=[]
+
   for l:arg in l:split_on_spaces
     if l:arg =~# '^-'
       " Options get passed through as-is.
       call add(l:expanded_args, l:arg)
-    elseif l:seen_search_pattern
+    elseif exists('g:ferret_lastsearch')
       let l:file_args=glob(l:arg, 1, 1) " Ignore 'wildignore', return a list.
       if len(l:file_args)
         call extend(l:expanded_args, l:file_args)
@@ -54,7 +59,7 @@ function! s:escape(arg) abort
       endif
     else
       " First non-option arg is considered to be search pattern.
-      let l:seen_search_pattern=1
+      let g:ferret_lastsearch=substitute(l:arg, '<!!S!!>', ' ', 'g')
       call add(l:expanded_args, l:arg)
     endif
   endfor
@@ -65,8 +70,8 @@ function! s:escape(arg) abort
 endfunction
 
 function! ferret#private#ack(command) abort
-  let g:ferret_lastsearch=s:escape(a:command)
-  call ferret#private#hlsearch(g:ferret_lastsearch)
+  let l:command=s:parse(a:command)
+  call ferret#private#hlsearch()
 
   if empty(&grepprg)
     return
@@ -78,7 +83,7 @@ function! ferret#private#ack(command) abort
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat
     try
-      let &l:makeprg=&grepprg . ' ' . g:ferret_lastsearch
+      let &l:makeprg=&grepprg . ' ' . l:command
       let &l:errorformat=&grepformat
       Make
     finally
@@ -86,28 +91,28 @@ function! ferret#private#ack(command) abort
       let &l:errorformat=l:original_errorformat
     endtry
   else
-    cexpr system(&grepprg . ' ' . g:ferret_lastsearch)
+    cexpr system(&grepprg . ' ' . l:command)
     cwindow
   endif
 endfunction
 
 function! ferret#private#lack(command) abort
-  let l:pattern=s:escape(a:command)
-  call ferret#private#hlsearch(l:pattern)
+  let l:command=s:parse(a:command)
+  call ferret#private#hlsearch()
 
   if empty(&grepprg)
     return
   endif
 
-  lexpr system(&grepprg . ' ' . l:pattern)
+  lexpr system(&grepprg . ' ' . l:command)
   lwindow
 endfunction
 
-function! ferret#private#hlsearch(pattern) abort
+function! ferret#private#hlsearch() abort
   if has('extra_search')
     let l:hlsearch=exists('g:FerretHlsearch') ? g:FerretHlsearch : &hlsearch
     if l:hlsearch
-      let @/=eval(a:pattern)
+      let @/=g:ferret_lastsearch
       call feedkeys(":let &hlsearch=1\<CR>", 'n')
     endif
   endif
