@@ -182,6 +182,16 @@ OPTIONS                                                        *ferret-options*
 
     let g:FerretDispatch=0
 <
+                                                             *g:FerretHlsearch*
+  |g:FerretHlsearch|                                       boolean (no default)
+
+  Controls whether Ferret should attempt to highlight the search pattern when
+  running |:Ack| or |:Lack|. If left unset, Ferret will respect the current
+  'hlsearch' setting. To force highlighting on or off irrespective of
+  'hlsearch', set |g:FerretHlsearch| to 1 or 0: >
+
+    let g:FerretHlsearch=0
+<
                                                            *g:FerretQFCommands*
   |g:FerretQFCommands|                                     boolean (default: 1)
 
@@ -425,6 +435,11 @@ order):
 
 
 HISTORY                                                        *ferret-history*
+
+0.3 (not yet released)
+
+- Added highlighting of search pattern and related |g:FerretHlsearch| option
+  (patch from Nelo-Thara Wallus).
 
 0.2 (16 July 2015)
 
