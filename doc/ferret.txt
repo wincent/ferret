@@ -9,11 +9,12 @@ CONTENTS                                                      *ferret-contents*
 5. Mappings              |ferret-mappings|
 6. Custom autocommands   |ferret-custom-autocommands|
 7. Overrides             |ferret-overrides|
-8. Related               |ferret-related|
-9. Website               |ferret-website|
-10. License              |ferret-license|
-11. Authors              |ferret-authors|
-12. History              |ferret-history|
+8. FAQ                   |ferret-faq|
+9. Related               |ferret-related|
+10. Website              |ferret-website|
+11. License              |ferret-license|
+12. Authors              |ferret-authors|
+13. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
@@ -369,6 +370,20 @@ To prevent any of these |quickfix|-specific overrides from being set up, you
 can set |g:FerretQFOptions| to 0 in your |.vimrc|: >
 
   let g:FerretQFOptions=0
+
+
+FAQ                                                                *ferret-faq*
+
+Why do Ferret commands start with "Ack", "Lack" and so on? ~
+
+Ferret was originally the thinnest of wrappers (7 lines of code in my
+|.vimrc|) around `ack`. The earliest traces of it can be seen in the initial
+commit to my dotfiles repo in May, 2009 (https://wt.pe/h).
+
+So, even though Ferret has a new name now and actually prefers `ag` over `ack`
+when available, I prefer to keep the command names intact and benefit from
+years of accumulated muscle-memory.
+
 
 
 RELATED                                                        *ferret-related*
