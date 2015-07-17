@@ -10,12 +10,12 @@ CONTENTS                                                      *ferret-contents*
 6. Custom autocommands   |ferret-custom-autocommands|
 7. Overrides             |ferret-overrides|
 8. Troubleshooting       |ferret-troubleshooting|
-8. FAQ                   |ferret-faq|
-9. Related               |ferret-related|
-10. Website              |ferret-website|
-11. License              |ferret-license|
-12. Authors              |ferret-authors|
-13. History              |ferret-history|
+9. FAQ                   |ferret-faq|
+10. Related              |ferret-related|
+11. Website              |ferret-website|
+12. License              |ferret-license|
+13. Authors              |ferret-authors|
+14. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
