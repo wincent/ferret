@@ -67,7 +67,7 @@ endfunction
 function! ferret#private#ack(command) abort
   let g:ferret_lastsearch = s:escape(a:command)
 
-  let @/ = eval(s:escape(a:command))
+  let @/ = eval(g:ferret_lastsearch)
   call feedkeys(":let &hlsearch=1\<CR>", 'n')
 
   if empty(&grepprg)
