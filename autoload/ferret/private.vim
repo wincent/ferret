@@ -66,6 +66,10 @@ endfunction
 
 function! ferret#private#ack(command) abort
   let g:ferret_lastsearch = s:escape(a:command)
+
+  let @/ = eval(s:escape(a:command))
+  call feedkeys(":let &hlsearch=1\<CR>", 'n')
+
   if empty(&grepprg)
     return
   endif
@@ -90,6 +94,9 @@ function! ferret#private#ack(command) abort
 endfunction
 
 function! ferret#private#lack(command) abort
+  let @/ = eval(s:escape(a:command))
+  call feedkeys(":let &hlsearch=1\<CR>", 'n')
+
   if empty(&grepprg)
     return
   endif
