@@ -104,8 +104,10 @@ function! ferret#private#lack(command) abort
 endfunction
 
 function! ferret#private#hlsearch(pattern) abort
-  let @/ = eval(a:pattern)
-  call feedkeys(":let &hlsearch=1\<CR>", 'n')
+  if has('extra_search')
+    let @/ = eval(a:pattern)
+    call feedkeys(":let &hlsearch=1\<CR>", 'n')
+  endif
 endfunction
 
 " Run the specified substitution command on all the files in the quickfix list
