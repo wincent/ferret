@@ -9,6 +9,7 @@ CONTENTS                                                      *ferret-contents*
 5. Mappings              |ferret-mappings|
 6. Custom autocommands   |ferret-custom-autocommands|
 7. Overrides             |ferret-overrides|
+8. Troubleshooting       |ferret-troubleshooting|
 8. FAQ                   |ferret-faq|
 9. Related               |ferret-related|
 10. Website              |ferret-website|
@@ -370,6 +371,39 @@ To prevent any of these |quickfix|-specific overrides from being set up, you
 can set |g:FerretQFOptions| to 0 in your |.vimrc|: >
 
   let g:FerretQFOptions=0
+
+
+TROUBLESHOOTING                                        *ferret-troubleshooting*
+
+Ferret fails to find patterns containing spaces ~
+
+As described in the documentation for |:Ack|, the search pattern is passed
+through as-is to the underlying search command, and no escaping is required
+other than preceding spaces by a single backslash.
+
+So, to find "foo bar", you would search like: >
+
+  :Ack foo\ bar
+
+Unescaped spaces in the search are treated as argument separators, so a
+command like the following means pass the `-w` option through, search for
+pattern "foo", and limit search to the "bar" directory: >
+
+  :Ack -w foo bar
+
+Note that including quotes will not do what you intend. >
+
+  " Search for '"foo' in the 'bar"' directory:
+  :Ack "foo bar"
+
+  " Search for "'foo' in the "bar'" directory:
+  :Ack 'foo bar'
+
+This approach to escaping is taken in order to make it straightfoward to use
+powerful Perl-compatible regular expression syntax in an unambiguous way
+without having to worry about shell escaping rules: >
+
+  :Ack \blog\((['"]).*?\1\) -i --ignore-dir=src/vendor src dist build
 
 
 FAQ                                                                *ferret-faq*
