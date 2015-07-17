@@ -105,8 +105,11 @@ endfunction
 
 function! ferret#private#hlsearch(pattern) abort
   if has('extra_search')
-    let @/ = eval(a:pattern)
-    call feedkeys(":let &hlsearch=1\<CR>", 'n')
+    let l:hlsearch=exists('g:FerretHlsearch') ? g:FerretHlsearch : &hlsearch
+    if l:hlsearch
+      let @/=eval(a:pattern)
+      call feedkeys(":let &hlsearch=1\<CR>", 'n')
+    endif
   endif
 endfunction
 
