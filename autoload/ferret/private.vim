@@ -65,7 +65,7 @@ function! s:escape(arg) abort
 endfunction
 
 function! ferret#private#ack(command) abort
-  let g:ferret_lastsearch = s:escape(a:command)
+  let g:ferret_lastsearch=s:escape(a:command)
   call ferret#private#hlsearch(g:ferret_lastsearch)
 
   if empty(&grepprg)
@@ -73,7 +73,7 @@ function! ferret#private#ack(command) abort
   endif
 
   " Prefer vim-dispatch unless otherwise instructed.
-  let l:dispatch = get(g:, 'FerretDispatch', 1)
+  let l:dispatch=get(g:, 'FerretDispatch', 1)
   if l:dispatch && exists(':Make') == 2
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat
@@ -92,7 +92,7 @@ function! ferret#private#ack(command) abort
 endfunction
 
 function! ferret#private#lack(command) abort
-  let l:pattern = s:escape(a:command)
+  let l:pattern=s:escape(a:command)
   call ferret#private#hlsearch(l:pattern)
 
   if empty(&grepprg)
