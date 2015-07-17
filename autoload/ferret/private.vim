@@ -65,13 +65,15 @@ function! s:escape(arg) abort
 endfunction
 
 function! ferret#private#ack(command) abort
-  let g:ferret_lastsearch = s:escape(a:command)
+  let g:ferret_lastsearch=s:escape(a:command)
+  call ferret#private#hlsearch(g:ferret_lastsearch)
+
   if empty(&grepprg)
     return
   endif
 
   " Prefer vim-dispatch unless otherwise instructed.
-  let l:dispatch = get(g:, 'FerretDispatch', 1)
+  let l:dispatch=get(g:, 'FerretDispatch', 1)
   if l:dispatch && exists(':Make') == 2
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat
@@ -90,11 +92,25 @@ function! ferret#private#ack(command) abort
 endfunction
 
 function! ferret#private#lack(command) abort
+  let l:pattern=s:escape(a:command)
+  call ferret#private#hlsearch(l:pattern)
+
   if empty(&grepprg)
     return
   endif
-  lexpr system(&grepprg . ' ' . s:escape(a:command))
+
+  lexpr system(&grepprg . ' ' . l:pattern)
   lwindow
+endfunction
+
+function! ferret#private#hlsearch(pattern) abort
+  if has('extra_search')
+    let l:hlsearch=exists('g:FerretHlsearch') ? g:FerretHlsearch : &hlsearch
+    if l:hlsearch
+      let @/=eval(a:pattern)
+      call feedkeys(":let &hlsearch=1\<CR>", 'n')
+    endif
+  endif
 endfunction
 
 " Run the specified substitution command on all the files in the quickfix list
