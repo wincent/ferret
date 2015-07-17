@@ -66,9 +66,7 @@ endfunction
 
 function! ferret#private#ack(command) abort
   let g:ferret_lastsearch = s:escape(a:command)
-
-  let @/ = eval(g:ferret_lastsearch)
-  call feedkeys(":let &hlsearch=1\<CR>", 'n')
+  call ferret#private#hlsearch(g:ferret_lastsearch)
 
   if empty(&grepprg)
     return
@@ -94,14 +92,20 @@ function! ferret#private#ack(command) abort
 endfunction
 
 function! ferret#private#lack(command) abort
-  let @/ = eval(s:escape(a:command))
-  call feedkeys(":let &hlsearch=1\<CR>", 'n')
+  let l:pattern = s:escape(a:command)
+  call ferret#private#hlsearch(l:pattern)
 
   if empty(&grepprg)
     return
   endif
-  lexpr system(&grepprg . ' ' . s:escape(a:command))
+
+  lexpr system(&grepprg . ' ' . l:pattern)
   lwindow
+endfunction
+
+function! ferret#private#hlsearch(pattern) abort
+  let @/ = eval(a:pattern)
+  call feedkeys(":let &hlsearch=1\<CR>", 'n')
 endfunction
 
 " Run the specified substitution command on all the files in the quickfix list
