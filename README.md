@@ -13,12 +13,13 @@ Support for passing options through to the underlying search command exists,
 along with the ability to use full regular expression syntax without doing
 special escaping.
 
-Shortcut mappings are provided to start an `:Ack` search (<leader>a) or to
-search for the word currently under the cursor (<leader>s).
+Shortcut mappings are provided to start an `:Ack` search
+(<code>&lt;leader&gt;a</code>) or to search for the word currently under the
+cursor (<code>lt;leader&gt;s</code>).
 
 Results are normally displayed in the `quickfix` window, but Ferret also
-provides a `:Lack` command that behaves like `:Ack` but uses the
-`location-list` instead, and a <leader>l mapping as a shortcut to `:Lack`.
+provides a `:Lack` command that behaves like `:Ack` but uses the `location-list`
+instead, and a <code>&lt;leader&gt;l</code> mapping as a shortcut to `:Lack`.
 
 Finally, Ferret offers integration with
 [dispatch.vim](https://github.com/tpope/vim-dispatch), which enables
@@ -27,8 +28,9 @@ asynchronous searching despite the fact that Vim itself is single-threaded.
 ## Streamlined multi-file replace
 
 The companion to `:Ack` is `:Acks` (mnemonic: "Ack substitute", accessible via
-shortcut <leader>r), which allows you to run a multi-file replace across all
-the files placed in the `quickfix` window by a previous invocation of `:Ack`.
+shortcut <code>&lt;leader&gt;r</code>), which allows you to run a multi-file
+replace across all the files placed in the `quickfix` window by a previous
+invocation of `:Ack`.
 
 ## Quickfix listing enhancements
 
