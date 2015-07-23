@@ -15,7 +15,7 @@ special escaping.
 
 Shortcut mappings are provided to start an `:Ack` search
 (<code>&lt;leader&gt;a</code>) or to search for the word currently under the
-cursor (<code>lt;leader&gt;s</code>).
+cursor (<code>&lt;leader&gt;s</code>).
 
 Results are normally displayed in the `quickfix` window, but Ferret also
 provides a `:Lack` command that behaves like `:Ack` but uses the `location-list`
