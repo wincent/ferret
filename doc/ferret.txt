@@ -490,7 +490,7 @@ At the moment the release process is manual:
 
 - Tag the release: >
 
-    git tag -s - "$VERSION release" $VERSION
+    git tag -s -m "$VERSION release" $VERSION
 
 - Publish the code: >
 
