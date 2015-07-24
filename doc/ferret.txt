@@ -14,8 +14,9 @@ CONTENTS                                                      *ferret-contents*
 10. Related              |ferret-related|
 11. Website              |ferret-website|
 12. License              |ferret-license|
-13. Authors              |ferret-authors|
-14. History              |ferret-history|
+13. Development          |ferret-development|
+14. Authors              |ferret-authors|
+15. History              |ferret-history|
 
 
 INTRO                                                            *ferret-intro*
@@ -468,6 +469,39 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+
+
+DEVELOPMENT                                                *ferret-development*
+
+Contributing patches ~
+
+Patches can be sent via mail to greg@hurrell.net, or as GitHub pull requests
+at: https://github.com/wincent/ferret/pulls
+
+Cutting a new release ~
+
+At the moment the release process is manual:
+
+- Perform final sanity checks and manual testing
+- Update the |ferret-history| section of the documentation
+- Verify clean work tree: >
+
+    git status
+
+- Tag the release: >
+
+    git tag -s - "$VERSION release" $VERSION
+
+- Publish the code: >
+
+    git push origin master --follow-tags
+    git push github master --follow-tags
+
+- Produce the release archive: >
+
+    git archive -o ferret-$VERSION.zip HEAD -- .
+
+- Upload to http://www.vim.org/scripts/script.php?script_id=5220
 
 
 AUTHORS                                                        *ferret-authors*
