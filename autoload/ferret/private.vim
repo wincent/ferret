@@ -20,6 +20,48 @@ function! s:delete(first, last)
   execute "normal \<C-W>\<C-P>"
 endfunction
 
+" Returns 1 if we should/can use vim-dispatch.
+function! s:dispatch()
+  let l:dispatch=get(g:, 'FerretDispatch', 1)
+  return l:dispatch && exists(':Make') == 2
+endfunction
+
+" Use `input()` to show error output to user. Ideally, we would do this in a way
+" that didn't require user interaction, but this is the only reliable mechanism
+" that works for all cases. Alternatives considered:
+"
+" (1) Using `:echomsg`
+"
+"     When not using vim-dispatch, the screen is getting cleared before the
+"     user sees it, even with a pre-emptive `:redraw!` beforehand. Note that
+"     we can get the message to linger on the screen by making it multi-line and
+"     forcing Vim to show a prompt (see `:h hit-enter-prompt`), but this is not
+"     reliable because the number of lines required to force the prompt will
+"     vary by system, depending on the value of `'cmdheight'`.
+"
+"     When using vim-dispatch, anything we output ends up getting swallowed
+"     before the user sees it, because something it is doing is clearing the
+"     screen. This is true no matter how many lines we output.
+"
+" (2) Writing back into the quickfix/location list
+"
+"     This interacts poorly with vim-dispatch. If we write back an error message
+"     and then call `:copen 1`, vim-dispatch ends up closing the listing before
+"     the user sees it.
+"
+" (3) Using `:echoerr`
+"
+"     This works, but presents to the user as an exception (see `:h :echoerr`).
+"
+function! s:error(message) abort
+  call inputsave()
+  echohl ErrorMsg
+  call input(a:message . ': press ENTER to continue')
+  echohl NONE
+  call inputrestore()
+  echo
+endfunction
+
 " Parses arguments, extracting a search pattern (which is stored in
 " g:ferret_lastsearch) and escaping space-delimited arguments for use by
 " `system()`. A string containing all the escaped arguments is returned.
@@ -69,6 +111,38 @@ function! s:parse(arg) abort
   return substitute(l:joined, '<!!S!!>', ' ', 'g')
 endfunction
 
+function! ferret#private#post(type) abort
+  if has('autocmd')
+    augroup FerretPostQF
+      autocmd!
+    augroup END
+  endif
+
+  let l:qflist = a:type == 'qf' ? getqflist() : getloclist(0)
+  if len(l:qflist) == 0
+    call s:error('No results')
+  else
+    " Find any "invalid" entries in the list.
+    let l:invalid = filter(copy(l:qflist), 'v:val.valid == 0')
+    if len(l:invalid) == len(l:qflist)
+      " Every item in the list was invalid.
+      redraw!
+      echohl ErrorMsg
+      for l:item in l:invalid
+        echomsg l:item.text
+      endfor
+      echohl NONE
+      if a:type == 'qf' && s:dispatch()
+        " Messages printed above get cleared, so the only way to see them is
+        " with `:messages`.
+        call s:error('Search failed (run `:messages` to see details)')
+      else
+        call s:error('Search failed')
+      endif
+    endif
+  endif
+endfunction
+
 function! ferret#private#ack(command) abort
   let l:command=s:parse(a:command)
   call ferret#private#hlsearch()
@@ -78,14 +152,23 @@ function! ferret#private#ack(command) abort
   endif
 
   " Prefer vim-dispatch unless otherwise instructed.
-  let l:dispatch=get(g:, 'FerretDispatch', 1)
-  if l:dispatch && exists(':Make') == 2
+  if s:dispatch()
+    if has('autocmd')
+      augroup FerretPostQF
+        autocmd!
+        autocmd QuickfixCmdPost cgetfile call ferret#private#post('qf')
+      augroup END
+    endif
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat
     try
       let &l:makeprg=&grepprg . ' ' . l:command
       let &l:errorformat=&grepformat
       Make
+    catch
+      if has('autocmd')
+        augroup! FerretPostQF
+      endif
     finally
       let &l:makeprg=l:original_makeprg
       let &l:errorformat=l:original_errorformat
@@ -93,6 +176,7 @@ function! ferret#private#ack(command) abort
   else
     cexpr system(&grepprg . ' ' . l:command)
     cwindow
+    call ferret#private#post('qf')
   endif
 endfunction
 
@@ -106,6 +190,7 @@ function! ferret#private#lack(command) abort
 
   lexpr system(&grepprg . ' ' . l:command)
   lwindow
+  call ferret#private#post('location')
 endfunction
 
 function! ferret#private#hlsearch() abort
