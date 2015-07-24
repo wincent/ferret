@@ -118,9 +118,19 @@ function! ferret#private#post(type) abort
     augroup END
   endif
 
+  let l:lastsearch = get(g:, 'ferret_lastsearch', '')
   let l:qflist = a:type == 'qf' ? getqflist() : getloclist(0)
+  let l:tip = ' [see `:help ferret-quotes`]'
   if len(l:qflist) == 0
-    call s:error('No results')
+    let l:base = 'No results for search pattern `' . l:lastsearch . '`'
+
+    " Search pattern has no spaces and is entirely enclosed in quotes;
+    " eg 'foo' or "bar"
+    if l:lastsearch =~ '\v^([' . "'" . '"])[^ \1]+\1$'
+      call s:error(l:base . l:tip)
+    else
+      call s:error(l:base)
+    endif
   else
     " Find any "invalid" entries in the list.
     let l:invalid = filter(copy(l:qflist), 'v:val.valid == 0')
@@ -132,12 +142,21 @@ function! ferret#private#post(type) abort
         echomsg l:item.text
       endfor
       echohl NONE
-      if a:type == 'qf' && s:dispatch()
-        " Messages printed above get cleared, so the only way to see them is
-        " with `:messages`.
-        call s:error('Search failed (run `:messages` to see details)')
+
+      let l:base = 'Search for `' . l:lastsearch . '` failed'
+
+      " When using vim-dispatch, the messages printed above get cleared, so the
+      " only way to see them is with `:messages`.
+      let l:suffix = a:type == 'qf' && s:dispatch() ?
+            \ ' (run `:messages` to see details)' :
+            \ ''
+
+      " If search pattern looks like `'foo` or `"bar`, it means the user
+      " probably tried to search for 'foo bar' or "bar baz" etc.
+      if l:lastsearch =~ '\v^[' . "'" . '"].+[^' . "'" . '"]$'
+        call s:error(l:base . l:tip . l:suffix)
       else
-        call s:error('Search failed')
+        call s:error(l:base . l:suffix)
       endif
     endif
   endif

@@ -375,6 +375,7 @@ can set |g:FerretQFOptions| to 0 in your |.vimrc|: >
 
 TROUBLESHOOTING                                        *ferret-troubleshooting*
 
+                                                                *ferret-quotes*
 Ferret fails to find patterns containing spaces ~
 
 As described in the documentation for |:Ack|, the search pattern is passed
@@ -490,6 +491,7 @@ HISTORY                                                        *ferret-history*
 
 - Added highlighting of search pattern and related |g:FerretHlsearch| option
   (patch from Nelo-Thara Wallus).
+- Add better error reporting for failed or incorrect searches.
 
 0.2 (16 July 2015)
 
