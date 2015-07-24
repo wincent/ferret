@@ -521,7 +521,7 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-0.3 (not yet released)
+0.3 (24 July 2015)
 
 - Added highlighting of search pattern and related |g:FerretHlsearch| option
   (patch from Nelo-Thara Wallus).
