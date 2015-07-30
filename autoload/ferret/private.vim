@@ -214,7 +214,7 @@ endfunction
 
 function! ferret#private#hlsearch() abort
   if has('extra_search')
-    let l:hlsearch=exists('g:FerretHlsearch') ? g:FerretHlsearch : &hlsearch
+    let l:hlsearch=get(g:, 'FerretHlsearch', &hlsearch)
     if l:hlsearch
       let @/=g:ferret_lastsearch
       call feedkeys(":let &hlsearch=1 | echo \<CR>", 'n')

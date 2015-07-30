@@ -1,7 +1,7 @@
 " Copyright 2015-present Greg Hurrell. All rights reserved.
 " Licensed under the terms of the BSD 2-clause license.
 
-let s:options=exists('g:FerretQFOptions') ? g:FerretQFOptions : 1
+let s:options=get(g:, 'FerretQFOptions', 1)
 if s:options
   setlocal nolist
   if exists('+relativenumber')
@@ -23,7 +23,7 @@ if s:options
   endif
 endif
 
-let s:map=exists('g:FerretQFMap') ? g:FerretQFMap : 1
+let s:map=get(g:, 'FerretQFMap', 1)
 if s:map
   " Make it easy to remove entries from the quickfix listing.
   " TODO: distinguish between quickfix and location list
