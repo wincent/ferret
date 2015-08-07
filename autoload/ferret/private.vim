@@ -252,9 +252,17 @@ function! ferret#private#acks(command) abort
 
   execute 'args' l:filenames
 
-  silent doautocmd <nomodeline> User FerretWillWrite
+  if v:version > 703 || v:version == 703 && has('patch438')
+    silent doautocmd <nomodeline> User FerretWillWrite
+  else
+    silent doautocmd User FerretWillWrite
+  endif
   execute 'argdo' '%s' . a:command . 'ge | update'
-  silent doautocmd <nomodeline> User FerretDidWrite
+  if v:version > 703 || v:version == 703 && has('patch438')
+    silent doautocmd <nomodeline> User FerretDidWrite
+  else
+    silent doautocmd User FerretDidWrite
+  endif
 
 endfunction
 
