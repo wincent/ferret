@@ -252,9 +252,9 @@ function! ferret#private#acks(command) abort
 
   execute 'args' l:filenames
 
-  silent doautocmd User FerretWillWrite
+  silent doautocmd <nomodeline> User FerretWillWrite
   execute 'argdo' '%s' . a:command . 'ge | update'
-  silent doautocmd User FerretDidWrite
+  silent doautocmd <nomodeline> User FerretDidWrite
 
 endfunction
 
