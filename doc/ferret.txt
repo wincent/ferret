@@ -514,12 +514,17 @@ plug-in (https://github.com/mileszs/ack.vim).
 Other contributors that have submitted patches include (in alphabetical
 order):
 
+  Daniel Silva
   Joe Lencioni
   Nelo-Thara Wallus
   Vaibhav Sagar
 
 
 HISTORY                                                        *ferret-history*
+
+0.3.1 (not yet released)
+
+- Fix broken |:Qargs| command (patch from Daniel Silva).
 
 0.3 (24 July 2015)
 
