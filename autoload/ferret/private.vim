@@ -194,7 +194,7 @@ function! ferret#private#ack(command) abort
     endtry
   else
     cexpr system(&grepprg . ' ' . l:command)
-    cwindow
+    bo cwindow
     call ferret#private#post('qf')
   endif
 endfunction
@@ -208,7 +208,7 @@ function! ferret#private#lack(command) abort
   endif
 
   lexpr system(&grepprg . ' ' . l:command)
-  lwindow
+  bo lwindow
   call ferret#private#post('location')
 endfunction
 
