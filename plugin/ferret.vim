@@ -63,7 +63,7 @@ if s:map
 endif
 
 " Populate the :args list with the filenames currently in the quickfix window.
-command! -bar Qargs execute 'args' ferret#qargs()
+command! -bar Qargs execute 'args' ferret#private#qargs()
 
 let s:commands=get(g:, 'FerretQFCommands', 1)
 if s:commands
