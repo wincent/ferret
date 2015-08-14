@@ -195,15 +195,7 @@ function! ferret#private#ack(command) abort
     endtry
   else
     cexpr system(&grepprg . ' ' . l:command)
-
-    if l:pos == 'top'
-      topleft cwindow
-    elseif l:pos == 'bottom'
-      botright cwindow
-    else
-      cwindow
-    endif
-
+    execute g:FerretQHandler
     call ferret#private#post('qf')
   endif
 endfunction
@@ -217,7 +209,7 @@ function! ferret#private#lack(command) abort
   endif
 
   lexpr system(&grepprg . ' ' . l:command)
-  lwindow
+  execute g:FerretLHandler
   call ferret#private#post('location')
 endfunction
 
