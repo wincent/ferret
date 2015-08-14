@@ -8,6 +8,9 @@ if exists('g:FerretLoaded') || &compatible || v:version < 700
 endif
 let g:FerretLoaded = 1
 
+let g:FerretQHandler = get(g:, 'FerretQHandler', 'botright cwindow')
+let g:FerretLHandler = get(g:, 'FerretLHandler', 'lwindow')
+
 " Temporarily set 'cpoptions' to Vim default as per `:h use-cpo-save`.
 let s:cpoptions = &cpoptions
 set cpoptions&vim
