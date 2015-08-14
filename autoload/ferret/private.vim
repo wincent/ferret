@@ -164,6 +164,7 @@ endfunction
 
 function! ferret#private#ack(command) abort
   let l:command=s:parse(a:command)
+  let l:pos=get(g:, 'FerretPosition', 'bottom')
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
@@ -194,7 +195,15 @@ function! ferret#private#ack(command) abort
     endtry
   else
     cexpr system(&grepprg . ' ' . l:command)
-    bo cwindow
+
+    if l:pos == 'top'
+      topleft cwindow
+    elseif l:pos == 'bottom'
+      botright cwindow
+    else
+      cwindow
+    endif
+
     call ferret#private#post('qf')
   endif
 endfunction
@@ -208,7 +217,7 @@ function! ferret#private#lack(command) abort
   endif
 
   lexpr system(&grepprg . ' ' . l:command)
-  bo lwindow
+  lwindow
   call ferret#private#post('location')
 endfunction
 
