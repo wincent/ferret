@@ -164,7 +164,7 @@ endfunction
 
 function! ferret#private#ack(command) abort
   let l:command=s:parse(a:command)
-  let l:qhandler=get(g:, 'FerretQHandler', 'botright cwindow')
+  let l:qfhandler=get(g:, 'FerretQFHandler', 'botright cwindow')
 
   call ferret#private#hlsearch()
 
@@ -196,7 +196,7 @@ function! ferret#private#ack(command) abort
     endtry
   else
     cexpr system(&grepprg . ' ' . l:command)
-    execute l:qhandler
+    execute l:qfhandler
     call ferret#private#post('qf')
   endif
 endfunction
