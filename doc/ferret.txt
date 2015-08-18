@@ -234,6 +234,21 @@ OPTIONS                                                        *ferret-options*
 
     let g:FerretQFOptions=0
 <
+                                                            *g:FerretQFHandler*
+  |g:FerretQFHandler|                      string (default: 'botright cwindow')
+
+  Defines the command to open the the |quickfix| window.
+
+  It can be useful if you want to define how many lines the |quickfix| window
+  should have. For example: >
+
+    let g:FerretQFHandler='botright cwindow 30'
+<
+                                                             *g:FerretLHandler*
+  |g:FerretLHandler|                       string (default: 'botright lwindow')
+
+  Just like |g:FerretQFHandler|, but applied to |location-list|.
+
                                                                *g:FerretLoaded*
   |g:FerretLoaded|                                             any (no default)
 
@@ -241,7 +256,7 @@ OPTIONS                                                        *ferret-options*
   |.vimrc|. For example: >
 
     let g:FerretLoaded=1
-
+<
 
 MAPPINGS                                                      *ferret-mappings*
 
