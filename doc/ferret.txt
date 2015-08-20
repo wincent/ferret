@@ -245,7 +245,7 @@ OPTIONS                                                        *ferret-options*
     let g:FerretQFHandler='botright cwindow 30'
 <
                                                             *g:FerretLLHandler*
-  |g:FerretLLHandler|                      string (default: 'botright lwindow')
+  |g:FerretLLHandler|                               string (default: 'lwindow')
 
   Just like |g:FerretQFHandler|, but applied to |location-list|.
 
