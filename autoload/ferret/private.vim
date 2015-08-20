@@ -203,7 +203,7 @@ endfunction
 
 function! ferret#private#lack(command) abort
   let l:command=s:parse(a:command)
-  let l:lhandler=get(g:, 'FerretLHandler', 'lwindow')
+  let l:lhandler=get(g:, 'FerretLLHandler', 'lwindow')
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
