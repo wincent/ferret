@@ -234,6 +234,25 @@ OPTIONS                                                        *ferret-options*
 
     let g:FerretQFOptions=0
 <
+                                                            *g:FerretQFHandler*
+  |g:FerretQFHandler|                      string (default: "botright cwindow")
+
+  Defines the command to open the |quickfix| window to display the results of
+  a synchronous |:Ack| operation.
+
+  This can be useful if you want to define how many lines the |quickfix| window
+  should have, or where it should appear. For example: >
+
+    let g:FerretQFHandler='botright cwindow 30'
+<
+  Note that this does not apply when using vim-dispatch, because it manages
+  the display of the window itself.
+
+                                                            *g:FerretLLHandler*
+  |g:FerretLLHandler|                               string (default: "lwindow")
+
+  Just like |g:FerretQFHandler|, but applied to |location-list|.
+
                                                                *g:FerretLoaded*
   |g:FerretLoaded|                                             any (no default)
 
@@ -241,7 +260,7 @@ OPTIONS                                                        *ferret-options*
   |.vimrc|. For example: >
 
     let g:FerretLoaded=1
-
+<
 
 MAPPINGS                                                      *ferret-mappings*
 
@@ -522,9 +541,11 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-0.3.1 (not yet released)
+0.4 (not yet released)
 
 - Fix broken |:Qargs| command (patch from Daniel Silva).
+- Add |g:FerretQFHandler| and |g:FerretLLHandler| options (patch from Daniel
+  Silva).
 
 0.3 (24 July 2015)
 
