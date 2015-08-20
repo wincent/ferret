@@ -235,7 +235,7 @@ OPTIONS                                                        *ferret-options*
     let g:FerretQFOptions=0
 <
                                                             *g:FerretQFHandler*
-  |g:FerretQFHandler|                      string (default: 'botright cwindow')
+  |g:FerretQFHandler|                      string (default: "botright cwindow")
 
   Defines the command to open the the |quickfix| window.
 
@@ -245,7 +245,7 @@ OPTIONS                                                        *ferret-options*
     let g:FerretQFHandler='botright cwindow 30'
 <
                                                             *g:FerretLLHandler*
-  |g:FerretLLHandler|                               string (default: 'lwindow')
+  |g:FerretLLHandler|                               string (default: "lwindow")
 
   Just like |g:FerretQFHandler|, but applied to |location-list|.
 
