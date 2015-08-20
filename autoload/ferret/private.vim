@@ -164,7 +164,6 @@ endfunction
 
 function! ferret#private#ack(command) abort
   let l:command=s:parse(a:command)
-  let l:qfhandler=get(g:, 'FerretQFHandler', 'botright cwindow')
 
   call ferret#private#hlsearch()
 
@@ -196,14 +195,13 @@ function! ferret#private#ack(command) abort
     endtry
   else
     cexpr system(&grepprg . ' ' . l:command)
-    execute l:qfhandler
+    execute get(g:, 'FerretQFHandler', 'botright cwindow')
     call ferret#private#post('qf')
   endif
 endfunction
 
 function! ferret#private#lack(command) abort
   let l:command=s:parse(a:command)
-  let l:lhandler=get(g:, 'FerretLLHandler', 'lwindow')
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
@@ -211,7 +209,7 @@ function! ferret#private#lack(command) abort
   endif
 
   lexpr system(&grepprg . ' ' . l:command)
-  execute l:lhandler
+  execute get(g:, 'FerretLLHandler', 'lwindow')
   call ferret#private#post('location')
 endfunction
 
