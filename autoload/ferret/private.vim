@@ -164,7 +164,6 @@ endfunction
 
 function! ferret#private#ack(command) abort
   let l:command=s:parse(a:command)
-
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
