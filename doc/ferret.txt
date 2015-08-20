@@ -239,7 +239,7 @@ OPTIONS                                                        *ferret-options*
 
   Defines the command to open the the |quickfix| window.
 
-  It can be useful if you want to define how many lines the |quickfix| window
+  This can be useful if you want to define how many lines the |quickfix| window
   should have. For example: >
 
     let g:FerretQFHandler='botright cwindow 30'
