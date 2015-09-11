@@ -546,6 +546,7 @@ HISTORY                                                        *ferret-history*
 - Fix broken |:Qargs| command (patch from Daniel Silva).
 - Add |g:FerretQFHandler| and |g:FerretLLHandler| options (patch from Daniel
   Silva).
+- Make |<Plug>| mappings accessible even |g:FerretMap| is set to 0.
 
 0.3 (24 July 2015)
 
