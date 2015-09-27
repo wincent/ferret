@@ -15,7 +15,7 @@ set cpoptions&vim
 if executable('ag') " The Silver Searcher: faster than ack.
   let s:ackprg = 'ag --vimgrep'
 elseif executable('ack') " Ack: better than grep.
-  let s:ackprg = 'ack --column --nocolor --nogroup --with-filename'
+  let s:ackprg = 'ack --column --with-filename'
 elseif executable('grep') " Grep: it's just grep.
   let s:ackprg = &grepprg " default is: grep -n $* /dev/null
 endif
