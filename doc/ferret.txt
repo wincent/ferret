@@ -547,6 +547,10 @@ HISTORY                                                        *ferret-history*
 - Add |g:FerretQFHandler| and |g:FerretLLHandler| options (patch from Daniel
   Silva).
 - Make |<Plug>| mappings accessible even |g:FerretMap| is set to 0.
+- Fix failure to report filename when using `ack` and explicitly scoping
+  search to a single file (patch from Daniel Silva).
+- When using `ag`, report multiple matches per line instead of just the first
+  (patch from Daniel Silva).
 
 0.3 (24 July 2015)
 
