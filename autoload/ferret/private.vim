@@ -257,26 +257,54 @@ function! ferret#private#acks(command) abort
     let l:options .= 'g'
   endif
 
-  let l:filenames=ferret#private#qargs()
-  if l:filenames ==# ''
+  let l:filenames=ferret#private#qf_filenames()
+  if empty(l:filenames)
     echoerr 'Ferret: Quickfix filenames must be present, but there are none'
     return
   endif
-
-  execute 'args' l:filenames
 
   if v:version > 703 || v:version == 703 && has('patch438')
     silent doautocmd <nomodeline> User FerretWillWrite
   else
     silent doautocmd User FerretWillWrite
   endif
-  execute 'argdo' '%s' . l:pattern . l:options . ' | update'
+
+  for l:filename in l:filenames
+    execute 'args' l:filename
+    let l:lines = ferret#private#qf_lines(l:filename)
+    let l:lines_regex = '\v(' . join(map(l:lines, '"%".v:val."l"'), '|') . ')'
+    execute 'argdo g/' . l:lines_regex . '/s' . l:pattern . l:options
+    argdo update
+  endfor
+
   if v:version > 703 || v:version == 703 && has('patch438')
     silent doautocmd <nomodeline> User FerretDidWrite
   else
     silent doautocmd User FerretDidWrite
   endif
 
+endfunction
+
+" Get the filenames currently in the quickfix window.
+function! ferret#private#qf_filenames()
+  let l:filenames=[]
+  for l:item in getqflist()
+    let l:filename = bufname(l:item['bufnr'])
+    call add(l:filenames, l:filename)
+  endfor
+  return l:filenames
+endfunction
+
+" Get the line numbers for a given filename currently in the quickfix window.
+function! ferret#private#qf_lines(filename)
+  let l:lines=[]
+  for l:item in getqflist()
+    let l:filename = bufname(l:item['bufnr'])
+    if l:filename == a:filename
+      call add(l:lines, l:item['lnum'])
+    endif
+  endfor
+  return l:lines
 endfunction
 
 " Populate the :args list with the filenames currently in the quickfix window.
