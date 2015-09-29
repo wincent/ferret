@@ -257,20 +257,33 @@ function! ferret#private#acks(command) abort
     let l:options .= 'g'
   endif
 
-  let l:filenames=ferret#private#qargs()
-  if l:filenames ==# ''
+  let l:file_lines = {}
+  for l:item in getqflist()
+    let l:filename = bufname(l:item['bufnr'])
+    if !has_key(l:file_lines, l:filename)
+      let l:file_lines[l:filename] = []
+    endif
+    call add(l:file_lines[l:filename], l:item['lnum'])
+  endfor
+
+  if empty(l:file_lines)
     echoerr 'Ferret: Quickfix filenames must be present, but there are none'
     return
   endif
-
-  execute 'args' l:filenames
 
   if v:version > 703 || v:version == 703 && has('patch438')
     silent doautocmd <nomodeline> User FerretWillWrite
   else
     silent doautocmd User FerretWillWrite
   endif
-  execute 'argdo' '%s' . l:pattern . l:options . ' | update'
+
+  for [l:filename,l:lines] in items(l:file_lines)
+    execute 'args' l:filename
+    let l:lines_regex = '\v(' . join(map(l:lines, '"%".v:val."l"'), '|') . ')'
+    execute 'argdo g/' . l:lines_regex . '/s' . l:pattern . l:options
+    argdo update
+  endfor
+
   if v:version > 703 || v:version == 703 && has('patch438')
     silent doautocmd <nomodeline> User FerretDidWrite
   else
