@@ -263,7 +263,8 @@ function! ferret#private#acks(command) abort
   let l:filenames=ferret#private#qargs()
   if l:filenames ==# ''
     call s:error(
-          \ 'Ferret: Quickfix filenames must be present, but there are none'
+          \ 'Ferret: Quickfix filenames must be present, but there are none ' .
+          \ '(must use :Ack to find files before :Acks can be used)'
           \ )
     return
   endif
