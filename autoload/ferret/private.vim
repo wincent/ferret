@@ -242,7 +242,10 @@ function! ferret#private#acks(command) abort
   " Accept any pattern allowed by E146 (crude sanity check).
   let l:matches = matchlist(a:command, '\v\C^(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)$')
   if !len(l:matches)
-    echoerr 'Ferret: Expected a substitution expression (/foo/bar/); got: ' . a:command
+    call s:error(
+          \ 'Ferret: Expected a substitution expression (/foo/bar/); got: ' .
+          \ a:command
+          \ )
     return
   endif
 
@@ -259,7 +262,9 @@ function! ferret#private#acks(command) abort
 
   let l:filenames=ferret#private#qargs()
   if l:filenames ==# ''
-    echoerr 'Ferret: Quickfix filenames must be present, but there are none'
+    call s:error(
+          \ 'Ferret: Quickfix filenames must be present, but there are none'
+          \ )
     return
   endif
 
