@@ -551,6 +551,7 @@ HISTORY                                                        *ferret-history*
   search to a single file (patch from Daniel Silva).
 - When using `ag`, report multiple matches per line instead of just the first
   (patch from Daniel Silva).
+- Improve content and display of error messages.
 
 0.3 (24 July 2015)
 
