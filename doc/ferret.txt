@@ -541,7 +541,7 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-0.4 (not yet released)
+1.0 (28 December 2015)
 
 - Fix broken |:Qargs| command (patch from Daniel Silva).
 - Add |g:FerretQFHandler| and |g:FerretLLHandler| options (patch from Daniel
