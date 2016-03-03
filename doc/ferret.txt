@@ -541,6 +541,10 @@ order):
 
 HISTORY                                                        *ferret-history*
 
+1.0.1 (not yet released)
+
+- Fix edge case when searching for strings of the form "<foo>".
+
 1.0 (28 December 2015)
 
 - Fix broken |:Qargs| command (patch from Daniel Silva).

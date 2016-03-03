@@ -108,7 +108,8 @@ function! s:parse(arg) abort
 
   let l:each_word_shell_escaped=map(l:expanded_args, 'shellescape(v:val)')
   let l:joined=join(l:each_word_shell_escaped)
-  return substitute(l:joined, '<!!S!!>', ' ', 'g')
+  let l:substituted=substitute(l:joined, '<!!S!!>', ' ', 'g')
+  return escape(l:substituted, '<>')
 endfunction
 
 function! ferret#private#post(type) abort
