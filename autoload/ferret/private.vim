@@ -375,31 +375,25 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
     let l:position=l:position + len(l:arg)
     let l:stripped=substitute(l:arg, '\s\+$', '', '')
 
-    if l:pattern_seen
-      if ferret#private#option(l:stripped)
-        if a:cursorpos <= l:position
-          let l:options=get(s:options, s:executable, [])
-          return filter(l:options, 'match(v:val, l:stripped) == 0')
-        endif
-      elseif a:cursorpos <= l:position
+    if ferret#private#option(l:stripped)
+      if a:cursorpos <= l:position
+        let l:options=get(s:options, s:executable, [])
+        return filter(l:options, 'match(v:val, l:stripped) == 0')
+      endif
+    elseif l:pattern_seen
+      if a:cursorpos <= l:position
         " Assume this is a filename, and it's the one we're trying to complete.
         " Do -complete=file style completion.
         return glob(a:arglead . '*', 1, 1)
       end
     elseif l:command_seen
-      if ferret#private#option(l:stripped)
-        if a:cursorpos <= l:position
-          let l:options=get(s:options, s:executable, [])
-          return filter(l:options, 'match(v:val, l:stripped) == 0')
-        endif
-      else
-        " Let the pattern through unaltered.
-        let l:pattern_seen=1
-      endif
+      " Let the pattern through unaltered.
+      let l:pattern_seen=1
     elseif l:stripped ==# a:cmd
       let l:command_seen=1
     else
       " Haven't seen command yet, this must be a range or a count.
+      " (Not valid, but nothing we can do about it here).
     end
   endfor
 
