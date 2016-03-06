@@ -65,19 +65,6 @@ endfunction
 " Parses arguments, extracting a search pattern (which is stored in
 " g:ferret_lastsearch) and escaping space-delimited arguments for use by
 " `system()`. A string containing all the escaped arguments is returned.
-"
-" The basic strategy is to split on spaces, expand wildcards for non-option
-" arguments, shellescape each word, and join.
-"
-" To support an edge-case (the ability to search for strings with spaces in
-" them, however, we swap out escaped spaces first (subsituting the unlikely
-" "<!!S!!>") and then swap them back in at the end. This allows us to perform
-" searches like:
-"
-"   :Ack -i \bFoo_?Bar\b
-"   :Ack that's\ nice\ dear
-"
-" and so on...
 function! s:parse(args) abort
   if exists('g:ferret_lastsearch')
     unlet g:ferret_lastsearch
