@@ -541,9 +541,11 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-1.0.1 (not yet released)
+1.1 (not yet released)
 
 - Fix edge case when searching for strings of the form "<foo>".
+- Fix edge case when searching for patterns containing "#" and "%".
+- Provide completion for `ag` and `ack` options when using |:Ack| and |:Lack|.
 
 1.0 (28 December 2015)
 

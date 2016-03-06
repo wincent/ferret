@@ -299,9 +299,71 @@ function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
   return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos)
 endfunction
 
+if executable('ag')
+  let s:executable='ag'
+elseif executable('ack')
+  let s:executable='ack'
+elseif executable('grep')
+  let s:executable='grep'
+else
+  let s:executable=''
+endif
+
+let s:options = {
+      \   'ack': [
+      \     '--ignore-ack-defaults',
+      \     '--ignore-case',
+      \     '--ignore-dir',
+      \     '--ignore-directory',
+      \     '--invert-match',
+      \     '--known-types',
+      \     '--literal',
+      \     '--no-recurse',
+      \     '--recurse',
+      \     '--sort-files',
+      \     '--type',
+      \     '--word-regexp',
+      \     '-1',
+      \     '-Q',
+      \     '-R',
+      \     '-i',
+      \     '-k',
+      \     '-r',
+      \     '-v',
+      \     '-w',
+      \   ],
+      \   'ag': [
+      \     '--all-types',
+      \     '--all-text',
+      \     '--case-sensitive',
+      \     '--depth',
+      \     '--follow',
+      \     '--ignore',
+      \     '--ignore-case',
+      \     '--ignore-dir',
+      \     '--invert-match',
+      \     '--literal',
+      \     '--max-count',
+      \     '--skip-vcs-ignores',
+      \     '--unrestricted',
+      \     '--word-regexp',
+      \     '-Q',
+      \     '-U',
+      \     '-a',
+      \     '-i',
+      \     '-m',
+      \     '-s',
+      \     '-t',
+      \     '-u',
+      \     '-v',
+      \     '-w'
+      \   ]
+      \ }
+
 " We provide our own custom command completion because the default
 " -complete=file completion will expand special characters in the pattern (like
-" "#") before we get a chance to see them.
+" "#") before we get a chance to see them, breaking the search. As a bonus, this
+" means we can provide option completion for `ack` and `ag` options as well.
 function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
   let l:args=ferret#private#split(a:cmdline[:a:cursorpos])
 
@@ -315,20 +377,21 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
 
     if l:pattern_seen
       if ferret#private#option(l:stripped)
-        " Don't complete options (yet...).
-        " TODO: complete options.
-      elseif a:cursorpos > l:position
-        " This is supposedly a filename, but it comes before the current cursor
-        " position, so this is not the filename we're trying to complete; skip
-        " it.
-      else
-        " Assume this is a filename: try to do -complete=file style completion.
+        if a:cursorpos <= l:position
+          let l:options=get(s:options, s:executable, [])
+          return filter(l:options, 'match(v:val, l:stripped) == 0')
+        endif
+      elseif a:cursorpos <= l:position
+        " Assume this is a filename, and it's the one we're trying to complete.
+        " Do -complete=file style completion.
         return glob(a:arglead . '*', 1, 1)
       end
     elseif l:command_seen
       if ferret#private#option(l:stripped)
-        " Don't complete options (yet...).
-        " TODO: complete options.
+        if a:cursorpos <= l:position
+          let l:options=get(s:options, s:executable, [])
+          return filter(l:options, 'match(v:val, l:stripped) == 0')
+        endif
       else
         " Let the pattern through unaltered.
         let l:pattern_seen=1
