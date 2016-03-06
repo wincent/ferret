@@ -33,8 +33,8 @@ if has('autocmd')
   augroup END
 endif
 
-command! -nargs=+ -complete=file Ack call ferret#private#ack(<q-args>)
-command! -nargs=+ -complete=file Lack call ferret#private#lack(<q-args>)
+command! -nargs=+ -complete=file Ack call ferret#private#ack(<f-args>)
+command! -nargs=+ -complete=file Lack call ferret#private#lack(<f-args>)
 command! -nargs=1 Acks call ferret#private#acks(<q-args>)
 
 nnoremap <Plug>(FerretAck) :Ack<space>

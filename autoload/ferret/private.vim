@@ -78,16 +78,14 @@ endfunction
 "   :Ack that's\ nice\ dear
 "
 " and so on...
-function! s:parse(arg) abort
+function! s:parse(args) abort
   if exists('g:ferret_lastsearch')
     unlet g:ferret_lastsearch
   endif
 
-  let l:escaped_spaces_replaced_with_markers=substitute(a:arg, '\\ ', '<!!S!!>', 'g')
-  let l:split_on_spaces=split(l:escaped_spaces_replaced_with_markers)
   let l:expanded_args=[]
 
-  for l:arg in l:split_on_spaces
+  for l:arg in a:args
     if l:arg =~# '^-'
       " Options get passed through as-is.
       call add(l:expanded_args, l:arg)
@@ -101,15 +99,14 @@ function! s:parse(arg) abort
       endif
     else
       " First non-option arg is considered to be search pattern.
-      let g:ferret_lastsearch=substitute(l:arg, '<!!S!!>', ' ', 'g')
+      let g:ferret_lastsearch=l:arg
       call add(l:expanded_args, l:arg)
     endif
   endfor
 
   let l:each_word_shell_escaped=map(l:expanded_args, 'shellescape(v:val)')
   let l:joined=join(l:each_word_shell_escaped)
-  let l:substituted=substitute(l:joined, '<!!S!!>', ' ', 'g')
-  return escape(l:substituted, '<>')
+  return escape(l:joined, '<>')
 endfunction
 
 function! ferret#private#post(type) abort
@@ -163,8 +160,8 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-function! ferret#private#ack(command) abort
-  let l:command=s:parse(a:command)
+function! ferret#private#ack(...) abort
+  let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
@@ -200,8 +197,8 @@ function! ferret#private#ack(command) abort
   endif
 endfunction
 
-function! ferret#private#lack(command) abort
-  let l:command=s:parse(a:command)
+function! ferret#private#lack(...) abort
+  let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
