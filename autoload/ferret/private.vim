@@ -73,7 +73,7 @@ function! s:parse(args) abort
   let l:expanded_args=[]
 
   for l:arg in a:args
-    if call('ferret#private#option', [l:arg])
+    if ferret#private#option(l:arg)
       " Options get passed through as-is.
       call add(l:expanded_args, l:arg)
     elseif exists('g:ferret_lastsearch')
@@ -292,18 +292,18 @@ function! ferret#private#split(str) abort
 endfunction
 
 function! ferret#private#ackcomplete(arglead, cmdline, cursorpos) abort
-  return call('ferret#private#complete', ['Ack', a:arglead, a:cmdline, a:cursorpos])
+  return ferret#private#complete('Ack', a:arglead, a:cmdline, a:cursorpos)
 endfunction
 
 function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
-  return call('ferret#private#complete', ['Lack', a:arglead, a:cmdline, a:cursorpos])
+  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos)
 endfunction
 
 " We provide our own custom command completion because the default
 " -complete=file completion will expand special characters in the pattern (like
 " "#") before we get a chance to see them.
 function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
-  let l:args=call('ferret#private#split', [a:cmdline[:a:cursorpos]])
+  let l:args=ferret#private#split(a:cmdline[:a:cursorpos])
 
   let l:command_seen=0
   let l:pattern_seen=0
@@ -314,7 +314,7 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
     let l:stripped=substitute(l:arg, '\s\+$', '', '')
 
     if l:pattern_seen
-      if call('ferret#private#option', [l:stripped])
+      if ferret#private#option(l:stripped)
         " Don't complete options (yet...).
         " TODO: complete options.
       elseif a:cursorpos > l:position
@@ -326,7 +326,7 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
         return glob(a:arglead . '*', 1, 1)
       end
     elseif l:command_seen
-      if call('ferret#private#option', [l:stripped])
+      if ferret#private#option(l:stripped)
         " Don't complete options (yet...).
         " TODO: complete options.
       else
