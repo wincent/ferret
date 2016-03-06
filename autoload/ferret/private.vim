@@ -256,18 +256,17 @@ function! ferret#private#acks(command) abort
 
   execute 'args' l:filenames
 
-  if v:version > 703 || v:version == 703 && has('patch438')
-    silent doautocmd <nomodeline> User FerretWillWrite
-  else
-    silent doautocmd User FerretWillWrite
-  endif
+  call s:autocmd('FerretWillWrite')
   execute 'argdo' '%s' . l:pattern . l:options . ' | update'
-  if v:version > 703 || v:version == 703 && has('patch438')
-    silent doautocmd <nomodeline> User FerretDidWrite
-  else
-    silent doautocmd User FerretDidWrite
-  endif
+  call s:autocmd('FerretDidWrite')
+endfunction
 
+function! s:autocmd(cmd) abort
+  if v:version > 703 || v:version == 703 && has('patch438')
+    execute 'silent doautocmd <nomodeline> User ' . a:cmd
+  else
+    execute 'silent doautocmd User ' . a:cmd
+  endif
 endfunction
 
 " Split on spaces, but not backslash-escaped spaces.
