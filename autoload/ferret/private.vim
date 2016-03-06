@@ -86,7 +86,7 @@ function! s:parse(args) abort
   let l:expanded_args=[]
 
   for l:arg in a:args
-    if l:arg =~# '^-'
+    if call('ferret#private#option', [l:arg])
       " Options get passed through as-is.
       call add(l:expanded_args, l:arg)
     elseif exists('g:ferret_lastsearch')
@@ -281,6 +281,85 @@ function! ferret#private#acks(command) abort
     silent doautocmd User FerretDidWrite
   endif
 
+endfunction
+
+" Split on spaces, but not backslash-escaped spaces.
+function! ferret#private#split(str) abort
+  " Regular expression cheatsheet:
+  "
+  "   \%(...\)    Non-capturing subgroup.
+  "   \@<!        Zero-width negative lookbehind (like Perl `(?<!pattern)`).
+  "   \+          + (backslash needed due to Vim's "nomagic").
+  "   \|          + (backslash needed due to Vim's "nomagic").
+  "   \zs         Start match here.
+  "
+  " So, broken down, this means:
+  "
+  " - Split on any space not preceded by...
+  " - a backslash at the start of the string or...
+  " - a backslash preceded by a non-backslash character.
+  " - Keep the separating whitespace at the end of each string
+  "   (allows callers to track position within overall string).
+  "
+  return split(a:str, '\%(\%(\%(^\|[^\\]\)\\\)\@<!\s\)\+\zs')
+endfunction
+
+function! ferret#private#ackcomplete(arglead, cmdline, cursorpos) abort
+  return call('ferret#private#complete', ['Ack', a:arglead, a:cmdline, a:cursorpos])
+endfunction
+
+function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
+  return call('ferret#private#complete', ['Lack', a:arglead, a:cmdline, a:cursorpos])
+endfunction
+
+" We provide our own custom command completion because the default
+" -complete=file completion will expand special characters in the pattern (like
+" "#") before we get a chance to see them.
+function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
+  let l:args=call('ferret#private#split', [a:cmdline[:a:cursorpos]])
+
+  let l:command_seen=0
+  let l:pattern_seen=0
+  let l:position=0
+
+  for l:arg in l:args
+    let l:position=l:position + len(l:arg)
+    let l:stripped=substitute(l:arg, '\s\+$', '', '')
+
+    if l:pattern_seen
+      if call('ferret#private#option', [l:stripped])
+        " Don't complete options (yet...).
+        " TODO: complete options.
+      elseif a:cursorpos > l:position
+        " This is supposedly a filename, but it comes before the current cursor
+        " position, so this is not the filename we're trying to complete; skip
+        " it.
+      else
+        " Assume this is a filename: try to do -complete=file style completion.
+        return glob(a:arglead . '*', 1, 1)
+      end
+    elseif l:command_seen
+      if call('ferret#private#option', [l:stripped])
+        " Don't complete options (yet...).
+        " TODO: complete options.
+      else
+        " Let the pattern through unaltered.
+        let l:pattern_seen=1
+      endif
+    elseif l:stripped ==# a:cmd
+      let l:command_seen=1
+    else
+      " Haven't seen command yet, this must be a range or a count.
+    end
+  endfor
+
+  " Didn't get to a filename; nothing to complete.
+  return []
+endfunction
+
+" Returns true (1) if `str` looks like a command-line option.
+function! ferret#private#option(str) abort
+  return a:str =~# '^-'
 endfunction
 
 " Populate the :args list with the filenames currently in the quickfix window.
