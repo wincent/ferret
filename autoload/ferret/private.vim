@@ -271,7 +271,7 @@ function! ferret#private#acks(command) abort
 endfunction
 
 " Split on spaces, but not backslash-escaped spaces.
-function! ferret#private#split(str) abort
+function! s:split(str) abort
   " Regular expression cheatsheet:
   "
   "   \%(...\)    Non-capturing subgroup.
@@ -365,7 +365,7 @@ let s:options = {
 " "#") before we get a chance to see them, breaking the search. As a bonus, this
 " means we can provide option completion for `ack` and `ag` options as well.
 function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
-  let l:args=ferret#private#split(a:cmdline[:a:cursorpos])
+  let l:args=s:split(a:cmdline[:a:cursorpos])
 
   let l:command_seen=0
   let l:pattern_seen=0
