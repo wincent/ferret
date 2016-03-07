@@ -546,6 +546,7 @@ HISTORY                                                        *ferret-history*
 - Fix edge case when searching for strings of the form "<foo>".
 - Fix edge case when searching for patterns containing "#" and "%".
 - Provide completion for `ag` and `ack` options when using |:Ack| and |:Lack|.
+- Fix display of error messages under dispatch.vim.
 
 1.0 (28 December 2015)
 

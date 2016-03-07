@@ -56,7 +56,7 @@ endfunction
 function! s:error(message) abort
   call inputsave()
   echohl ErrorMsg
-  call input(a:message . ': press ENTER to continue')
+  unsilent call input(a:message . ': press ENTER to continue')
   echohl NONE
   call inputrestore()
   echo
@@ -96,13 +96,16 @@ function! s:parse(args) abort
   return escape(l:joined, '<>')
 endfunction
 
-function! ferret#private#post(type) abort
+function! s:clearautocmd() abort
   if has('autocmd')
     augroup FerretPostQF
       autocmd!
     augroup END
   endif
+endfunction
 
+function! ferret#private#post(type) abort
+  call s:clearautocmd()
   let l:lastsearch = get(g:, 'ferret_lastsearch', '')
   let l:qflist = a:type == 'qf' ? getqflist() : getloclist(0)
   let l:tip = ' [see `:help ferret-quotes`]'
@@ -124,7 +127,7 @@ function! ferret#private#post(type) abort
       redraw!
       echohl ErrorMsg
       for l:item in l:invalid
-        echomsg l:item.text
+        unsilent echomsg l:item.text
       endfor
       echohl NONE
 
@@ -170,9 +173,7 @@ function! ferret#private#ack(...) abort
       let &l:errorformat=&grepformat
       Make
     catch
-      if has('autocmd')
-        augroup! FerretPostQF
-      endif
+      call s:clearautocmd()
     finally
       let &l:makeprg=l:original_makeprg
       let &l:errorformat=l:original_errorformat
