@@ -551,7 +551,7 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-1.1 (not yet released)
+1.1 (7 March 2016)
 
 - Fix edge case when searching for strings of the form "<foo>".
 - Fix edge case when searching for patterns containing "#" and "%".
