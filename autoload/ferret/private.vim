@@ -13,7 +13,7 @@ function! s:delete(first, last)
   endwhile
   call setqflist(l:list, 'r')
 
-  " Show to next entry.
+  " Go to next entry.
   execute 'cc ' . a:first
 
   " Move focus back to quickfix listing.
