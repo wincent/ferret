@@ -93,7 +93,7 @@ function! s:parse(args) abort
 
   let l:each_word_shell_escaped=map(l:expanded_args, 'shellescape(v:val)')
   let l:joined=join(l:each_word_shell_escaped)
-  return escape(l:joined, '<>')
+  return escape(l:joined, '<>#')
 endfunction
 
 function! s:clearautocmd() abort

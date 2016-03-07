@@ -551,6 +551,11 @@ order):
 
 HISTORY                                                        *ferret-history*
 
+1.1.1 (not yet released)
+
+- Fix another edge case when searching for patterns containing "#", only
+  manifesting under dispatch.vim.
+
 1.1 (7 March 2016)
 
 - Fix edge case when searching for strings of the form "<foo>".
