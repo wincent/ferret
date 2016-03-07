@@ -133,10 +133,20 @@ COMMANDS                                                      *ferret-commands*
               shortcut for running |:Ack| with the word currently under the
               cursor.
 
-:Acks /{pattern}/{replacement}/                                         *:Acks*
+:Acks /{pattern}/{replacement}/[flags]                                  *:Acks*
               Takes all of the files currently in the |quickfix| listing and
               performs a substitution of all instances of {pattern} (a
               standard Vim search |pattern|) by {replacement}.
+
+              [flags] are an optional set of flags with the same meaning as
+              described under |:s_flags|:
+
+                - `I` does not ignore case for the pattern.
+                - `c` confirms each substitution.
+                - `e` does not error when a search pattern fails (active by
+                  default).
+                - `g` replaces all occurrences in the line (active by default).
+                - `i` ignores case for the pattern.
 
               A typical sequence consists of an |:Ack| invocation to populate
               the |quickfix| listing and then |:Acks| (mnemonic: "Ack
