@@ -205,6 +205,21 @@ OPTIONS                                                        *ferret-options*
 
     let g:FerretHlsearch=0
 <
+                                                             *g:FerretAutojump*
+  |g:FerretAutojump|                                       number (default: 1)
+
+  Controls whether Ferret will automatically jump to the first found match.
+
+  - Set to 0, Ferret will show the search results but perform no jump.
+  - Set to 1, Ferret will show the search results and focus the result
+    listing.
+  - Set to 2, Ferret will show the search results and jump to the first found
+    match.
+
+  Example override: >
+
+    let g:FerretAutojump=2
+<
                                                            *g:FerretQFCommands*
   |g:FerretQFCommands|                                     boolean (default: 1)
 
@@ -245,7 +260,7 @@ OPTIONS                                                        *ferret-options*
     let g:FerretQFOptions=0
 <
                                                             *g:FerretQFHandler*
-  |g:FerretQFHandler|                      string (default: "botright cwindow")
+  |g:FerretQFHandler|                        string (default: "botright copen")
 
   Defines the command to open the |quickfix| window to display the results of
   a synchronous |:Ack| operation.
@@ -259,7 +274,7 @@ OPTIONS                                                        *ferret-options*
   the display of the window itself.
 
                                                             *g:FerretLLHandler*
-  |g:FerretLLHandler|                               string (default: "lwindow")
+  |g:FerretLLHandler|                                 string (default: "lopen")
 
   Just like |g:FerretQFHandler|, but applied to |location-list|.
 
@@ -550,6 +565,14 @@ order):
 
 
 HISTORY                                                        *ferret-history*
+
+1.2 (not yet released)
+
+- Added |g:FerretAutojump| to suppress or enable automatically jumping to the
+  first search result.
+- Changed |g:FerretQFHandler| to default to "botright copen" and
+  |g:FerretLLHandler| to default to "lopen" for more consistent behavior with
+  and without dispatch.vim.
 
 1.1.1 (7 March 2016)
 

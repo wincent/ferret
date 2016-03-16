@@ -26,6 +26,15 @@ function! s:dispatch()
   return l:dispatch && exists(':Make') == 2
 endfunction
 
+" Convenience function to get/sanitize the current g:FerretAutojump setting.
+function! s:autojump()
+  let l:autojump=get(g:, 'FerretAutojump', 1)
+  if l:autojump != 0 && l:autojump != 1 && l:autojump != 2
+    let l:autojump=1
+  endif
+  return l:autojump
+endfunction
+
 " Use `input()` to show error output to user. Ideally, we would do this in a way
 " that didn't require user interaction, but this is the only reliable mechanism
 " that works for all cases. Alternatives considered:
@@ -152,6 +161,7 @@ endfunction
 
 function! ferret#private#ack(...) abort
   let l:command=s:parse(a:000)
+  let l:autojump=s:autojump()
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
@@ -163,9 +173,16 @@ function! ferret#private#ack(...) abort
     if has('autocmd')
       augroup FerretPostQF
         autocmd!
-        autocmd QuickfixCmdPost cgetfile call ferret#private#post('qf')
+        if l:autojump == 0
+          autocmd QuickfixCmdPost cgetfile call ferret#private#post('qf') | wincmd p
+        elseif l:autojump == 1
+          autocmd QuickfixCmdPost cgetfile call ferret#private#post('qf')
+        elseif l:autojump == 2
+          autocmd QuickfixCmdPost cgetfile call ferret#private#post('qf') | silent! cc
+        endif
       augroup END
     endif
+
     let l:original_makeprg=&l:makeprg
     let l:original_errorformat=&l:errorformat
     try
@@ -179,22 +196,46 @@ function! ferret#private#ack(...) abort
       let &l:errorformat=l:original_errorformat
     endtry
   else
-    cexpr system(&grepprg . ' ' . l:command)
-    execute get(g:, 'FerretQFHandler', 'botright cwindow')
+    " Not using vim-dispatch.
+    let l:handler=get(g:, 'FerretQFHandler', 'botright copen')
+    if l:autojump == 0
+      cgetexpr system(&grepprg . ' ' . l:command) " Don't jump to first error.
+      execute l:handler
+      wincmd p " Go back to whatever window was previously focused.
+    elseif l:autojump == 1
+      cgetexpr system(&grepprg . ' ' . l:command) " Don't jump to first error.
+      execute l:handler
+    elseif l:autojump == 2
+      cexpr system(&grepprg . ' ' . l:command) " Jump to first error.
+      execute l:handler
+      silent! cc
+    endif
     call ferret#private#post('qf')
   endif
 endfunction
 
 function! ferret#private#lack(...) abort
   let l:command=s:parse(a:000)
+  let l:autojump=s:autojump()
   call ferret#private#hlsearch()
 
   if empty(&grepprg)
     return
   endif
 
-  lexpr system(&grepprg . ' ' . l:command)
-  execute get(g:, 'FerretLLHandler', 'lwindow')
+  let l:handler=get(g:, 'FerretLLHandler', 'lopen')
+  if l:autojump == 0
+    lgetexpr system(&grepprg . ' ' . l:command) " Don't jump to first error.
+    execute l:handler
+    wincmd p " Go back to whatever window was previously focused.
+  elseif l:autojump == 1
+    lgetexpr system(&grepprg . ' ' . l:command) " Don't jump to first error.
+    execute l:handler
+  elseif l:autojump == 2
+    lexpr system(&grepprg . ' ' . l:command) " Jump to first error.
+    execute l:handler
+    silent! ll
+  endif
   call ferret#private#post('location')
 endfunction
 
