@@ -161,7 +161,7 @@ COMMANDS                                                      *ferret-commands*
               which is global across an entire Vim instance, it uses the
               |location-list|, which is a per-window construct.
 
-              Note that |:Lack| always runs synchronously via |:cexpr|,
+              Note that |:Lack| always runs synchronously via |:lexpr|,
               because dispatch.vim doesn't currently support the
               |location-list|.
 
