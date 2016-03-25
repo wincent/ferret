@@ -333,7 +333,7 @@ CUSTOM AUTOCOMMANDS                                *ferret-custom-autocommands*
 
                                                *FerretWillWrite* *FerretDidWrite*
 For maximum compatibility with other plug-ins, Ferret runs the following
-"User" autocommands before and after running the file writing operations
+"User" autocommands before and after running the file-writing operations
 during |:Acks|:
 
   - FerretWillWrite
