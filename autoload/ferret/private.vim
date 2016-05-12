@@ -163,7 +163,10 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
+" TODO: add :FerretAsyncStatus command to get async status?
+" TODO: add :FerretAsyncPull command to show results so far?
 " TODO: add error callback to show errors?
+" TODO: hangs for huge searches: switch to incremental callback?
 function! ferret#private#close_cb(channel) abort
   let l:output=[]
   let l:info=job_info(g:ferret_job)
@@ -174,9 +177,15 @@ function! ferret#private#close_cb(channel) abort
   endif
   unlet g:ferret_job
   call s:autocmd('FerretAsyncFinish')
-  cexpr l:output
-  execute get(g:, 'FerretQFHandler', 'botright cwindow')
-  call ferret#private#post('qf')
+  if g:ferret_ack
+    cexpr l:output
+    execute get(g:, 'FerretQFHandler', 'botright cwindow')
+    call ferret#private#post('qf')
+  else
+    lexpr l:output
+    execute get(g:, 'FerretLLHandler', 'lwindow')
+    call ferret#private#post('location')
+  endif
 endfunction
 
 function! ferret#private#ack(...) abort
@@ -193,6 +202,7 @@ function! ferret#private#ack(...) abort
       call job_stop(g:ferret_job)
     endif
     call s:autocmd('FerretAsyncStart')
+    let g:ferret_ack=1
     let l:command_and_args = extend(split(&grepprg), l:command)
     let g:ferret_job=job_start(l:command_and_args, {
           \   'close_cb': 'ferret#private#close_cb'
@@ -231,9 +241,21 @@ function! ferret#private#lack(...) abort
     return
   endif
 
-  lexpr system(&grepprg . ' ' . l:command)
-  execute get(g:, 'FerretLLHandler', 'lwindow')
-  call ferret#private#post('location')
+  if s:async()
+    if exists('g:ferret_job')
+      call job_stop(g:ferret_job)
+    endif
+    call s:autocmd('FerretAsyncStart')
+    let g:ferret_ack=0
+    let l:command_and_args = extend(split(&grepprg), l:command)
+    let g:ferret_job=job_start(l:command_and_args, {
+          \   'close_cb': 'ferret#private#close_cb'
+          \ })
+  else
+    lexpr system(&grepprg . ' ' . l:command)
+    execute get(g:, 'FerretLLHandler', 'lwindow')
+    call ferret#private#post('location')
+  endif
 endfunction
 
 function! ferret#private#hlsearch() abort
