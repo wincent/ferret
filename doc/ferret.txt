@@ -44,9 +44,11 @@ Results are normally displayed in the |quickfix| window, but Ferret also
 provides a |:Lack| command that behaves like |:Ack| but uses the
 |location-list| instead, and a <leader>l mapping as a shortcut to |:Lack|.
 
-Finally, Ferret offers integration with dispatch.vim
-(https://github.com/tpope/vim-dispatch), which enables asynchronous searching
-despite the fact that Vim itself is single-threaded.
+Finally, Ferret offers optional asynchronous search. In recent versions of
+Vim, it can use the |channel| functionality. Alternatively, it offers
+integration with dispatch.vim (https://github.com/tpope/vim-dispatch). Either
+of these can enable asynchronous searching despite the fact that Vim itself is
+single-threaded.
 
 2. Streamlined multi-file replace ~
 
@@ -106,12 +108,17 @@ COMMANDS                                                      *ferret-commands*
               present on the system, because it is faster, falling back to
               `ack` and then `grep` as needed.
 
-              If dispatch.vim is installed the search process will run
-              asynchronously via the |:Make| command, otherwise it will be run
-              synchronously via |:cexpr|. Asynchronous searches are preferred
-              because they do not block, despite the fact that Vim itself is
-              single threaded. The |g:FerretDispatch| option can be used to
-              prevent the use of dispatch.vim.
+              On recent versions of Vim, the search process will run
+              asynchronously via the |job-start| feature. The |g:FerretJob|
+              option can be used to prevent this.
+
+              Alternatively, if dispatch.vim is installed the search process
+              will run asynchronously via the |:Make| command. Otherwise it
+              will be run synchronously via |:cexpr|. The |g:FerretDispatch|
+              option can be used to prevent the use of dispatch.vim.
+
+              Asynchronous searches are preferred because they do not block,
+              despite the fact that Vim itself is single threaded.
 
               The {pattern} is passed through as-is to the underlying search
               program, and no escaping is required other than preceding spaces
@@ -161,9 +168,12 @@ COMMANDS                                                      *ferret-commands*
               which is global across an entire Vim instance, it uses the
               |location-list|, which is a per-window construct.
 
-              Note that |:Lack| always runs synchronously via |:lexpr|,
-              because dispatch.vim doesn't currently support the
-              |location-list|.
+              Like |:Ack|, |:Lack| will run asynchronously on recent versions
+              of Vim, unless prevented via the |g:FerretJob| setting.
+
+              Note that when using dispatch.vim |:Lack| will run
+              synchronously via |:lexpr|, because dispatch.vim doesn't
+              currently support the |location-list|.
 
                                                                        *:Qargs*
 :Qargs        This is a utility function that is used by the |:Acks| command
@@ -173,6 +183,19 @@ COMMANDS                                                      *ferret-commands*
               It takes the files currently in the |quickfix| listing and sets
               them as |:args| so that they can be operated on en masse via the
               |:argdo| command.
+
+                                                           *:FerretCancelAsync*
+:FerretCancelAsync
+              Cancels any asynchronous search processes that may be running in
+              the background (requires a version of Vim with |+job| support,
+              and |g:FerretJob| must be enabled).
+
+                                                             *:FerretPullAsync*
+:FerretPullAsync
+              Immediately pulls the results from any background search
+              processes that may be running, and displays them (requires a
+              version of Vim with |+job| support, and |g:FerretJob| must be
+              enabled).
 
 
 OPTIONS                                                        *ferret-options*
@@ -185,6 +208,15 @@ OPTIONS                                                        *ferret-options*
   configured, set to 0: >
 
     let g:FerretMap=0
+<
+                                                                  *g:FerretJob*
+  |g:FerretJob|                                            boolean (default: 1)
+
+  Controls whether to run |:Ack| and |:Lack| jobs asynchronously using the
+  |job-start| feature that is available in recent versions of Vim. To prevent
+  this, set to 0: >
+
+    let g:FerretJob=0
 <
                                                              *g:FerretDispatch*
   |g:FerretDispatch|                                       boolean (default: 1)
@@ -346,6 +378,13 @@ you might do: >
    autocmd User FerretWillWrite call CustomWillWrite()
    autocmd! User FerretDidWrite
    autocmd User FerretDidWrite call CustomDidWrite()
+<
+
+                                           *FerretAsyncStart* *FerretAsyncFinish*
+Called just before initiating an asynchronous search using the |job-start|
+feature (see |g:FerretJob|), and on finishing an asynchronous search. This can
+be used, for example, to show an indicator in your |'statusline'| whenever a
+search is running in the background.
 
 
 OVERRIDES                                                    *ferret-overrides*
@@ -550,6 +589,11 @@ order):
 
 
 HISTORY                                                        *ferret-history*
+
+next (not yet released)
+
+- Add optional support for running searches asynchronously using Vim's |+job|
+  feature; see |g:FerretJob|, |:FerretCancelAsync| and |:FerretPullAsync|.
 
 1.1.1 (7 March 2016)
 
