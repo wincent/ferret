@@ -163,7 +163,6 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-" TODO: show job status in statusline
 " TODO: add error callback to show errors?
 function! ferret#private#close_cb(channel) abort
   let l:output=[]
@@ -174,6 +173,7 @@ function! ferret#private#close_cb(channel) abort
     endwhile
   endif
   unlet g:ferret_job
+  call s:autocmd('FerretAsyncFinish')
   cexpr l:output
   execute get(g:, 'FerretQFHandler', 'botright cwindow')
   call ferret#private#post('qf')
@@ -192,6 +192,7 @@ function! ferret#private#ack(...) abort
     if exists('g:ferret_job')
       call job_stop(g:ferret_job)
     endif
+    call s:autocmd('FerretAsyncStart')
     let l:command_and_args = extend(split(&grepprg), l:command)
     let g:ferret_job=job_start(l:command_and_args, {
           \   'close_cb': 'ferret#private#close_cb'
