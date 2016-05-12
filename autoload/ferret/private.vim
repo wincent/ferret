@@ -163,25 +163,51 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
+let s:jobs={}
+
+function! s:channel_id(channel)
+  " Coerce to string, pluck out ID number.
+  return matchstr(a:channel, '\d\+')
+endfunction
+
+function! s:info_from_channel(channel)
+  let l:channel_id=s:channel_id(a:channel)
+  if has_key(s:jobs, l:channel_id)
+    return s:jobs[l:channel_id]
+  endif
+endfunction
+
 function! s:async_search(command) abort
   call ferret#private#cancel_async()
   call s:autocmd('FerretAsyncStart')
-  let s:errors=[]
-  let s:output=[]
   let l:command_and_args = extend(split(&grepprg), a:command)
-  let s:ferret_job=job_start(l:command_and_args, {
+  let l:job=job_start(l:command_and_args, {
         \   'err_cb': 'ferret#private#err_cb',
         \   'out_cb': 'ferret#private#out_cb',
         \   'close_cb': 'ferret#private#close_cb'
         \ })
+  let l:channel=job_getchannel(l:job)
+  let l:channel_id=s:channel_id(l:channel)
+  let s:jobs[l:channel_id]={
+        \   'channel_id': l:channel_id,
+        \   'job': l:job,
+        \   'errors': [],
+        \   'output': []
+        \ }
 endfunction
 
 function! ferret#private#err_cb(channel, msg)
-  call add(s:errors, a:msg)
+  let l:info=s:info_from_channel(a:channel)
+  if type(l:info) == 4
+    call add(l:info.errors, a:msg)
+  endif
 endfunction
 
 function! ferret#private#out_cb(channel, msg)
-  call add(s:output, a:msg)
+  let l:info=s:info_from_channel(a:channel)
+  if type(l:info) == 4
+    call add(l:info.output, a:msg)
+  endif
 endfunction
 
 " TODO: add :FerretAsyncStatus command to get async status?
@@ -189,31 +215,37 @@ endfunction
 " TODO: hangs for huge searches: due to long lines?
 function! ferret#private#close_cb(channel) abort
   " Job may have been canceled with cancel_async. Do nothing in that case.
-  if exists('s:ferret_job')
-    unlet s:ferret_job
+  let l:info=s:info_from_channel(a:channel)
+  if type(l:info) == 4
+    call remove(s:jobs, l:info.channel_id)
     call s:autocmd('FerretAsyncFinish')
-    call s:finalize_search()
-    for l:error in s:errors
+    call s:finalize_search(l:info.output)
+    for l:error in l:info.errors
       echomsg l:error
     endfor
   endif
 endfunction
 
 function! ferret#private#cancel_async() abort
-  if exists('s:ferret_job')
-    call job_stop(s:ferret_job)
-    unlet s:ferret_job
+  let l:canceled=0
+  for l:channel_id in keys(s:jobs)
+    let l:info=s:jobs[l:channel_id]
+    call job_stop(l:info.job)
+    call remove(s:jobs, l:channel_id)
+    let l:canceled=1
+  endfor
+  if l:canceled
     call s:autocmd('FerretAsyncFinish')
   endif
 endfunction
 
-function! s:finalize_search()
+function! s:finalize_search(output)
   if s:ferret_ack
-    cexpr s:output
+    cexpr a:output
     execute get(g:, 'FerretQFHandler', 'botright cwindow')
     call ferret#private#post('qf')
   else
-    lexpr s:output
+    lexpr a:output
     execute get(g:, 'FerretLLHandler', 'lwindow')
     call ferret#private#post('location')
   endif
@@ -251,8 +283,8 @@ function! ferret#private#ack(...) abort
       let &l:errorformat=l:original_errorformat
     endtry
   else
-    let s:output=system(&grepprg . ' ' . l:command)
-    call s:finalize_search()
+    let l:output=system(&grepprg . ' ' . l:command)
+    call s:finalize_search(l:output)
   endif
 endfunction
 
@@ -268,8 +300,8 @@ function! ferret#private#lack(...) abort
   if s:async()
     call s:async_search(l:command)
   else
-    let s:output=system(&grepprg . ' ' . l:command)
-    call s:finalize_search()
+    let l:output=system(&grepprg . ' ' . l:command)
+    call s:finalize_search(l:output)
   endif
 endfunction
 
