@@ -163,26 +163,25 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
+let s:async_output=[]
+
+function! ferret#private#out_cb(channel, msg)
+  call add(s:async_output, a:msg)
+endfunction
+
 " TODO: add :FerretAsyncStatus command to get async status?
 " TODO: add :FerretAsyncPull command to show results so far?
 " TODO: add error callback to show errors?
-" TODO: hangs for huge searches: switch to incremental callback?
+" TODO: hangs for huge searches: due to long lines?
 function! ferret#private#close_cb(channel) abort
-  let l:output=[]
-  let l:info=job_info(g:ferret_job)
-  if l:info.status == 'dead' && l:info.exitval == 0
-    while ch_status(a:channel) == 'buffered'
-      call add(l:output, ch_read(a:channel))
-    endwhile
-  endif
-  unlet g:ferret_job
+  unlet s:ferret_job
   call s:autocmd('FerretAsyncFinish')
-  if g:ferret_ack
-    cexpr l:output
+  if s:ferret_ack
+    cexpr s:async_output
     execute get(g:, 'FerretQFHandler', 'botright cwindow')
     call ferret#private#post('qf')
   else
-    lexpr l:output
+    lexpr s:async_output
     execute get(g:, 'FerretLLHandler', 'lwindow')
     call ferret#private#post('location')
   endif
@@ -198,13 +197,15 @@ function! ferret#private#ack(...) abort
 
   " Prefer built-in async, then vim-dispatch unless otherwise instructed.
   if s:async()
-    if exists('g:ferret_job')
-      call job_stop(g:ferret_job)
+    if exists('s:ferret_job')
+      call job_stop(s:ferret_job)
     endif
     call s:autocmd('FerretAsyncStart')
-    let g:ferret_ack=1
+    let s:ferret_ack=1
+    let s:async_output=[]
     let l:command_and_args = extend(split(&grepprg), l:command)
-    let g:ferret_job=job_start(l:command_and_args, {
+    let s:ferret_job=job_start(l:command_and_args, {
+          \   'out_cb': 'ferret#private#out_cb',
           \   'close_cb': 'ferret#private#close_cb'
           \ })
   elseif s:dispatch()
@@ -242,13 +243,15 @@ function! ferret#private#lack(...) abort
   endif
 
   if s:async()
-    if exists('g:ferret_job')
-      call job_stop(g:ferret_job)
+    if exists('s:ferret_job')
+      call job_stop(s:ferret_job)
     endif
     call s:autocmd('FerretAsyncStart')
-    let g:ferret_ack=0
+    let s:ferret_ack=0
+    let s:async_output=[]
     let l:command_and_args = extend(split(&grepprg), l:command)
-    let g:ferret_job=job_start(l:command_and_args, {
+    let s:ferret_job=job_start(l:command_and_args, {
+          \   'out_cb': 'ferret#private#out_cb',
           \   'close_cb': 'ferret#private#close_cb'
           \ })
   else
