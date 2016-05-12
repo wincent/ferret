@@ -26,6 +26,15 @@ function! s:dispatch()
   return l:dispatch && exists(':Make') == 2
 endfunction
 
+" Returns 1 if we can use Vim's built-in async primitives.
+function! s:async()
+  let l:async=get(g:, 'FerretJob', 1)
+
+  " Nothing special about 1829; it's just the version I am testing with as I
+  " write this.
+  return l:async && has('patch-7-4-1829')
+endfunction
+
 " Use `input()` to show error output to user. Ideally, we would do this in a way
 " that didn't require user interaction, but this is the only reliable mechanism
 " that works for all cases. Alternatives considered:
@@ -91,6 +100,10 @@ function! s:parse(args) abort
     endif
   endfor
 
+  if s:async()
+    return l:expanded_args
+  endif
+
   let l:each_word_shell_escaped=map(l:expanded_args, 'shellescape(v:val)')
   let l:joined=join(l:each_word_shell_escaped)
   return escape(l:joined, '<>#')
@@ -150,6 +163,22 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
+" TODO: show job status in statusline
+" TODO: add error callback to show errors?
+function! ferret#private#close_cb(channel) abort
+  let l:output=[]
+  let l:info=job_info(g:ferret_job)
+  if l:info.status == 'dead' && l:info.exitval == 0
+    while ch_status(a:channel) == 'buffered'
+      call add(l:output, ch_read(a:channel))
+    endwhile
+  endif
+  unlet g:ferret_job
+  cexpr l:output
+  execute get(g:, 'FerretQFHandler', 'botright cwindow')
+  call ferret#private#post('qf')
+endfunction
+
 function! ferret#private#ack(...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
@@ -158,8 +187,16 @@ function! ferret#private#ack(...) abort
     return
   endif
 
-  " Prefer vim-dispatch unless otherwise instructed.
-  if s:dispatch()
+  " Prefer built-in async, then vim-dispatch unless otherwise instructed.
+  if s:async()
+    if exists('g:ferret_job')
+      call job_stop(g:ferret_job)
+    endif
+    let l:command_and_args = extend(split(&grepprg), l:command)
+    let g:ferret_job=job_start(l:command_and_args, {
+          \   'close_cb': 'ferret#private#close_cb'
+          \ })
+  elseif s:dispatch()
     if has('autocmd')
       augroup FerretPostQF
         autocmd!
