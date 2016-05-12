@@ -163,10 +163,23 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-let s:async_output=[]
+let s:output=[]
+
+function! s:async_search(command) abort
+  if exists('s:ferret_job')
+    call job_stop(s:ferret_job)
+  endif
+  call s:autocmd('FerretAsyncStart')
+  let s:output=[]
+  let l:command_and_args = extend(split(&grepprg), a:command)
+  let s:ferret_job=job_start(l:command_and_args, {
+        \   'out_cb': 'ferret#private#out_cb',
+        \   'close_cb': 'ferret#private#close_cb'
+        \ })
+endfunction
 
 function! ferret#private#out_cb(channel, msg)
-  call add(s:async_output, a:msg)
+  call add(s:output, a:msg)
 endfunction
 
 " TODO: add :FerretAsyncStatus command to get async status?
@@ -176,12 +189,16 @@ endfunction
 function! ferret#private#close_cb(channel) abort
   unlet s:ferret_job
   call s:autocmd('FerretAsyncFinish')
+  call s:finalize_search()
+endfunction
+
+function! s:finalize_search()
   if s:ferret_ack
-    cexpr s:async_output
+    cexpr s:output
     execute get(g:, 'FerretQFHandler', 'botright cwindow')
     call ferret#private#post('qf')
   else
-    lexpr s:async_output
+    lexpr s:output
     execute get(g:, 'FerretLLHandler', 'lwindow')
     call ferret#private#post('location')
   endif
@@ -196,18 +213,9 @@ function! ferret#private#ack(...) abort
   endif
 
   " Prefer built-in async, then vim-dispatch unless otherwise instructed.
+  let s:ferret_ack=1
   if s:async()
-    if exists('s:ferret_job')
-      call job_stop(s:ferret_job)
-    endif
-    call s:autocmd('FerretAsyncStart')
-    let s:ferret_ack=1
-    let s:async_output=[]
-    let l:command_and_args = extend(split(&grepprg), l:command)
-    let s:ferret_job=job_start(l:command_and_args, {
-          \   'out_cb': 'ferret#private#out_cb',
-          \   'close_cb': 'ferret#private#close_cb'
-          \ })
+    call s:async_search(l:command)
   elseif s:dispatch()
     if has('autocmd')
       augroup FerretPostQF
@@ -228,9 +236,8 @@ function! ferret#private#ack(...) abort
       let &l:errorformat=l:original_errorformat
     endtry
   else
-    cexpr system(&grepprg . ' ' . l:command)
-    execute get(g:, 'FerretQFHandler', 'botright cwindow')
-    call ferret#private#post('qf')
+    let s:output=system(&grepprg . ' ' . l:command)
+    call s:finalize_search()
   endif
 endfunction
 
@@ -242,22 +249,12 @@ function! ferret#private#lack(...) abort
     return
   endif
 
+  let s:ferret_ack=0
   if s:async()
-    if exists('s:ferret_job')
-      call job_stop(s:ferret_job)
-    endif
-    call s:autocmd('FerretAsyncStart')
-    let s:ferret_ack=0
-    let s:async_output=[]
-    let l:command_and_args = extend(split(&grepprg), l:command)
-    let s:ferret_job=job_start(l:command_and_args, {
-          \   'out_cb': 'ferret#private#out_cb',
-          \   'close_cb': 'ferret#private#close_cb'
-          \ })
+    call s:async_search(l:command)
   else
-    lexpr system(&grepprg . ' ' . l:command)
-    execute get(g:, 'FerretLLHandler', 'lwindow')
-    call ferret#private#post('location')
+    let s:output=system(&grepprg . ' ' . l:command)
+    call s:finalize_search()
   endif
 endfunction
 
