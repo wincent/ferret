@@ -210,7 +210,6 @@ function! ferret#private#out_cb(channel, msg)
   endif
 endfunction
 
-" TODO: add :FerretAsyncStatus command to get async status?
 " TODO: add :FerretAsyncPull command to show results so far?
 " TODO: hangs for huge searches: due to long lines?
 function! ferret#private#close_cb(channel) abort
@@ -237,6 +236,10 @@ function! ferret#private#cancel_async() abort
   if l:canceled
     call s:autocmd('FerretAsyncFinish')
   endif
+endfunction
+
+function! ferret#private#async_debug() abort
+  return s:jobs
 endfunction
 
 function! s:finalize_search(output)
