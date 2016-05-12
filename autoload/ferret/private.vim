@@ -163,19 +163,23 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-let s:output=[]
-
 function! s:async_search(command) abort
   if exists('s:ferret_job')
     call job_stop(s:ferret_job)
   endif
   call s:autocmd('FerretAsyncStart')
+  let s:errors=[]
   let s:output=[]
   let l:command_and_args = extend(split(&grepprg), a:command)
   let s:ferret_job=job_start(l:command_and_args, {
+        \   'err_cb': 'ferret#private#err_cb',
         \   'out_cb': 'ferret#private#out_cb',
         \   'close_cb': 'ferret#private#close_cb'
         \ })
+endfunction
+
+function! ferret#private#err_cb(channel, msg)
+  call add(s:errors, a:msg)
 endfunction
 
 function! ferret#private#out_cb(channel, msg)
@@ -184,12 +188,14 @@ endfunction
 
 " TODO: add :FerretAsyncStatus command to get async status?
 " TODO: add :FerretAsyncPull command to show results so far?
-" TODO: add error callback to show errors?
 " TODO: hangs for huge searches: due to long lines?
 function! ferret#private#close_cb(channel) abort
   unlet s:ferret_job
   call s:autocmd('FerretAsyncFinish')
   call s:finalize_search()
+  for l:error in s:errors
+    echomsg l:error
+  endfor
 endfunction
 
 function! s:finalize_search()
