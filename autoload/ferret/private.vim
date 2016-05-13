@@ -27,7 +27,7 @@ function! ferret#private#dispatch() abort
 endfunction
 
 " Returns 1 if we can use Vim's built-in async primitives.
-function! s:async()
+function! ferret#private#async()
   let l:async=get(g:, 'FerretJob', 1)
 
   " Nothing special about 1829; it's just the version I am testing with as I
@@ -101,7 +101,7 @@ function! s:parse(args) abort
     endif
   endfor
 
-  if s:async()
+  if ferret#private#async()
     return l:expanded_args
   endif
 
@@ -270,7 +270,7 @@ function! ferret#private#ack(...) abort
 
   " Prefer built-in async, then vim-dispatch unless otherwise instructed.
   let s:ferret_ack=1
-  if s:async()
+  if ferret#private#async()
     call s:async_search(l:command)
   elseif ferret#private#dispatch()
     if has('autocmd')
@@ -306,7 +306,7 @@ function! ferret#private#lack(...) abort
   endif
 
   let s:ferret_ack=0
-  if s:async()
+  if ferret#private#async()
     call s:async_search(l:command)
   else
     let l:output=system(&grepprg . ' ' . l:command)
