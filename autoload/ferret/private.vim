@@ -21,7 +21,7 @@ function! s:delete(first, last)
 endfunction
 
 " Returns 1 if we should/can use vim-dispatch.
-function! s:dispatch()
+function! ferret#private#dispatch() abort
   let l:dispatch=get(g:, 'FerretDispatch', 1)
   return l:dispatch && exists(':Make') == 2
 endfunction
@@ -149,7 +149,7 @@ function! ferret#private#post(type) abort
 
       " When using vim-dispatch, the messages printed above get cleared, so the
       " only way to see them is with `:messages`.
-      let l:suffix = a:type == 'qf' && s:dispatch() ?
+      let l:suffix = a:type == 'qf' && ferret#private#dispatch() ?
             \ ' (run `:messages` to see details)' :
             \ ''
 
@@ -272,7 +272,7 @@ function! ferret#private#ack(...) abort
   let s:ferret_ack=1
   if s:async()
     call s:async_search(l:command)
-  elseif s:dispatch()
+  elseif ferret#private#dispatch()
     if has('autocmd')
       augroup FerretPostQF
         autocmd!
