@@ -172,7 +172,6 @@ function! ferret#private#ack(...) abort
     return
   endif
 
-  " Prefer built-in async, then vim-dispatch unless otherwise instructed.
   if ferret#private#async()
     call ferret#private#async#search(l:command, 1)
   elseif ferret#private#dispatch()
