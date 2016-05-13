@@ -211,8 +211,6 @@ function! ferret#private#out_cb(channel, msg)
   endif
 endfunction
 
-" TODO: hangs for huge searches: due to long lines?
-" TODO: write docs
 function! ferret#private#close_cb(channel) abort
   " Job may have been canceled with cancel_async. Do nothing in that case.
   let l:info=s:info_from_channel(a:channel)
