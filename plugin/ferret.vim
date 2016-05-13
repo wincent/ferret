@@ -36,8 +36,8 @@ endif
 command! -nargs=+ -complete=customlist,ferret#private#ackcomplete Ack call ferret#private#ack(<f-args>)
 command! -nargs=+ -complete=customlist,ferret#private#lackcomplete Lack call ferret#private#lack(<f-args>)
 command! -nargs=1 Acks call ferret#private#acks(<q-args>)
-command! FerretCancelAsync call ferret#private#cancel_async()
-command! FerretPullAsync call ferret#private#pull_async()
+command! FerretCancelAsync call ferret#private#async#cancel()
+command! FerretPullAsync call ferret#private#async#pull()
 
 nnoremap <Plug>(FerretAck) :Ack<space>
 nnoremap <Plug>(FerretLack) :Lack<space>
