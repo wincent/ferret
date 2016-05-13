@@ -178,7 +178,7 @@ function! s:info_from_channel(channel)
   endif
 endfunction
 
-function! s:async_search(command) abort
+function! s:async_search(command, ack) abort
   call ferret#private#cancel_async()
   call s:autocmd('FerretAsyncStart')
   let l:command_and_args = extend(split(&grepprg), a:command)
@@ -193,7 +193,8 @@ function! s:async_search(command) abort
         \   'channel_id': l:channel_id,
         \   'job': l:job,
         \   'errors': [],
-        \   'output': []
+        \   'output': [],
+        \   'ack': a:ack
         \ }
 endfunction
 
@@ -217,7 +218,7 @@ function! ferret#private#close_cb(channel) abort
   if type(l:info) == 4
     call remove(s:jobs, l:info.channel_id)
     call s:autocmd('FerretAsyncFinish')
-    call s:finalize_search(l:info.output)
+    call s:finalize_search(l:info.output, l:info.ack)
     for l:error in l:info.errors
       unsilent echomsg l:error
     endfor
@@ -227,7 +228,7 @@ endfunction
 function! ferret#private#pull_async() abort
   for l:channel_id in keys(s:jobs)
     let l:info=s:jobs[l:channel_id]
-    call s:finalize_search(l:info.output)
+    call s:finalize_search(l:info.output, l:info.ack)
   endfor
 endfunction
 
@@ -248,8 +249,8 @@ function! ferret#private#async_debug() abort
   return s:jobs
 endfunction
 
-function! s:finalize_search(output)
-  if s:ferret_ack
+function! s:finalize_search(output, ack)
+  if a:ack
     cexpr a:output
     execute get(g:, 'FerretQFHandler', 'botright cwindow')
     call ferret#private#post('qf')
@@ -269,9 +270,8 @@ function! ferret#private#ack(...) abort
   endif
 
   " Prefer built-in async, then vim-dispatch unless otherwise instructed.
-  let s:ferret_ack=1
   if ferret#private#async()
-    call s:async_search(l:command)
+    call s:async_search(l:command, 1)
   elseif ferret#private#dispatch()
     if has('autocmd')
       augroup FerretPostQF
@@ -293,7 +293,7 @@ function! ferret#private#ack(...) abort
     endtry
   else
     let l:output=system(&grepprg . ' ' . l:command)
-    call s:finalize_search(l:output)
+    call s:finalize_search(l:output, 1)
   endif
 endfunction
 
@@ -305,12 +305,11 @@ function! ferret#private#lack(...) abort
     return
   endif
 
-  let s:ferret_ack=0
   if ferret#private#async()
-    call s:async_search(l:command)
+    call s:async_search(l:command, 0)
   else
     let l:output=system(&grepprg . ' ' . l:command)
-    call s:finalize_search(l:output)
+    call s:finalize_search(l:output, 0)
   endif
 endfunction
 
