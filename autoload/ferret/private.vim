@@ -68,7 +68,8 @@ function! s:error(message) abort
   unsilent call input(a:message . ': press ENTER to continue')
   echohl NONE
   call inputrestore()
-  echo
+  unsilent echo
+  redraw!
 endfunction
 
 " Parses arguments, extracting a search pattern (which is stored in
