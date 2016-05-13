@@ -188,24 +188,7 @@ function! ferret#private#ack(...) abort
   if ferret#private#async()
     call ferret#private#async#search(l:command, 1)
   elseif ferret#private#dispatch()
-    if has('autocmd')
-      augroup FerretPostQF
-        autocmd!
-        autocmd QuickfixCmdPost cgetfile call ferret#private#post('qf')
-      augroup END
-    endif
-    let l:original_makeprg=&l:makeprg
-    let l:original_errorformat=&l:errorformat
-    try
-      let &l:makeprg=&grepprg . ' ' . l:command
-      let &l:errorformat=&grepformat
-      Make
-    catch
-      call ferret#private#clearautocmd()
-    finally
-      let &l:makeprg=l:original_makeprg
-      let &l:errorformat=l:original_errorformat
-    endtry
+    call ferret#private#dispatch#search(l:command)
   else
     let l:output=system(&grepprg . ' ' . l:command)
     call s:finalize_search(l:output, 1)
