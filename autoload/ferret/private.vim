@@ -194,7 +194,8 @@ function! s:async_search(command, ack) abort
         \   'job': l:job,
         \   'errors': [],
         \   'output': [],
-        \   'ack': a:ack
+        \   'ack': a:ack,
+        \   'window': win_getid()
         \ }
 endfunction
 
@@ -218,6 +219,10 @@ function! ferret#private#close_cb(channel) abort
   if type(l:info) == 4
     call remove(s:jobs, l:info.channel_id)
     call s:autocmd('FerretAsyncFinish')
+    if !l:info.ack
+      " If this is a :Lack search, try to focus appropriate window.
+      call win_gotoid(l:info.window)
+    endif
     call s:finalize_search(l:info.output, l:info.ack)
     for l:error in l:info.errors
       unsilent echomsg l:error
