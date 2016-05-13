@@ -164,18 +164,6 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-function! s:finalize_search(output, ack)
-  if a:ack
-    cexpr a:output
-    execute get(g:, 'FerretQFHandler', 'botright cwindow')
-    call ferret#private#post('qf')
-  else
-    lexpr a:output
-    execute get(g:, 'FerretLLHandler', 'lwindow')
-    call ferret#private#post('location')
-  endif
-endfunction
-
 function! ferret#private#ack(...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
@@ -190,8 +178,7 @@ function! ferret#private#ack(...) abort
   elseif ferret#private#dispatch()
     call ferret#private#dispatch#search(l:command)
   else
-    let l:output=system(&grepprg . ' ' . l:command)
-    call s:finalize_search(l:output, 1)
+    call ferret#private#vanilla#search(l:command, 1)
   endif
 endfunction
 
@@ -206,8 +193,7 @@ function! ferret#private#lack(...) abort
   if ferret#private#async()
     call ferret#private#async#search(l:command, 0)
   else
-    let l:output=system(&grepprg . ' ' . l:command)
-    call s:finalize_search(l:output, 0)
+    call ferret#private#vanilla#search(l:command, 0)
   endif
 endfunction
 
