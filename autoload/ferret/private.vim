@@ -62,7 +62,7 @@ endfunction
 "
 "     This works, but presents to the user as an exception (see `:h :echoerr`).
 "
-function! s:error(message) abort
+function! ferret#private#error(message) abort
   call inputsave()
   echohl ErrorMsg
   unsilent call input(a:message . ': press ENTER to continue')
@@ -129,9 +129,9 @@ function! ferret#private#post(type) abort
     " Search pattern has no spaces and is entirely enclosed in quotes;
     " eg 'foo' or "bar"
     if l:lastsearch =~ '\v^([' . "'" . '"])[^ \1]+\1$'
-      call s:error(l:base . l:tip)
+      call ferret#private#error(l:base . l:tip)
     else
-      call s:error(l:base)
+      call ferret#private#error(l:base)
     endif
   else
     " Find any "invalid" entries in the list.
@@ -156,9 +156,9 @@ function! ferret#private#post(type) abort
       " If search pattern looks like `'foo` or `"bar`, it means the user
       " probably tried to search for 'foo bar' or "bar baz" etc.
       if l:lastsearch =~ '\v^[' . "'" . '"].+[^' . "'" . '"]$'
-        call s:error(l:base . l:tip . l:suffix)
+        call ferret#private#error(l:base . l:tip . l:suffix)
       else
-        call s:error(l:base . l:suffix)
+        call ferret#private#error(l:base . l:suffix)
       endif
     endif
   endif
@@ -344,7 +344,7 @@ function! ferret#private#acks(command) abort
   " Accept any pattern allowed by E146 (crude sanity check).
   let l:matches = matchlist(a:command, '\v\C^(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)$')
   if !len(l:matches)
-    call s:error(
+    call ferret#private#error(
           \ 'Ferret: Expected a substitution expression (/foo/bar/); got: ' .
           \ a:command
           \ )
@@ -364,7 +364,7 @@ function! ferret#private#acks(command) abort
 
   let l:filenames=ferret#private#qargs()
   if l:filenames ==# ''
-    call s:error(
+    call ferret#private#error(
           \ 'Ferret: Quickfix filenames must be present, but there are none ' .
           \ '(must use :Ack to find files before :Acks can be used)'
           \ )
