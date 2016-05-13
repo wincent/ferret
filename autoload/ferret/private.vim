@@ -221,7 +221,7 @@ function! ferret#private#close_cb(channel) abort
     call s:autocmd('FerretAsyncFinish')
     call s:finalize_search(l:info.output)
     for l:error in l:info.errors
-      echomsg l:error
+      unsilent echomsg l:error
     endfor
   endif
 endfunction
