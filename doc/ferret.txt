@@ -590,10 +590,11 @@ order):
 
 HISTORY                                                        *ferret-history*
 
-next (not yet released)
+1.2a (16 May 2016)
 
 - Add optional support for running searches asynchronously using Vim's |+job|
-  feature; see |g:FerretJob|, |:FerretCancelAsync| and |:FerretPullAsync|.
+  feature (enabled by default in sufficiently recent versions of Vim); see
+  |g:FerretJob|, |:FerretCancelAsync| and |:FerretPullAsync|.
 
 1.1.1 (7 March 2016)
 
