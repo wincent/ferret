@@ -22,7 +22,9 @@ function! ferret#private#async#search(command, ack) abort
   let l:job=job_start(l:command_and_args, {
         \   'err_cb': 'ferret#private#async#err_cb',
         \   'out_cb': 'ferret#private#async#out_cb',
-        \   'close_cb': 'ferret#private#async#close_cb'
+        \   'close_cb': 'ferret#private#async#close_cb',
+        \   'err_mode': 'raw',
+        \   'out_mode': 'raw'
         \ })
   let l:channel=job_getchannel(l:job)
   let l:channel_id=s:channel_id(l:channel)
@@ -31,6 +33,8 @@ function! ferret#private#async#search(command, ack) abort
         \   'job': l:job,
         \   'errors': [],
         \   'output': [],
+        \   'pending_error': '',
+        \   'pending_output': '',
         \   'ack': a:ack,
         \   'window': win_getid()
         \ }
@@ -39,14 +43,38 @@ endfunction
 function! ferret#private#async#err_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
   if type(l:info) == 4
-    call add(l:info.errors, a:msg)
+    let l:start=0
+    while 1
+      let l:idx=match(a:msg, '\n', l:start)
+      if l:idx==-1
+        let l:info.pending_error.=strpart(a:msg, l:start)
+        break
+      else
+        call add(l:info.errors, l:info.pending_error . strpart(a:msg, l:start, l:idx - l:start))
+        let l:info.pending_error=''
+      endif
+      let l:start=l:idx + 1
+    endwhile
   endif
 endfunction
 
+" Step 1 [DONE]. Get it working at all
+" Step 2 [TODO]. Get auto-truncation happening
 function! ferret#private#async#out_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
   if type(l:info) == 4
-    call add(l:info.output, a:msg)
+    let l:start=0
+    while 1
+      let l:idx=match(a:msg, '\n', l:start)
+      if l:idx==-1
+        let l:info.pending_output.=strpart(a:msg, l:start)
+        break
+      else
+        call add(l:info.output, l:info.pending_output . strpart(a:msg, l:start, l:idx - l:start))
+        let l:info.pending_output=''
+      endif
+      let l:start=l:idx + 1
+    endwhile
   endif
 endfunction
 
