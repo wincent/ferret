@@ -1,6 +1,9 @@
-# Ferret
+<p align="center">
+<img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.jpg" />
+<img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.gif" />
+</p>
 
-![](https://raw.githubusercontent.com/wincent/ferret/media/ferret.gif)
+# Ferret
 
 Ferret improves Vim's multi-file search in four ways:
 
