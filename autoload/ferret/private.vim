@@ -22,6 +22,16 @@ endfunction
 
 " Returns 1 if we should/can use vim-dispatch.
 function! ferret#private#dispatch() abort
+  ""
+  " @option g:FerretDispatch boolean 1
+  "
+  " Controls whether to use vim-dispatch (and specifically, |:Make|) to run
+  " |:Ack| searches asynchronously, when available. To prevent vim-dispatch from
+  " being used, set to 0:
+  "
+  " ```
+  " let g:FerretDispatch=0
+  " ```
   let l:dispatch=get(g:, 'FerretDispatch', 1)
   return l:dispatch && exists(':Make') == 2
 endfunction
@@ -198,6 +208,17 @@ endfunction
 
 function! ferret#private#hlsearch() abort
   if has('extra_search')
+    ""
+    " @option g:FerretHlsearch boolean
+    "
+    " Controls whether Ferret should attempt to highlight the search pattern
+    " when running |:Ack| or |:Lack|. If left unset, Ferret will respect the
+    " current 'hlsearch' setting. To force highlighting on or off irrespective
+    " of 'hlsearch', set |g:FerretHlsearch| to 1 (on) or 0 (off):
+    "
+    " ```
+    " let g:FerretHlsearch=0
+    " ```
     let l:hlsearch=get(g:, 'FerretHlsearch', &hlsearch)
     if l:hlsearch
       let @/=g:ferret_lastsearch
