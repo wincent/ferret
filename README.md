@@ -424,8 +424,6 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History
 
-- HISTORY *ferret-history*
-
 ### 1.2a (16 May 2016)
 
 - Add optional support for running searches asynchronously using Vim's <strong>`+job`</strong> feature (enabled by default in sufficiently recent versions of Vim); see <strong>`g:FerretJob`</strong>, <strong>`:FerretCancelAsync`</strong> and <strong>`:FerretPullAsync`</strong>.

@@ -355,8 +355,6 @@
 "
 " # History
 "
-" -HISTORY                                                        *ferret-history*
-"
 " ## 1.2a (16 May 2016)
 "
 " - Add optional support for running searches asynchronously using Vim's |+job|
