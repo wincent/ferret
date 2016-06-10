@@ -552,10 +552,6 @@ HISTORY                                                         *ferret-history*
   (patch from Daniel Silva).
 - Improve content and display of error messages.
 
-0.3.1 (not yet released) ~
-
-- Fix broken |:Qargs| command (patch from Daniel Silva).
-
 0.3 (24 July 2015) ~
 
 - Added highlighting of search pattern and related |g:FerretHlsearch| option

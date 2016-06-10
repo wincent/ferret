@@ -450,10 +450,6 @@ Other contributors that have submitted patches include (in alphabetical order):
 - When using `ag`, report multiple matches per line instead of just the first (patch from Daniel Silva).
 - Improve content and display of error messages.
 
-### 0.3.1 (not yet released)
-
-- Fix broken <strong>[`:Qargs`](#user-content-qargs)</strong> command (patch from Daniel Silva).
-
 ### 0.3 (24 July 2015)
 
 - Added highlighting of search pattern and related <strong>`g:FerretHlsearch`</strong> option (patch from Nelo-Thara Wallus).
