@@ -1,12 +1,12 @@
-*ferret.txt*    Ferret plug-in for Vim      *ferret*
+*ferret.txt*                    Ferret plug-in for Vim                    *ferret*
 
 CONTENTS                                                       *ferret-contents*
 
 1. Intro                  |ferret-intro|
 2. Installation           |ferret-installation|
-3. Options                |ferret-options|
-4. Commands               |ferret-commands|
-5. Mappings               |ferret-mappings|
+3. Commands               |ferret-commands|
+4. Mappings               |ferret-mappings|
+5. Options                |ferret-options|
 6. Custom autocommands    |ferret-custom-autocommands|
 7. Overrides              |ferret-overrides|
 8. Troubleshooting        |ferret-troubleshooting|
@@ -92,8 +92,6 @@ To generate help tags under Pathogen, you can do so from inside Vim with:
 >
     :call pathogen#helptags()
 <
-OPTIONS                                                         *ferret-options*
-
 COMMANDS                                                       *ferret-commands*
 
 :Ack {pattern} {options}                                                  *:Ack*
@@ -219,6 +217,8 @@ in your |.vimrc| instead using |:nmap|:
     " Instead of <leader>r, use <leader>u.
     nmap <leader>u <Plug>(FerretAcks)
 <
+OPTIONS                                                         *ferret-options*
+
 
                                                               *g:FerretDispatch*
 |g:FerretDispatch|                                          boolean (default: 1)
