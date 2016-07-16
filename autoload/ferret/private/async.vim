@@ -4,8 +4,7 @@
 let s:jobs={}
 
 function! s:channel_id(channel)
-  " Coerce to string, pluck out ID number.
-  return matchstr(a:channel, '\d\+')
+  return ch_info(a:channel)['id']
 endfunction
 
 function! s:info_from_channel(channel)
