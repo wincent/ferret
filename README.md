@@ -420,6 +420,7 @@ The idea for vim-dispatch integration was taken from Miles Sterrett's ack.vim pl
 Other contributors that have submitted patches include (in alphabetical order):
 
 - Daniel Silva
+- Filip Szymański
 - Joe Lencioni
 - Nelo-Thara Wallus
 - Vaibhav Sagar

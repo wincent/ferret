@@ -349,6 +349,7 @@
 " order):
 "
 " - Daniel Silva
+" - Filip Szymański
 " - Joe Lencioni
 " - Nelo-Thara Wallus
 " - Vaibhav Sagar
