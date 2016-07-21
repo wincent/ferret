@@ -515,6 +515,7 @@ Other contributors that have submitted patches include (in alphabetical
 order):
 
 - Daniel Silva
+- Filip Szymański
 - Joe Lencioni
 - Nelo-Thara Wallus
 - Vaibhav Sagar

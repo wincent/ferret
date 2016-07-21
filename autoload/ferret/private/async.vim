@@ -3,13 +3,8 @@
 
 let s:jobs={}
 
-function! s:channel_id(channel)
-  " Coerce to string, pluck out ID number.
-  return matchstr(a:channel, '\d\+')
-endfunction
-
 function! s:info_from_channel(channel)
-  let l:channel_id=s:channel_id(a:channel)
+  let l:channel_id=ch_info(a:channel)['id']
   if has_key(s:jobs, l:channel_id)
     return s:jobs[l:channel_id]
   endif
@@ -18,7 +13,7 @@ endfunction
 function! ferret#private#async#search(command, ack) abort
   call ferret#private#async#cancel()
   call ferret#private#autocmd('FerretAsyncStart')
-  let l:command_and_args = extend(split(&grepprg), a:command)
+  let l:command_and_args=extend(split(&grepprg), a:command)
   let l:job=job_start(l:command_and_args, {
         \   'err_cb': 'ferret#private#async#err_cb',
         \   'out_cb': 'ferret#private#async#out_cb',
@@ -27,7 +22,7 @@ function! ferret#private#async#search(command, ack) abort
         \   'out_mode': 'raw'
         \ })
   let l:channel=job_getchannel(l:job)
-  let l:channel_id=s:channel_id(l:channel)
+  let l:channel_id=ch_info(l:channel)['id']
   let s:jobs[l:channel_id]={
         \   'channel_id': l:channel_id,
         \   'job': l:job,
