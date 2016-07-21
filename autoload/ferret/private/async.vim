@@ -3,12 +3,8 @@
 
 let s:jobs={}
 
-function! s:channel_id(channel)
-  return ch_info(a:channel)['id']
-endfunction
-
 function! s:info_from_channel(channel)
-  let l:channel_id=s:channel_id(a:channel)
+  let l:channel_id=ch_info(a:channel)['id']
   if has_key(s:jobs, l:channel_id)
     return s:jobs[l:channel_id]
   endif
@@ -26,7 +22,7 @@ function! ferret#private#async#search(command, ack) abort
         \   'out_mode': 'raw'
         \ })
   let l:channel=job_getchannel(l:job)
-  let l:channel_id=s:channel_id(l:channel)
+  let l:channel_id=ch_info(l:channel)['id']
   let s:jobs[l:channel_id]={
         \   'channel_id': l:channel_id,
         \   'job': l:job,
