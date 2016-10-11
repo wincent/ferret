@@ -178,7 +178,8 @@ function! ferret#private#ack(...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
-  if empty(&grepprg)
+  let l:executable=FerretExecutable()
+  if empty(l:executable)
     return
   endif
 
@@ -195,7 +196,8 @@ function! ferret#private#lack(...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
-  if empty(&grepprg)
+  let l:executable=FerretExecutable()
+  if empty(l:executable)
     return
   endif
 
@@ -318,15 +320,17 @@ function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
   return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos)
 endfunction
 
-if executable('ag')
-  let s:executable='ag'
-elseif executable('ack')
-  let s:executable='ack'
-elseif executable('grep')
-  let s:executable='grep'
-else
-  let s:executable=''
-endif
+function! ferret#private#executable()
+  if executable('ag')
+    return 'ag'
+  elseif executable('ack')
+    return 'ack'
+  elseif executable('grep')
+    return 'grep'
+  else
+    return ''
+  endif
+endfunction
 
 let s:options = {
       \   'ack': [
@@ -396,7 +400,7 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
 
     if ferret#private#option(l:stripped)
       if a:cursorpos <= l:position
-        let l:options=get(s:options, s:executable, [])
+        let l:options=get(s:options, ferret#private#executable(), [])
         return filter(l:options, 'match(v:val, l:stripped) == 0')
       endif
     elseif l:pattern_seen

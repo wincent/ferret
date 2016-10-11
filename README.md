@@ -427,6 +427,10 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
+### next (not yet released)<a name="ferret-next-not-yet-released" href="#user-content-ferret-next-not-yet-released"></a>
+
+- Reset <strong>`'errorformat'`</strong> before each search (fixes issue #31).
+
 ### 1.2a (16 May 2016)<a name="ferret-12a-16-may-2016" href="#user-content-ferret-12a-16-may-2016"></a>
 
 - Add optional support for running searches asynchronously using Vim's <strong>`+job`</strong> feature (enabled by default in sufficiently recent versions of Vim); see <strong>`g:FerretJob`</strong>, <strong>`:FerretCancelAsync`</strong> and <strong>`:FerretPullAsync`</strong>.

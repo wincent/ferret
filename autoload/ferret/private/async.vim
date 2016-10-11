@@ -13,7 +13,7 @@ endfunction
 function! ferret#private#async#search(command, ack) abort
   call ferret#private#async#cancel()
   call ferret#private#autocmd('FerretAsyncStart')
-  let l:command_and_args=extend(split(&grepprg), a:command)
+  let l:command_and_args=extend(split(FerretExecutable()), a:command)
   let l:job=job_start(l:command_and_args, {
         \   'err_cb': 'ferret#private#async#err_cb',
         \   'out_cb': 'ferret#private#async#out_cb',
@@ -135,13 +135,19 @@ function! ferret#private#async#debug() abort
 endfunction
 
 function! s:finalize_search(output, ack)
-  if a:ack
-    cexpr a:output
-    execute get(g:, 'FerretQFHandler', 'botright cwindow')
-    call ferret#private#post('qf')
-  else
-    lexpr a:output
-    execute get(g:, 'FerretLLHandler', 'lwindow')
-    call ferret#private#post('location')
-  endif
+  let l:original_errorformat=&errorformat
+  try
+    let &errorformat=g:FerretFormat
+    if a:ack
+      cexpr a:output
+      execute get(g:, 'FerretQFHandler', 'botright cwindow')
+      call ferret#private#post('qf')
+    else
+      lexpr a:output
+      execute get(g:, 'FerretLLHandler', 'lwindow')
+      call ferret#private#post('location')
+    endif
+  finally
+    let &errorformat=l:original_errorformat
+  endtry
 endfunction

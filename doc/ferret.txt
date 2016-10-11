@@ -522,6 +522,10 @@ order):
 
 HISTORY                                                         *ferret-history*
 
+next (not yet released) ~
+
+- Reset |'errorformat'| before each search (fixes issue #31).
+
 1.2a (16 May 2016) ~
 
 - Add optional support for running searches asynchronously using Vim's |+job|

@@ -357,6 +357,10 @@
 "
 " # History
 "
+" ## next (not yet released)
+"
+" - Reset |'errorformat'| before each search (fixes issue #31).
+"
 " ## 1.2a (16 May 2016)
 "
 " - Add optional support for running searches asynchronously using Vim's |+job|
@@ -422,17 +426,31 @@ let g:FerretLoaded = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
 
-if executable('ag') " The Silver Searcher: faster than ack.
-  let s:ackprg = 'ag --vimgrep'
-elseif executable('ack') " Ack: better than grep.
-  let s:ackprg = 'ack --column --with-filename'
-elseif executable('grep') " Grep: it's just grep.
-  let s:ackprg = &grepprg " default is: grep -n $* /dev/null
-endif
+" Would ideally have these in an autoload file, but want to defer autoload
+" until as late as possible.
+function! FerretExecutable()
+  if executable('ag')
+    return 'ag --vimgrep'
+  elseif executable('ack')
+    return 'ack --column --with-filename'
+  elseif executable('grep')
+    let l:grepprg=&grepprg
+    set grepprg&
+    let l:default=&grepprg " default (on UNIX) is: grep -n $* /dev/null
+    let &grepprg=l:grepprg
+    return l:default
+  else
+    return ''
+  endif
+endfunction
 
-if !empty(s:ackprg)
-  let &grepprg=s:ackprg
-  set grepformat=%f:%l:%c:%m
+" This one is also global to avoid unwanted autoloads (unlikely that you'd
+" want to override this).
+let g:FerretFormat=get(g:, 'FerretFormat', '%f:%l:%c:%m')
+let s:executable=FerretExecutable()
+if !empty(s:executable)
+  let &grepprg=s:executable
+  let &grepformat=g:FerretFormat
 endif
 
 if has('autocmd')
