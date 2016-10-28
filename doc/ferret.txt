@@ -35,7 +35,8 @@ The Silver Searcher (https://github.com/ggreer/the_silver_searcher), Ack
 (http://beyondgrep.com/), or Grep (http://www.gnu.org/software/grep/).
 Support for passing options through to the underlying search command exists,
 along with the ability to use full regular expression syntax without doing
-special escaping.
+special escaping. On Vim version 8 or higher, searches are performed
+asynchronously (without blocking the UI).
 
 Shortcut mappings are provided to start an |:Ack| search (<leader>a) or to
 search for the word currently under the cursor (<leader>s).
@@ -46,7 +47,8 @@ instead, and a <leader>l mapping as a shortcut to |:Lack|.
 
 Finally, Ferret offers integration with dispatch.vim
 (https://github.com/tpope/vim-dispatch), which enables asynchronous
-searching despite the fact that Vim itself is single-threaded.
+searching on older versions of Vim (prior to version 8), despite the fact
+that Vim itself is single-threaded.
 
 2. Streamlined multi-file replace ~
 
@@ -103,11 +105,16 @@ in the |quickfix| listing.
 `ag` (The Silver Searcher) will be used preferentially if present on the
 system, because it is faster, falling back to `ack` and then `grep` as needed.
 
-If dispatch.vim is installed the search process will run asynchronously via
-the |:Make| command, otherwise it will be run synchronously via |:cexpr|.
-Asynchronous searches are preferred because they do not block, despite the
-fact that Vim itself is single threaded. The |g:FerretDispatch| option can be
+On newer versions of Vim (version 8 and above), the search process runs
+asynchronously in the background and does not block the UI.
+
+On older Vim versions (prior to version 8), if dispatch.vim is installed the
+search process will run asynchronously via the |:Make| command, otherwise it
+will be run synchronously via |:cexpr|. The |g:FerretDispatch| option can be
 used to prevent the use of dispatch.vim.
+
+Asynchronous searches are preferred because they do not block, despite the
+fact that Vim itself is single threaded.
 
 The {pattern} is passed through as-is to the underlying search program, and
 no escaping is required other than preceding spaces by a single backslash.

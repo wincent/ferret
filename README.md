@@ -13,13 +13,13 @@ Ferret improves Vim's multi-file search in four ways:
 
 ### 1. Powerful multi-file search<a name="ferret-1-powerful-multi-file-search" href="#user-content-ferret-1-powerful-multi-file-search"></a>
 
-Ferret provides an <strong>[`:Ack`](#user-content-ack)</strong> command for searching across multiple files using The Silver Searcher (https://github.com/ggreer/the_silver_searcher), Ack (http://beyondgrep.com/), or Grep (http://www.gnu.org/software/grep/). Support for passing options through to the underlying search command exists, along with the ability to use full regular expression syntax without doing special escaping.
+Ferret provides an <strong>[`:Ack`](#user-content-ack)</strong> command for searching across multiple files using The Silver Searcher (https://github.com/ggreer/the_silver_searcher), Ack (http://beyondgrep.com/), or Grep (http://www.gnu.org/software/grep/). Support for passing options through to the underlying search command exists, along with the ability to use full regular expression syntax without doing special escaping. On Vim version 8 or higher, searches are performed asynchronously (without blocking the UI).
 
 Shortcut mappings are provided to start an <strong>[`:Ack`](#user-content-ack)</strong> search (<leader>a) or to search for the word currently under the cursor (<leader>s).
 
 Results are normally displayed in the <strong>`quickfix`</strong> window, but Ferret also provides a <strong>[`:Lack`](#user-content-lack)</strong> command that behaves like <strong>[`:Ack`](#user-content-ack)</strong> but uses the <strong>`location-list`</strong> instead, and a <leader>l mapping as a shortcut to <strong>[`:Lack`](#user-content-lack)</strong>.
 
-Finally, Ferret offers integration with dispatch.vim (https://github.com/tpope/vim-dispatch), which enables asynchronous searching despite the fact that Vim itself is single-threaded.
+Finally, Ferret offers integration with dispatch.vim (https://github.com/tpope/vim-dispatch), which enables asynchronous searching on older versions of Vim (prior to version 8), despite the fact that Vim itself is single-threaded.
 
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
 
@@ -67,7 +67,11 @@ Searches for {pattern} in all the files under the current directory (see <strong
 
 `ag` (The Silver Searcher) will be used preferentially if present on the system, because it is faster, falling back to `ack` and then `grep` as needed.
 
-If dispatch.vim is installed the search process will run asynchronously via the <strong>`:Make`</strong> command, otherwise it will be run synchronously via <strong>`:cexpr`</strong>. Asynchronous searches are preferred because they do not block, despite the fact that Vim itself is single threaded. The <strong>`g:FerretDispatch`</strong> option can be used to prevent the use of dispatch.vim.
+On newer versions of Vim (version 8 and above), the search process runs asynchronously in the background and does not block the UI.
+
+On older Vim versions (prior to version 8), if dispatch.vim is installed the search process will run asynchronously via the <strong>`:Make`</strong> command, otherwise it will be run synchronously via <strong>`:cexpr`</strong>. The <strong>`g:FerretDispatch`</strong> option can be used to prevent the use of dispatch.vim.
+
+Asynchronous searches are preferred because they do not block, despite the fact that Vim itself is single threaded.
 
 The {pattern} is passed through as-is to the underlying search program, and no escaping is required other than preceding spaces by a single backslash. For example, to search for "\bfoo[0-9]{2} bar\b" (ie. using `ag`'s Perl-style regular expression syntax), you could do:
 
