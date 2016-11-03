@@ -192,6 +192,20 @@ function! ferret#private#ack(...) abort
   endif
 endfunction
 
+function! ferret#private#buflist() abort
+  let l:buflist=getbufinfo({'buflisted': 1})
+  let l:bufpaths=filter(map(l:buflist, 'v:val.name'), 'v:val !=# ""')
+  return l:bufpaths
+endfunction
+
+function! ferret#private#back(...) abort
+  call call('ferret#private#ack', a:000 + ferret#private#buflist())
+endfunction
+
+function! ferret#private#black(...) abort
+  call call('ferret#private#lack', a:000 + ferret#private#buflist())
+endfunction
+
 function! ferret#private#lack(...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
@@ -313,11 +327,19 @@ function! s:split(str) abort
 endfunction
 
 function! ferret#private#ackcomplete(arglead, cmdline, cursorpos) abort
-  return ferret#private#complete('Ack', a:arglead, a:cmdline, a:cursorpos)
+  return ferret#private#complete('Ack', a:arglead, a:cmdline, a:cursorpos, 1)
+endfunction
+
+function! ferret#private#backcomplete(arglead, cmdline, cursorpos) abort
+  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 0)
+endfunction
+
+function! ferret#private#blackcomplete(arglead, cmdline, cursorpos) abort
+  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 0)
 endfunction
 
 function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
-  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos)
+  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 1)
 endfunction
 
 function! ferret#private#executable()
@@ -387,7 +409,7 @@ let s:options = {
 " -complete=file completion will expand special characters in the pattern (like
 " "#") before we get a chance to see them, breaking the search. As a bonus, this
 " means we can provide option completion for `ack` and `ag` options as well.
-function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
+function! ferret#private#complete(cmd, arglead, cmdline, cursorpos, files) abort
   let l:args=s:split(a:cmdline[:a:cursorpos])
 
   let l:command_seen=0
@@ -403,7 +425,7 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos) abort
         let l:options=get(s:options, ferret#private#executable(), [])
         return filter(l:options, 'match(v:val, l:stripped) == 0')
       endif
-    elseif l:pattern_seen
+    elseif l:pattern_seen && a:files
       if a:cursorpos <= l:position
         " Assume this is a filename, and it's the one we're trying to complete.
         " Do -complete=file style completion.

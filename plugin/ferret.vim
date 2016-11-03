@@ -362,6 +362,8 @@
 " ## next (not yet released)
 "
 " - Reset |'errorformat'| before each search (fixes issue #31).
+" - Added |:Back| and |:Black| commands, analogous to |:Ack| and |:Lack| but
+"   scoped to search within currently open buffers only.
 "
 " ## 1.2a (16 May 2016)
 "
@@ -517,6 +519,26 @@ command! -nargs=+ -complete=customlist,ferret#private#ackcomplete Ack call ferre
 " Note that |:Lack| always runs synchronously via |:cexpr|, because dispatch.vim
 " doesn't currently support the |location-list|.
 command! -nargs=+ -complete=customlist,ferret#private#lackcomplete Lack call ferret#private#lack(<f-args>)
+
+""
+" @command :Back {pattern} {options}
+"
+" Like |:Ack|, but searches only listed buffers. Note that the search is still
+" delegated to the underlying |'grepprg'| (`ag`, `ack` or `grep`), which means
+" that only buffers written to disk will be searched. If no buffers are written
+" to disk, then |:Back| behaves exactly like |:Ack| and will search all files in
+" the current directory.
+command! -nargs=+ -complete=customlist,ferret#private#backcomplete Back call ferret#private#back(<f-args>)
+
+""
+" @command :Black {pattern} {options}
+"
+" Like |:Lack|, but searches only listed buffers. As with |:Back|, the search is
+" still delegated to the underlying |'grepprg'| (`ag`, `ack` or `grep`), which means
+" that only buffers written to disk will be searched. Likewise, If no buffers
+" are written to disk, then |:Black| behaves exactly like |:Lack| and will search
+" all files in the current directory.
+command! -nargs=+ -complete=customlist,ferret#private#blackcomplete Black call ferret#private#black(<f-args>)
 
 ""
 " @command :Acks /{pattern}/{replacement}/
