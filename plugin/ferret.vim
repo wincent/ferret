@@ -368,6 +368,8 @@
 " - Reset |'errorformat'| before each search (fixes issue #31).
 " - Added |:Back| and |:Black| commands, analogous to |:Ack| and |:Lack| but
 "   scoped to search within currently open buffers only.
+" - Change |:Acks| to use |:cfdo| when available rather than |:Qargs| and
+"   |:argdo|, to avoid polluting the |arglist|.
 "
 " ## 1.2a (16 May 2016)
 "
@@ -648,8 +650,9 @@ endif
 ""
 " @command :Qargs
 "
-" This is a utility function that is used by the |:Acks| command but is also
-" generally useful enough to warrant being exposed publicly.
+" This is a utility function that is used internally when running on older
+" versions of Vim (prior to version 8) but is also generally useful enough to
+" warrant being exposed publicly.
 "
 " It takes the files currently in the |quickfix| listing and sets them as
 " |:args| so that they can be operated on en masse via the |:argdo| command.

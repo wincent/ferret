@@ -121,7 +121,7 @@ A typical sequence consists of an <strong>[`:Ack`](#user-content-ack)</strong> i
 <p align="right"><a name="qargs" href="#user-content-qargs"><code>:Qargs</code></a></p>
 ### `:Qargs`<a name="ferret-qargs" href="#user-content-ferret-qargs"></a>
 
-This is a utility function that is used by the <strong>[`:Acks`](#user-content-acks)</strong> command but is also generally useful enough to warrant being exposed publicly.
+This is a utility function that is used internally when running on older versions of Vim (prior to version 8) but is also generally useful enough to warrant being exposed publicly.
 
 It takes the files currently in the <strong>`quickfix`</strong> listing and sets them as <strong>`:args`</strong> so that they can be operated on en masse via the <strong>`:argdo`</strong> command.
 
@@ -447,6 +447,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 - Reset <strong>`'errorformat'`</strong> before each search (fixes issue #31).
 - Added <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands, analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong> but scoped to search within currently open buffers only.
+- Change <strong>[`:Acks`](#user-content-acks)</strong> to use <strong>`:cfdo`</strong> when available rather than <strong>[`:Qargs`](#user-content-qargs)</strong> and <strong>`:argdo`</strong>, to avoid polluting the <strong>`arglist`</strong>.
 
 ### 1.2a (16 May 2016)<a name="ferret-12a-16-may-2016" href="#user-content-ferret-12a-16-may-2016"></a>
 

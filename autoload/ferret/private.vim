@@ -251,11 +251,16 @@ endfunction
 "   :Ack foo
 "   :Acks /foo/bar/
 "
-" is equivalent to:
+" is equivalent to the following prior to Vim 8:
 "
 "   :Ack foo
 "   :Qargs
 "   :argdo %s/foo/bar/ge | update
+"
+" and the following on Vim 8 or after:
+"
+"   :Ack foo
+"   :cfdo %s/foo/bar/ge | update
 "
 " (Note: there's nothing specific to Ack in this function; it's just named this
 " way for mnemonics, as it will most often be preceded by an :Ack invocation.)
@@ -281,19 +286,25 @@ function! ferret#private#acks(command) abort
     let l:options .= 'g'
   endif
 
-  let l:filenames=ferret#private#qargs()
-  if l:filenames ==# ''
-    call ferret#private#error(
-          \ 'Ferret: Quickfix filenames must be present, but there are none ' .
-          \ '(must use :Ack to find files before :Acks can be used)'
-          \ )
-    return
+  let l:cfdo=has('listcmds') && exists(':cfdo') == 2
+  if !l:cfdo
+    let l:filenames=ferret#private#qargs()
+    if l:filenames ==# ''
+      call ferret#private#error(
+            \ 'Ferret: Quickfix filenames must be present, but there are none ' .
+            \ '(must use :Ack to find files before :Acks can be used)'
+            \ )
+      return
+    endif
+    execute 'args' l:filenames
   endif
 
-  execute 'args' l:filenames
-
   call ferret#private#autocmd('FerretWillWrite')
-  execute 'argdo' '%s' . l:pattern . l:options . ' | update'
+  if l:cfdo
+    execute 'cfdo' '%s' . l:pattern . l:options . ' | update'
+  else
+    execute 'argdo' '%s' . l:pattern . l:options . ' | update'
+  endif
   call ferret#private#autocmd('FerretDidWrite')
 endfunction
 
