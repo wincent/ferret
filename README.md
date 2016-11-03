@@ -19,11 +19,13 @@ Shortcut mappings are provided to start an <strong>[`:Ack`](#user-content-ack)</
 
 Results are normally displayed in the <strong>`quickfix`</strong> window, but Ferret also provides a <strong>[`:Lack`](#user-content-lack)</strong> command that behaves like <strong>[`:Ack`](#user-content-ack)</strong> but uses the <strong>`location-list`</strong> instead, and a <leader>l mapping as a shortcut to <strong>[`:Lack`](#user-content-lack)</strong>.
 
+<strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> are analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>, but scoped to search within currently open buffers only.
+
 Finally, Ferret offers integration with dispatch.vim (https://github.com/tpope/vim-dispatch), which enables asynchronous searching on older versions of Vim (prior to version 8), despite the fact that Vim itself is single-threaded.
 
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
 
-The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: "Ack substitute", accessible via shortcut <leader>r), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong>.
+The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: "Ack substitute", accessible via shortcut <leader>r), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong> (or <strong>[`:Back`](#user-content-back)</strong>).
 
 ### 3. Quickfix listing enhancements<a name="ferret-3-quickfix-listing-enhancements" href="#user-content-ferret-3-quickfix-listing-enhancements"></a>
 

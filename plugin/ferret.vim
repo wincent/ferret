@@ -30,6 +30,9 @@
 " provides a |:Lack| command that behaves like |:Ack| but uses the
 " |location-list| instead, and a <leader>l mapping as a shortcut to |:Lack|.
 "
+" |:Back| and |:Black| are analogous to |:Ack| and |:Lack|, but scoped to search
+" within currently open buffers only.
+"
 " Finally, Ferret offers integration with dispatch.vim
 " (https://github.com/tpope/vim-dispatch), which enables asynchronous searching
 " on older versions of Vim (prior to version 8), despite the fact that Vim
@@ -39,7 +42,8 @@
 "
 " The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute", accessible via
 " shortcut <leader>r), which allows you to run a multi-file replace across all
-" the files placed in the |quickfix| window by a previous invocation of |:Ack|.
+" the files placed in the |quickfix| window by a previous invocation of |:Ack|
+" (or |:Back|).
 "
 " ## 3. Quickfix listing enhancements
 "
