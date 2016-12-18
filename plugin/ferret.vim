@@ -464,14 +464,6 @@ if !empty(s:executable)
   let &grepformat=g:FerretFormat
 endif
 
-if has('autocmd')
-  augroup Ferret
-    autocmd!
-    autocmd QuickFixCmdPost [^l]* nested cwindow
-    autocmd QuickFixCmdPost l* nested lwindow
-  augroup END
-endif
-
 ""
 " @command :Ack {pattern} {options}
 "
