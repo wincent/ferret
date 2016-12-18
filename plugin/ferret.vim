@@ -358,6 +358,7 @@
 " - Filip Szymański
 " - Joe Lencioni
 " - Nelo-Thara Wallus
+" - Tom Dooner
 " - Vaibhav Sagar
 "
 "
