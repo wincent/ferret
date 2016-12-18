@@ -43,7 +43,7 @@ module DSL
 
   def session(name, &block)
     escaped_name = DSL.escape(name)
-    %x{tmux new-session -d -s #{DSL.escape(escaped_name)}}
+    %x{tmux new-session -d -s #{DSL.escape(escaped_name)} -y 20}
     Session.new(escaped_name).instance_eval(&block)
     %x{tmux kill-session -t #{escaped_name}}
   end
