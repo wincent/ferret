@@ -439,6 +439,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Filip Szymański
 - Joe Lencioni
 - Nelo-Thara Wallus
+- Tom Dooner
 - Vaibhav Sagar
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>

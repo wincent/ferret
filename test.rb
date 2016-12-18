@@ -43,7 +43,7 @@ module DSL
 
   def session(name, &block)
     escaped_name = DSL.escape(name)
-    %x{tmux new-session -d -s #{DSL.escape(escaped_name)}}
+    %x{tmux new-session -d -s #{DSL.escape(escaped_name)} -y 20}
     Session.new(escaped_name).instance_eval(&block)
     %x{tmux kill-session -t #{escaped_name}}
   end
@@ -52,10 +52,11 @@ self.extend(DSL)
 Object.instance_eval { include DSL::Constants }
 
 session('ferret-test') do |name|
-  send_keys('vim -u NONE', Enter)
-  send_keys(':set nocompatible', Enter)
-  send_keys(":set rtp+=#{DSL.escape(Dir.pwd)}", Enter)
+  send_keys('vim -u NONE -N', Enter)
+  send_keys(':set shortmess+=A', Enter)
+  send_keys(":set runtimepath+=#{DSL.escape(Dir.pwd)}", Enter)
   send_keys(':runtime! plugin/ferret.vim', Enter)
   send_keys(Backslash, 'a', 'usr/bin/env', Backslash, Space, 'ruby', Enter)
   wait_for(/module DSL/)
+  send_keys(':quitall!', Enter)
 end
