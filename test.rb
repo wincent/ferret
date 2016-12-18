@@ -52,10 +52,11 @@ self.extend(DSL)
 Object.instance_eval { include DSL::Constants }
 
 session('ferret-test') do |name|
-  send_keys('vim -u NONE', Enter)
-  send_keys(':set nocompatible', Enter)
-  send_keys(":set rtp+=#{DSL.escape(Dir.pwd)}", Enter)
+  send_keys('vim -u NONE -N', Enter)
+  send_keys(':set shortmess+=A', Enter)
+  send_keys(":set runtimepath+=#{DSL.escape(Dir.pwd)}", Enter)
   send_keys(':runtime! plugin/ferret.vim', Enter)
   send_keys(Backslash, 'a', 'usr/bin/env', Backslash, Space, 'ruby', Enter)
   wait_for(/module DSL/)
+  send_keys(':quitall!', Enter)
 end
