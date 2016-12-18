@@ -449,6 +449,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Reset <strong>`'errorformat'`</strong> before each search (fixes issue #31).
 - Added <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands, analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong> but scoped to search within currently open buffers only.
 - Change <strong>[`:Acks`](#user-content-acks)</strong> to use <strong>`:cfdo`</strong> when available rather than <strong>[`:Qargs`](#user-content-qargs)</strong> and <strong>`:argdo`</strong>, to avoid polluting the <strong>`arglist`</strong>.
+- Remove superfluous <strong>`QuickFixCmdPost`</strong> autocommands, resolving clash with Neomake plug-in (patch from Tom Dooner, #36).
 
 ### 1.2a (16 May 2016)<a name="ferret-12a-16-may-2016" href="#user-content-ferret-12a-16-may-2016"></a>
 

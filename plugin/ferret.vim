@@ -371,6 +371,8 @@
 "   scoped to search within currently open buffers only.
 " - Change |:Acks| to use |:cfdo| when available rather than |:Qargs| and
 "   |:argdo|, to avoid polluting the |arglist|.
+" - Remove superfluous |QuickFixCmdPost| autocommands, resolving clash with
+"   Neomake plug-in (patch from Tom Dooner, #36).
 "
 " ## 1.2a (16 May 2016)
 "
