@@ -15,6 +15,7 @@ function! ferret#private#async#search(command, ack) abort
   call ferret#private#autocmd('FerretAsyncStart')
   let l:command_and_args=extend(split(FerretExecutable()), a:command)
   let l:job=job_start(l:command_and_args, {
+        \   'in_io': 'null',
         \   'err_cb': 'ferret#private#async#err_cb',
         \   'out_cb': 'ferret#private#async#out_cb',
         \   'close_cb': 'ferret#private#async#close_cb',
