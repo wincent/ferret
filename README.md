@@ -67,7 +67,7 @@ To generate help tags under Pathogen, you can do so from inside Vim with:
 
 Searches for {pattern} in all the files under the current directory (see <strong>`:pwd`</strong>), unless otherwise overridden via {options}, and displays the results in the <strong>`quickfix`</strong> listing.
 
-`ag` (The Silver Searcher) will be used preferentially if present on the system, because it is faster, falling back to `ack` and then `grep` as needed.
+`rg` (ripgrep) then `ag` (The Silver Searcher) will be used preferentially if present on the system, because they are faster, falling back to `ack` and then `grep` as needed.
 
 On newer versions of Vim (version 8 and above), the search process runs asynchronously in the background and does not block the UI.
 
@@ -99,12 +99,12 @@ Note that <strong>[`:Lack`](#user-content-lack)</strong> always runs synchronous
 <p align="right"><a name="back" href="#user-content-back"><code>:Back</code></a></p>
 ### `:Back {pattern} {options}`<a name="ferret-back-pattern-options" href="#user-content-ferret-back-pattern-options"></a>
 
-Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only listed buffers. Note that the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`ag`, `ack` or `grep`), which means that only buffers written to disk will be searched. If no buffers are written to disk, then <strong>[`:Back`](#user-content-back)</strong> behaves exactly like <strong>[`:Ack`](#user-content-ack)</strong> and will search all files in the current directory.
+Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only listed buffers. Note that the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `grep`), which means that only buffers written to disk will be searched. If no buffers are written to disk, then <strong>[`:Back`](#user-content-back)</strong> behaves exactly like <strong>[`:Ack`](#user-content-ack)</strong> and will search all files in the current directory.
 
 <p align="right"><a name="black" href="#user-content-black"><code>:Black</code></a></p>
 ### `:Black {pattern} {options}`<a name="ferret-black-pattern-options" href="#user-content-ferret-black-pattern-options"></a>
 
-Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed buffers. As with <strong>[`:Back`](#user-content-back)</strong>, the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`ag`, `ack` or `grep`), which means that only buffers written to disk will be searched. Likewise, If no buffers are written to disk, then <strong>[`:Black`](#user-content-black)</strong> behaves exactly like <strong>[`:Lack`](#user-content-lack)</strong> and will search all files in the current directory.
+Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed buffers. As with <strong>[`:Back`](#user-content-back)</strong>, the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `grep`), which means that only buffers written to disk will be searched. Likewise, If no buffers are written to disk, then <strong>[`:Black`](#user-content-black)</strong> behaves exactly like <strong>[`:Lack`](#user-content-lack)</strong> and will search all files in the current directory.
 
 <p align="right"><a name="acks" href="#user-content-acks"><code>:Acks</code></a></p>
 ### `:Acks /{pattern}/{replacement}/`<a name="ferret-acks-patternreplacement" href="#user-content-ferret-acks-patternreplacement"></a>
@@ -273,7 +273,7 @@ autocmd User FerretDidWrite call CustomDidWrite()
 
 ## Overrides<a name="ferret-overrides" href="#user-content-ferret-overrides"></a>
 
-Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially setting `ag`, `ack` or `grep` as the 'grepprg' (in that order) and configuring a suitable 'grepformat'.
+Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially setting `rg`, `ag`, `ack` or `grep` as the 'grepprg' (in that order) and configuring a suitable 'grepformat'.
 
 Additionally, Ferret includes an <strong>`ftplugin`</strong> for the <strong>`quickfix`</strong> listing that adjusts a number of settings to improve the usability of search results.
 
@@ -354,7 +354,7 @@ This approach to escaping is taken in order to make it straightfoward to use pow
 
 Ferret was originally the thinnest of wrappers (7 lines of code in my <strong>`.vimrc`</strong>) around `ack`. The earliest traces of it can be seen in the initial commit to my dotfiles repo in May, 2009 (https://wt.pe/h).
 
-So, even though Ferret has a new name now and actually prefers `ag` over `ack` when available, I prefer to keep the command names intact and benefit from years of accumulated muscle-memory.
+So, even though Ferret has a new name now and actually prefers `rg` then `ag` over `ack` when available, I prefer to keep the command names intact and benefit from years of accumulated muscle-memory.
 
 ## Related<a name="ferret-related" href="#user-content-ferret-related"></a>
 
@@ -450,6 +450,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Added <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands, analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong> but scoped to search within currently open buffers only.
 - Change <strong>[`:Acks`](#user-content-acks)</strong> to use <strong>`:cfdo`</strong> when available rather than <strong>[`:Qargs`](#user-content-qargs)</strong> and <strong>`:argdo`</strong>, to avoid polluting the <strong>`arglist`</strong>.
 - Remove superfluous <strong>`QuickFixCmdPost`</strong> autocommands, resolving clash with Neomake plug-in (patch from Tom Dooner, #36).
+- Add support for searching with ripgrep (`rg`).
 
 ### 1.2a (16 May 2016)<a name="ferret-12a-16-may-2016" href="#user-content-ferret-12a-16-may-2016"></a>
 

@@ -101,7 +101,7 @@ function! s:parse(args) abort
       if len(l:file_args)
         call extend(l:expanded_args, l:file_args)
       else
-        " Let through to `ag`/`ack`/`grep`, which will throw ENOENT.
+        " Let through to `ag`/`ack`/`grep`/`rg`, which will throw ENOENT.
         call add(l:expanded_args, l:arg)
       endif
     else
@@ -354,7 +354,9 @@ function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
 endfunction
 
 function! ferret#private#executable()
-  if executable('ag')
+  if executable('rg')
+    return 'rg'
+  elseif executable('ag')
     return 'ag'
   elseif executable('ack')
     return 'ack'
@@ -413,13 +415,52 @@ let s:options = {
       \     '-u',
       \     '-v',
       \     '-w'
+      \   ],
+      \   'rg': [
+      \     '--case-sensitive',
+      \     '--files-with-matches',
+      \     '--follow',
+      \     '--glob',
+      \     '--hidden',
+      \     '--ignore-case',
+      \     '--invert-match',
+      \     '--max-count',
+      \     '--maxdepth',
+      \     '--mmap',
+      \     '--no-ignore',
+      \     '--no-ignore-parent',
+      \     '--no-ignore-vcs',
+      \     '--no-mmap',
+      \     '--regexp',
+      \     '--smart-case',
+      \     '--text',
+      \     '--threads',
+      \     '--type',
+      \     '--type-not',
+      \     '--unrestricted',
+      \     '--word-regexp',
+      \     '-F',
+      \     '-L',
+      \     '-R',
+      \     '-T',
+      \     '-a',
+      \     '-e',
+      \     '-g',
+      \     '-i',
+      \     '-j',
+      \     '-m',
+      \     '-s',
+      \     '-t',
+      \     '-u',
+      \     '-v',
+      \     '-w'
       \   ]
       \ }
 
 " We provide our own custom command completion because the default
 " -complete=file completion will expand special characters in the pattern (like
 " "#") before we get a chance to see them, breaking the search. As a bonus, this
-" means we can provide option completion for `ack` and `ag` options as well.
+" means we can provide option completion for `ack`/`ag`/`rg` options as well.
 function! ferret#private#complete(cmd, arglead, cmdline, cursorpos, files) abort
   let l:args=s:split(a:cmdline[:a:cursorpos])
 

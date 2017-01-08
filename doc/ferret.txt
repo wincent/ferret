@@ -106,8 +106,9 @@ Searches for {pattern} in all the files under the current directory (see
 |:pwd|), unless otherwise overridden via {options}, and displays the results
 in the |quickfix| listing.
 
-`ag` (The Silver Searcher) will be used preferentially if present on the
-system, because it is faster, falling back to `ack` and then `grep` as needed.
+`rg` (ripgrep) then `ag` (The Silver Searcher) will be used preferentially if
+present on the system, because they are faster, falling back to `ack` and then
+`grep` as needed.
 
 On newer versions of Vim (version 8 and above), the search process runs
 asynchronously in the background and does not block the UI.
@@ -150,18 +151,18 @@ doesn't currently support the |location-list|.
 :Back {pattern} {options}                                                *:Back*
 
 Like |:Ack|, but searches only listed buffers. Note that the search is still
-delegated to the underlying |'grepprg'| (`ag`, `ack` or `grep`), which means that
-only buffers written to disk will be searched. If no buffers are written to
-disk, then |:Back| behaves exactly like |:Ack| and will search all files in the
-current directory.
+delegated to the underlying |'grepprg'| (`rg`, `ag`, `ack` or `grep`), which means
+that only buffers written to disk will be searched. If no buffers are
+written to disk, then |:Back| behaves exactly like |:Ack| and will search all
+files in the current directory.
 
 :Black {pattern} {options}                                              *:Black*
 
 Like |:Lack|, but searches only listed buffers. As with |:Back|, the search is
-still delegated to the underlying |'grepprg'| (`ag`, `ack` or `grep`), which means
-that only buffers written to disk will be searched. Likewise, If no buffers
-are written to disk, then |:Black| behaves exactly like |:Lack| and will search
-all files in the current directory.
+still delegated to the underlying |'grepprg'| (`rg`, `ag`, `ack` or `grep`), which
+means that only buffers written to disk will be searched. Likewise, If no
+buffers are written to disk, then |:Black| behaves exactly like |:Lack| and will
+search all files in the current directory.
 
 :Acks /{pattern}/{replacement}/                                          *:Acks*
 
@@ -351,8 +352,8 @@ you might do:
 OVERRIDES                                                     *ferret-overrides*
 
 Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially
-setting `ag`, `ack` or `grep` as the 'grepprg' (in that order) and configuring a
-suitable 'grepformat'.
+setting `rg`, `ag`, `ack` or `grep` as the 'grepprg' (in that order) and configuring
+a suitable 'grepformat'.
 
 Additionally, Ferret includes an |ftplugin| for the |quickfix| listing that
 adjusts a number of settings to improve the usability of search results.
@@ -449,9 +450,9 @@ Ferret was originally the thinnest of wrappers (7 lines of code in my
 |.vimrc|) around `ack`. The earliest traces of it can be seen in the initial
 commit to my dotfiles repo in May, 2009 (https://wt.pe/h).
 
-So, even though Ferret has a new name now and actually prefers `ag` over `ack`
-when available, I prefer to keep the command names intact and benefit from
-years of accumulated muscle-memory.
+So, even though Ferret has a new name now and actually prefers `rg` then `ag`
+over `ack` when available, I prefer to keep the command names intact and
+benefit from years of accumulated muscle-memory.
 
 RELATED                                                         *ferret-related*
 
@@ -560,6 +561,7 @@ next (not yet released) ~
   avoid polluting the |arglist|.
 - Remove superfluous |QuickFixCmdPost| autocommands, resolving clash with
   Neomake plug-in (patch from Tom Dooner, #36).
+- Add support for searching with ripgrep (`rg`).
 
 1.2a (16 May 2016) ~
 
