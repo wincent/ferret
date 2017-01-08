@@ -467,8 +467,9 @@ let s:executables={
 " Would ideally have these in an autoload file, but want to defer autoload
 " until as late as possible.
 function! FerretExecutable()
+  let l:valid=keys(s:executables)
   let l:executables=split(s:force, '\v\s*,\s*')
-  let l:executables=filter(l:executables, 'index(["rg", "ag", "ack"], v:val) != -1')
+  let l:executables=filter(l:executables, 'index(l:valid, v:val) != -1')
   if index(l:executables, 'rg') == -1
     call add(l:executables, 'rg')
   endif
