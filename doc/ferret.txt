@@ -310,6 +310,20 @@ To prevent Ferret from being loaded, set |g:FerretLoaded| to any value in your
     let g:FerretLoaded=1
 <
 
+                                                            *g:FerretExecutable*
+|g:FerretExecutable|                                      string (default: none)
+
+Ferret will preferentially use `rg`, `ag`, `ack` and finally `grep` (in that order,
+using the first found executable), however you can force your preference for
+a specific tool to be used by setting an override in your |.vimrc|. Valid
+values are "rg", "ag", "ack" and "grep". If the requested executable does
+not exist, Ferret will fall-back to the next in the list.
+
+Example:
+>
+    let g:FerretExecutable='ag'
+<
+
                                                                    *g:FerretMap*
 |g:FerretMap|                                               boolean (default: 1)
 

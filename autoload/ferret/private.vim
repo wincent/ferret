@@ -353,18 +353,10 @@ function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
   return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 1)
 endfunction
 
+" Return first word (the name of the binary) of the executable string.
 function! ferret#private#executable()
-  if executable('rg')
-    return 'rg'
-  elseif executable('ag')
-    return 'ag'
-  elseif executable('ack')
-    return 'ack'
-  elseif executable('grep')
-    return 'grep'
-  else
-    return ''
-  endif
+  let l:executable=FerretExecutable()
+  let l:binary=matchstr(l:executable, '\v\w+')
 endfunction
 
 let s:options = {

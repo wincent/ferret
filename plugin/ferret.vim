@@ -440,14 +440,30 @@ let g:FerretLoaded = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
 
+""
+" @option g:FerretExecutable string
+"
+" Ferret will preferentially use `rg`, `ag`, `ack` and finally `grep` (in that
+" order, using the first found executable), however you can force your
+" preference for a specific tool to be used by setting an override in your
+" |.vimrc|. Valid values are "rg", "ag", "ack" and "grep". If the requested
+" executable does not exist, Ferret will fall-back to the next in the list.
+"
+" Example:
+"
+" ```
+" let g:FerretExecutable='ag'
+" ```
+let s:force=get(g:, 'FerretExecutable', '')
+
 " Would ideally have these in an autoload file, but want to defer autoload
 " until as late as possible.
 function! FerretExecutable()
-  if executable('rg')
+  if (s:force == 'rg' || s:force == '') && executable('rg')
     return 'rg --vimgrep --no-heading'
-  elseif executable('ag')
+  elseif (s:force == 'ag' || s:force =='rg' || s:force == '') && executable('ag')
     return 'ag --vimgrep'
-  elseif executable('ack')
+  elseif (s:force == 'ack' || s:force == 'ag' || s:force == 'rg' || s:force == '') && executable('ack')
     return 'ack --column --with-filename'
   elseif executable('grep')
     let l:grepprg=&grepprg
