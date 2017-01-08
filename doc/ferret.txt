@@ -568,7 +568,7 @@ order):
 
 HISTORY                                                         *ferret-history*
 
-next (not yet released) ~
+1.3 (8 January 2017)
 
 - Reset |'errorformat'| before each search (fixes issue #31).
 - Added |:Back| and |:Black| commands, analogous to |:Ack| and |:Lack| but scoped to

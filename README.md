@@ -456,7 +456,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-### next (not yet released)<a name="ferret-next-not-yet-released" href="#user-content-ferret-next-not-yet-released"></a>
+1.3 (8 January 2017)
 
 - Reset <strong>`'errorformat'`</strong> before each search (fixes issue #31).
 - Added <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands, analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong> but scoped to search within currently open buffers only.
