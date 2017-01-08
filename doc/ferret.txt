@@ -311,17 +311,19 @@ To prevent Ferret from being loaded, set |g:FerretLoaded| to any value in your
 <
 
                                                             *g:FerretExecutable*
-|g:FerretExecutable|                                      string (default: none)
+|g:FerretExecutable|                               string (default: "rg,ag,ack")
 
 Ferret will preferentially use `rg`, `ag`, `ack` and finally `grep` (in that order,
 using the first found executable), however you can force your preference for
 a specific tool to be used by setting an override in your |.vimrc|. Valid
-values are "rg", "ag", "ack" and "grep". If the requested executable does
-not exist, Ferret will fall-back to the next in the list.
+values are a comma-separated list of "rg", "ag", "ack" or "grep". If no
+requested executable exists, Ferret will fall-back to the next in the
+default list.
 
 Example:
 >
-    let g:FerretExecutable='ag'
+    " Prefer `ag` over `rg`.
+    let g:FerretExecutable='ag,rg'
 <
 
                                                                    *g:FerretMap*

@@ -237,14 +237,15 @@ let g:FerretLoaded=1
 ```
 
 <p align="right"><a name="gferretexecutable" href="#user-content-gferretexecutable"><code>g:FerretExecutable</code></a></p>
-### `g:FerretExecutable` (string, default: none)<a name="ferret-gferretexecutable-string-default-none" href="#user-content-ferret-gferretexecutable-string-default-none"></a>
+### `g:FerretExecutable` (string, default: "rg,ag,ack")<a name="ferret-gferretexecutable-string-default-rgagack" href="#user-content-ferret-gferretexecutable-string-default-rgagack"></a>
 
-Ferret will preferentially use `rg`, `ag`, `ack` and finally `grep` (in that order, using the first found executable), however you can force your preference for a specific tool to be used by setting an override in your <strong>`.vimrc`</strong>. Valid values are "rg", "ag", "ack" and "grep". If the requested executable does not exist, Ferret will fall-back to the next in the list.
+Ferret will preferentially use `rg`, `ag`, `ack` and finally `grep` (in that order, using the first found executable), however you can force your preference for a specific tool to be used by setting an override in your <strong>`.vimrc`</strong>. Valid values are a comma-separated list of "rg", "ag", "ack" or "grep". If no requested executable exists, Ferret will fall-back to the next in the default list.
 
 Example:
 
 ```
-let g:FerretExecutable='ag'
+" Prefer `ag` over `rg`.
+let g:FerretExecutable='ag,rg'
 ```
 
 <p align="right"><a name="gferretmap" href="#user-content-gferretmap"><code>g:FerretMap</code></a></p>

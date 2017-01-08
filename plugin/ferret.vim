@@ -441,31 +441,49 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 
 ""
-" @option g:FerretExecutable string
+" @option g:FerretExecutable string "rg,ag,ack"
 "
 " Ferret will preferentially use `rg`, `ag`, `ack` and finally `grep` (in that
 " order, using the first found executable), however you can force your
 " preference for a specific tool to be used by setting an override in your
-" |.vimrc|. Valid values are "rg", "ag", "ack" and "grep". If the requested
-" executable does not exist, Ferret will fall-back to the next in the list.
+" |.vimrc|. Valid values are a comma-separated list of "rg", "ag", "ack" or
+" "grep". If no requested executable exists, Ferret will fall-back to
+" the next in the default list.
 "
 " Example:
 "
 " ```
-" let g:FerretExecutable='ag'
+" " Prefer `ag` over `rg`.
+" let g:FerretExecutable='ag,rg'
 " ```
-let s:force=get(g:, 'FerretExecutable', '')
+let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack')
+
+let s:executables={
+      \   'rg': 'rg --vimgrep --no-heading',
+      \   'ag': 'ag --vimgrep',
+      \   'ack': 'ack'
+      \ }
 
 " Would ideally have these in an autoload file, but want to defer autoload
 " until as late as possible.
 function! FerretExecutable()
-  if (s:force == 'rg' || s:force == '') && executable('rg')
-    return 'rg --vimgrep --no-heading'
-  elseif (s:force == 'ag' || s:force =='rg' || s:force == '') && executable('ag')
-    return 'ag --vimgrep'
-  elseif (s:force == 'ack' || s:force == 'ag' || s:force == 'rg' || s:force == '') && executable('ack')
-    return 'ack --column --with-filename'
-  elseif executable('grep')
+  let l:executables=split(s:force, '\v\s*,\s*')
+  let l:executables=filter(l:executables, 'index(["rg", "ag", "ack"], v:val) != -1')
+  if index(l:executables, 'rg') == -1
+    call add(l:executables, 'rg')
+  endif
+  if index(l:executables, 'ag') == -1
+    call add(l:executables, 'ag')
+  endif
+  if index(l:executables, 'ack') == -1
+    call add(l:executables, 'ack')
+  endif
+  for l:executable in l:executables
+    if executable(l:executable)
+      return s:executables[l:executable]
+    endif
+  endfor
+  if executable('grep')
     let l:grepprg=&grepprg
     set grepprg&
     let l:default=&grepprg " default (on UNIX) is: grep -n $* /dev/null
