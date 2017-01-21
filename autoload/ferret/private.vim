@@ -101,7 +101,7 @@ function! s:parse(args) abort
       if len(l:file_args)
         call extend(l:expanded_args, l:file_args)
       else
-        " Let through to `ag`/`ack`/`grep`/`rg`, which will throw ENOENT.
+        " Let through to `ag`/`ack`/`rg`, which will throw ENOENT.
         call add(l:expanded_args, l:arg)
       endif
     else
@@ -180,6 +180,7 @@ function! ferret#private#ack(...) abort
 
   let l:executable=FerretExecutable()
   if empty(l:executable)
+    call ferret#private#installprompt()
     return
   endif
 
@@ -206,12 +207,19 @@ function! ferret#private#black(...) abort
   call call('ferret#private#lack', a:000 + ferret#private#buflist())
 endfunction
 
+function! ferret#private#installprompt() abort
+  call ferret#private#error(
+        \   'Unable to find suitable executable; install rg, ag, or ack'
+        \ )
+endfunction
+
 function! ferret#private#lack(...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
   let l:executable=FerretExecutable()
   if empty(l:executable)
+    call ferret#private#installprompt()
     return
   endif
 
