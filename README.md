@@ -456,7 +456,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-next (not yest released)
+1.4 (21 January 2017)
 
 - Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or `ack`/`ack-grep` instead.
 - If an `ack` executable is not found, search for `ack-grep`, which is the name used on Debian-derived distros.

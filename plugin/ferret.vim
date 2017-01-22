@@ -361,7 +361,7 @@
 "
 " # History
 "
-" next (not yest released)
+" 1.4 (21 January 2017)
 "
 " - Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or
 "   `ack`/`ack-grep` instead.
