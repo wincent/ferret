@@ -465,8 +465,8 @@ let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack,ack-grep')
 let s:executables={
       \   'rg': 'rg --vimgrep --no-heading',
       \   'ag': 'ag --vimgrep',
-      \   'ack': 'ack',
-      \   'ack-grep': 'ack-grep'
+      \   'ack': 'ack --column --with-filename',
+      \   'ack-grep': 'ack-grep --column --with-filename'
       \ }
 
 " Would ideally have these in an autoload file, but want to defer autoload
