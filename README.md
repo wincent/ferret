@@ -67,7 +67,7 @@ To generate help tags under Pathogen, you can do so from inside Vim with:
 
 Searches for {pattern} in all the files under the current directory (see <strong>`:pwd`</strong>), unless otherwise overridden via {options}, and displays the results in the <strong>`quickfix`</strong> listing.
 
-`rg` (ripgrep) then `ag` (The Silver Searcher) will be used preferentially if present on the system, because they are faster, falling back to `ack` as needed.
+`rg` (ripgrep) then `ag` (The Silver Searcher) will be used preferentially if present on the system, because they are faster, falling back to `ack`/`ack-grep` as needed.
 
 On newer versions of Vim (version 8 and above), the search process runs asynchronously in the background and does not block the UI.
 
@@ -99,12 +99,12 @@ Note that <strong>[`:Lack`](#user-content-lack)</strong> always runs synchronous
 <p align="right"><a name="back" href="#user-content-back"><code>:Back</code></a></p>
 ### `:Back {pattern} {options}`<a name="ferret-back-pattern-options" href="#user-content-ferret-back-pattern-options"></a>
 
-Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only listed buffers. Note that the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, or `ack`), which means that only buffers written to disk will be searched. If no buffers are written to disk, then <strong>[`:Back`](#user-content-back)</strong> behaves exactly like <strong>[`:Ack`](#user-content-ack)</strong> and will search all files in the current directory.
+Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only listed buffers. Note that the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `ack-grep`), which means that only buffers written to disk will be searched. If no buffers are written to disk, then <strong>[`:Back`](#user-content-back)</strong> behaves exactly like <strong>[`:Ack`](#user-content-ack)</strong> and will search all files in the current directory.
 
 <p align="right"><a name="black" href="#user-content-black"><code>:Black</code></a></p>
 ### `:Black {pattern} {options}`<a name="ferret-black-pattern-options" href="#user-content-ferret-black-pattern-options"></a>
 
-Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed buffers. As with <strong>[`:Back`](#user-content-back)</strong>, the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, or `ack`), which means that only buffers written to disk will be searched. Likewise, If no buffers are written to disk, then <strong>[`:Black`](#user-content-black)</strong> behaves exactly like <strong>[`:Lack`](#user-content-lack)</strong> and will search all files in the current directory.
+Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed buffers. As with <strong>[`:Back`](#user-content-back)</strong>, the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `ack-grep`), which means that only buffers written to disk will be searched. Likewise, If no buffers are written to disk, then <strong>[`:Black`](#user-content-black)</strong> behaves exactly like <strong>[`:Lack`](#user-content-lack)</strong> and will search all files in the current directory.
 
 <p align="right"><a name="acks" href="#user-content-acks"><code>:Acks</code></a></p>
 ### `:Acks /{pattern}/{replacement}/`<a name="ferret-acks-patternreplacement" href="#user-content-ferret-acks-patternreplacement"></a>
@@ -237,9 +237,9 @@ let g:FerretLoaded=1
 ```
 
 <p align="right"><a name="gferretexecutable" href="#user-content-gferretexecutable"><code>g:FerretExecutable</code></a></p>
-### `g:FerretExecutable` (string, default: "rg,ag,ack")<a name="ferret-gferretexecutable-string-default-rgagack" href="#user-content-ferret-gferretexecutable-string-default-rgagack"></a>
+### `g:FerretExecutable` (string, default: "rg,ag,ack,ack-grep")<a name="ferret-gferretexecutable-string-default-rgagackack-grep" href="#user-content-ferret-gferretexecutable-string-default-rgagackack-grep"></a>
 
-Ferret will preferentially use `rg`, `ag` and finally `ack` (in that order, using the first found executable), however you can force your preference for a specific tool to be used by setting an override in your <strong>`.vimrc`</strong>. Valid values are a comma-separated list of "rg", "ag" or "ack" If no requested executable exists, Ferret will fall-back to the next in the default list.
+Ferret will preferentially use `rg`, `ag` and finally `ack`/`ack-grep` (in that order, using the first found executable), however you can force your preference for a specific tool to be used by setting an override in your <strong>`.vimrc`</strong>. Valid values are a comma-separated list of "rg", "ag", "ack" or "ack-grep". If no requested executable exists, Ferret will fall-back to the next in the default list.
 
 Example:
 
@@ -285,7 +285,7 @@ autocmd User FerretDidWrite call CustomDidWrite()
 
 ## Overrides<a name="ferret-overrides" href="#user-content-ferret-overrides"></a>
 
-Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially setting `rg`, `ag`, or `ack` as the 'grepprg' (in that order) and configuring a suitable 'grepformat'.
+Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially setting `rg`, `ag`, `ack` or `ack-grep` as the 'grepprg' (in that order) and configuring a suitable 'grepformat'.
 
 Additionally, Ferret includes an <strong>`ftplugin`</strong> for the <strong>`quickfix`</strong> listing that adjusts a number of settings to improve the usability of search results.
 
@@ -366,7 +366,7 @@ This approach to escaping is taken in order to make it straightfoward to use pow
 
 Ferret was originally the thinnest of wrappers (7 lines of code in my <strong>`.vimrc`</strong>) around `ack`. The earliest traces of it can be seen in the initial commit to my dotfiles repo in May, 2009 (https://wt.pe/h).
 
-So, even though Ferret has a new name now and actually prefers `rg` then `ag` over `ack` when available, I prefer to keep the command names intact and benefit from years of accumulated muscle-memory.
+So, even though Ferret has a new name now and actually prefers `rg` then `ag` over `ack`/`ack-grep` when available, I prefer to keep the command names intact and benefit from years of accumulated muscle-memory.
 
 ## Related<a name="ferret-related" href="#user-content-ferret-related"></a>
 
@@ -458,7 +458,8 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 next (not yest released)
 
-- Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or `ack` instead.
+- Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or `ack`/`ack-grep` instead.
+- If an `ack` executable is not found, search for `ack-grep`, which is the name used on Debian-derived distros.
 
 1.3 (8 January 2017)
 
