@@ -151,6 +151,7 @@ function! s:finalize_search(output, ack)
     endif
   finally
     let &errorformat=l:original_errorformat
+    unlet s:output
   endtry
 endfunction
 
