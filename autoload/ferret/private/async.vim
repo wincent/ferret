@@ -104,7 +104,7 @@ function! ferret#private#async#close_cb(channel) abort
       " If this is a :Lack search, try to focus appropriate window.
       call win_gotoid(l:info.window)
     endif
-    call s:finalize_search(l:info.output, l:info.ack)
+    call ferret#private#shared#finalize_search(l:info.output, l:info.ack)
     for l:error in l:info.errors
       unsilent echomsg l:error
     endfor
@@ -114,7 +114,7 @@ endfunction
 function! ferret#private#async#pull() abort
   for l:channel_id in keys(s:jobs)
     let l:info=s:jobs[l:channel_id]
-    call s:finalize_search(l:info.output, l:info.ack)
+    call ferret#private#shared#finalize_search(l:info.output, l:info.ack)
   endfor
 endfunction
 
@@ -133,35 +133,4 @@ endfunction
 
 function! ferret#private#async#debug() abort
   return s:jobs
-endfunction
-
-function! s:finalize_search(output, ack)
-  let l:original_errorformat=&errorformat
-  try
-    let &errorformat=g:FerretFormat
-    let s:output=a:output " For passing to `s:swallow()`.
-    if a:ack
-      call s:swallow('cexpr s:output')
-      execute get(g:, 'FerretQFHandler', 'botright cwindow')
-      call ferret#private#post('qf')
-    else
-      call s:swallow('lexpr s:output')
-      execute get(g:, 'FerretLLHandler', 'lwindow')
-      call ferret#private#post('location')
-    endif
-  finally
-    let &errorformat=l:original_errorformat
-    unlet s:output
-  endtry
-endfunction
-
-" Execute `executable` expression, swallowing errors.
-" The intention is that this should catch "innocuous" errors, like a bad
-" modeline causing `cexpr` to throw an error when it tries to jump to that file.
-function! s:swallow(executable)
-  try
-    execute a:executable
-  catch
-    echomsg 'Caught: ' . v:exception
-  endtry
 endfunction
