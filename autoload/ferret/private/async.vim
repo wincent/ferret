@@ -31,8 +31,6 @@ function! ferret#private#async#search(command, ack) abort
         \   'output': [],
         \   'pending_error': '',
         \   'pending_output': '',
-        \   'pending_error_length': 0,
-        \   'pending_output_length': 0,
         \   'ack': a:ack,
         \   'window': win_getid()
         \ }
@@ -43,54 +41,34 @@ let s:max_line_length=32768
 function! ferret#private#async#err_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
   if type(l:info) == 4
-    let l:start=0
-    while 1
-      let l:idx=match(a:msg, '\n', l:start)
-      if l:idx==-1
-        if l:info.pending_error_length < s:max_line_length
-          let l:rest=strpart(a:msg, l:start)
-          let l:length=strlen(l:rest)
-          let l:info.pending_error.=l:rest
-          let l:info.pending_error_length+=l:length
-        endif
-        break
-      else
-        if l:info.pending_error_length < s:max_line_length
-          let l:info.pending_error.=strpart(a:msg, l:start, l:idx - l:start)
-        endif
-        call add(l:info.errors, l:info.pending_error)
+    let l:lines=split(a:msg, '\n', 1)
+    let l:count=len(l:lines)
+    for l:i in range(l:count)
+      let l:line=l:lines[l:i]
+      if l:i != l:count - 1 || l:line == '' && len(l:info.pending_error)
+        call add(l:info.errors, l:info.pending_error . l:line)
         let l:info.pending_error=''
-        let l:info.pending_error_length=0
+      else
+        let l:info.pending_error.=l:line
       endif
-      let l:start=l:idx + 1
-    endwhile
+    endfor
   endif
 endfunction
 
 function! ferret#private#async#out_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
   if type(l:info) == 4
-    let l:start=0
-    while 1
-      let l:idx=match(a:msg, '\n', l:start)
-      if l:idx==-1
-        if l:info.pending_output_length < s:max_line_length
-          let l:rest=strpart(a:msg, l:start)
-          let l:length=strlen(l:rest)
-          let l:info.pending_output.=l:rest
-          let l:info.pending_output_length+=l:length
-        endif
-        break
-      else
-        if l:info.pending_output_length < s:max_line_length
-          let l:info.pending_output.=strpart(a:msg, l:start, l:idx - l:start)
-        endif
-        call add(l:info.output, l:info.pending_output)
+    let l:lines=split(a:msg, '\n', 1)
+    let l:count=len(l:lines)
+    for l:i in range(l:count)
+      let l:line=l:lines[l:i]
+      if l:i != l:count - 1 || l:line == '' && len(l:info.pending_output)
+        call add(l:info.output, l:info.pending_output . l:line)
         let l:info.pending_output=''
-        let l:info.pending_output_length=0
+      else
+        let l:info.pending_output.=l:line
       endif
-      let l:start=l:idx + 1
-    endwhile
+    endfor
   endif
 endfunction
 
