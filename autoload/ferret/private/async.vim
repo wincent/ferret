@@ -31,12 +31,14 @@ function! ferret#private#async#search(command, ack) abort
         \   'output': [],
         \   'pending_error': '',
         \   'pending_output': '',
+        \   'pending_error_length': 0,
+        \   'pending_output_length': 0,
         \   'ack': a:ack,
         \   'window': win_getid()
         \ }
 endfunction
 
-let s:max_line_length=32768
+let s:max_line_length=1024
 
 function! ferret#private#async#err_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
@@ -45,11 +47,13 @@ function! ferret#private#async#err_cb(channel, msg)
     let l:count=len(l:lines)
     for l:i in range(l:count)
       let l:line=l:lines[l:i]
-      if l:i != l:count - 1 || l:line == '' && len(l:info.pending_error)
+      if l:i != l:count - 1 || l:line == '' && l:info.pending_error_length
         call add(l:info.errors, l:info.pending_error . l:line)
         let l:info.pending_error=''
-      else
+        let l:info.pending_error_length=0
+      elseif l:info.pending_error_length < s:max_line_length
         let l:info.pending_error.=l:line
+        let l:info.pending_error_length+=strlen(l:line)
       endif
     endfor
   endif
@@ -62,11 +66,13 @@ function! ferret#private#async#out_cb(channel, msg)
     let l:count=len(l:lines)
     for l:i in range(l:count)
       let l:line=l:lines[l:i]
-      if l:i != l:count - 1 || l:line == '' && len(l:info.pending_output)
+      if l:i != l:count - 1 || l:line == '' && l:info.pending_output_length
         call add(l:info.output, l:info.pending_output . l:line)
         let l:info.pending_output=''
-      else
+        let l:info.pending_output_length=0
+      elseif l:info.pending_output_length < s:max_line_length
         let l:info.pending_output.=l:line
+        let l:info.pending_output_length+=strlen(l:line)
       endif
     endfor
   endif
