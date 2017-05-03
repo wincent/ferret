@@ -463,8 +463,8 @@ set cpoptions&vim
 let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack,ack-grep')
 
 let s:executables={
-      \   'rg': 'rg --vimgrep --no-heading',
-      \   'ag': 'ag --vimgrep',
+      \   'rg': 'rg --vimgrep --no-heading --max-columns 4096',
+      \   'ag': 'ag --vimgrep --width 4096',
       \   'ack': 'ack --column --with-filename',
       \   'ack-grep': 'ack-grep --column --with-filename'
       \ }
