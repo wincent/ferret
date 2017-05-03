@@ -11,7 +11,7 @@ function! ferret#private#dispatch#search(command) abort
   let l:original_makeprg=&l:makeprg
   let l:original_errorformat=&l:errorformat
   try
-    let &l:makeprg=FerretExecutable() . ' ' . a:command
+    let &l:makeprg=ferret#private#executable() . ' ' . a:command
     let &l:errorformat=g:FerretFormat
     Make
   catch

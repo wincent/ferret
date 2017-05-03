@@ -199,6 +199,18 @@ Controls whether Ferret should attempt to highlight the search pattern when runn
 let g:FerretHlsearch=0
 ```
 
+<p align="right"><a name="gferretexecutable" href="#user-content-gferretexecutable"><code>g:FerretExecutable</code></a></p>
+### `g:FerretExecutable` (string, default: "rg,ag,ack,ack-grep")<a name="ferret-gferretexecutable-string-default-rgagackack-grep" href="#user-content-ferret-gferretexecutable-string-default-rgagackack-grep"></a>
+
+Ferret will preferentially use `rg`, `ag` and finally `ack`/`ack-grep` (in that order, using the first found executable), however you can force your preference for a specific tool to be used by setting an override in your <strong>`.vimrc`</strong>. Valid values are a comma-separated list of "rg", "ag", "ack" or "ack-grep". If no requested executable exists, Ferret will fall-back to the next in the default list.
+
+Example:
+
+```
+" Prefer `ag` over `rg`.
+let g:FerretExecutable='ag,rg'
+```
+
 <p align="right"><a name="gferretqfoptions" href="#user-content-gferretqfoptions"><code>g:FerretQFOptions</code></a></p>
 ### `g:FerretQFOptions` (boolean, default: 1)<a name="ferret-gferretqfoptions-boolean-default-1" href="#user-content-ferret-gferretqfoptions-boolean-default-1"></a>
 
@@ -236,16 +248,13 @@ To prevent Ferret from being loaded, set <strong>`g:FerretLoaded`</strong> to an
 let g:FerretLoaded=1
 ```
 
-<p align="right"><a name="gferretexecutable" href="#user-content-gferretexecutable"><code>g:FerretExecutable</code></a></p>
-### `g:FerretExecutable` (string, default: "rg,ag,ack,ack-grep")<a name="ferret-gferretexecutable-string-default-rgagackack-grep" href="#user-content-ferret-gferretexecutable-string-default-rgagackack-grep"></a>
+<p align="right"><a name="gferretlazyinit" href="#user-content-gferretlazyinit"><code>g:FerretLazyInit</code></a></p>
+### `g:FerretLazyInit` (boolean, default: 1)<a name="ferret-gferretlazyinit-boolean-default-1" href="#user-content-ferret-gferretlazyinit-boolean-default-1"></a>
 
-Ferret will preferentially use `rg`, `ag` and finally `ack`/`ack-grep` (in that order, using the first found executable), however you can force your preference for a specific tool to be used by setting an override in your <strong>`.vimrc`</strong>. Valid values are a comma-separated list of "rg", "ag", "ack" or "ack-grep". If no requested executable exists, Ferret will fall-back to the next in the default list.
-
-Example:
+In order to minimize impact on Vim start-up time Ferret will initialize itself lazily on first use by default. If you wish to force immediate initialization (for example, to cause <strong>`'grepprg'`</strong> and <strong>`'grepformat'`</strong> to be set as soon as Vim launches), then set <strong>`g:FerretLazyInit`</strong> to 0 in your <strong>`.vimrc`</strong>:
 
 ```
-" Prefer `ag` over `rg`.
-let g:FerretExecutable='ag,rg'
+let g:FerrerLazyInit=0
 ```
 
 <p align="right"><a name="gferretmap" href="#user-content-gferretmap"><code>g:FerretMap</code></a></p>
@@ -265,6 +274,11 @@ Controls whether to set up custom versions of the <strong>`quickfix`</strong> co
 ```
 let g:FerretQFCommands=0
 ```
+
+<p align="right"><a name="gferretformat" href="#user-content-gferretformat"><code>g:FerretFormat</code></a></p>
+### `g:FerretFormat` (string, default: "%f:%l:%c:%m")<a name="ferret-gferretformat-string-default-flcm" href="#user-content-ferret-gferretformat-string-default-flcm"></a>
+
+Sets the '<strong>`grepformat`</strong>' used by Ferret.
 
 ## Custom autocommands<a name="ferret-custom-autocommands" href="#user-content-ferret-custom-autocommands"></a>
 
@@ -455,6 +469,10 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Vaibhav Sagar
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
+
+master (not yet released)
+
+- Added <strong>`g:FerretLazyInit`</strong>.
 
 1.4 (21 January 2017)
 
