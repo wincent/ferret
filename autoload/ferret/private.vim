@@ -570,13 +570,13 @@ function! ferret#private#init() abort
   endif
 
   if executable('ag')
-    let s:ag_help=system('ag --help')
-    if match(s:ag_help, '--vimgrep') != -1
+    let l:ag_help=system('ag --help')
+    if match(l:ag_help, '--vimgrep') != -1
       let s:executables['ag'].=' --vimgrep'
     else
       let s:executables['ag'].=' --column'
     endif
-    if match(s:ag_help, '--width') != -1
+    if match(l:ag_help, '--width') != -1
       let s:executables['ag'].=' --width 4096'
     endif
   endif
