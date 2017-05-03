@@ -38,7 +38,8 @@ function! ferret#private#async#search(command, ack) abort
         \ }
 endfunction
 
-let s:max_line_length=1024
+" Quickfix listing will truncate longer lines than this.
+let s:max_line_length=4096
 
 function! ferret#private#async#err_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
