@@ -470,16 +470,16 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-master (not yet released)
+### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
 
 - Added <strong>`g:FerretLazyInit`</strong>.
 
-1.4 (21 January 2017)
+### 1.4 (21 January 2017)<a name="ferret-14-21-january-2017" href="#user-content-ferret-14-21-january-2017"></a>
 
 - Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or `ack`/`ack-grep` instead.
 - If an `ack` executable is not found, search for `ack-grep`, which is the name used on Debian-derived distros.
 
-1.3 (8 January 2017)
+### 1.3 (8 January 2017)<a name="ferret-13-8-january-2017" href="#user-content-ferret-13-8-january-2017"></a>
 
 - Reset <strong>`'errorformat'`</strong> before each search (fixes issue #31).
 - Added <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands, analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong> but scoped to search within currently open buffers only.

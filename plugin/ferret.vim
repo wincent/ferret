@@ -361,18 +361,18 @@
 "
 " # History
 "
-" master (not yet released)
+" ## master (not yet released)
 "
 " - Added |g:FerretLazyInit|.
 "
-" 1.4 (21 January 2017)
+" ## 1.4 (21 January 2017)
 "
 " - Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or
 "   `ack`/`ack-grep` instead.
 " - If an `ack` executable is not found, search for `ack-grep`, which is the
 "   name used on Debian-derived distros.
 "
-" 1.3 (8 January 2017)
+" ## 1.3 (8 January 2017)
 "
 " - Reset |'errorformat'| before each search (fixes issue #31).
 " - Added |:Back| and |:Black| commands, analogous to |:Ack| and |:Lack| but
