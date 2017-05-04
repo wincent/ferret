@@ -32,12 +32,28 @@ function! ferret#private#dispatch() abort
   " ```
   " let g:FerretDispatch=0
   " ```
+  "
+  " Note that on sufficiently recent versions of Vim with |+job| support, Ferret
+  " will first try to use |+job|, falling back to vim-dispatch and consulting
+  " |g:FerretDispatch| only if |g:FerretJob| is set to 0.
+  "
   let l:dispatch=get(g:, 'FerretDispatch', 1)
   return l:dispatch && exists(':Make') == 2
 endfunction
 
 " Returns 1 if we can use Vim's built-in async primitives.
 function! ferret#private#async()
+  ""
+  " @option g:FerretJob boolean 1
+  "
+  " Controls whether to use Vim's |+job| feature, when available, to run
+  " searches asynchronously. To prevent |+job| from being used, set to 0, in
+  " which case Ferret will fall back to vim-dispatch (see also:
+  " |g:FerretDispatch|):
+  "
+  " ```
+  " let g:FerretJob=0
+  " ```
   let l:async=get(g:, 'FerretJob', 1)
 
   " Nothing special about 1829; it's just the version I am testing with as I
@@ -174,7 +190,7 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-function! ferret#private#ack(...) abort
+function! ferret#private#ack(bang, ...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
@@ -185,7 +201,7 @@ function! ferret#private#ack(...) abort
   endif
 
   if ferret#private#async()
-    call ferret#private#async#search(l:command, 1)
+    call ferret#private#async#search(l:command, 1, a:bang)
   elseif ferret#private#dispatch()
     call ferret#private#dispatch#search(l:command)
   else
@@ -199,12 +215,12 @@ function! ferret#private#buflist() abort
   return l:bufpaths
 endfunction
 
-function! ferret#private#back(...) abort
-  call call('ferret#private#ack', a:000 + ferret#private#buflist())
+function! ferret#private#back(bang, ...) abort
+  call call('ferret#private#ack', a:bang, a:000 + ferret#private#buflist())
 endfunction
 
-function! ferret#private#black(...) abort
-  call call('ferret#private#lack', a:000 + ferret#private#buflist())
+function! ferret#private#black(bang, ...) abort
+  call call('ferret#private#lack', a:bang, a:000 + ferret#private#buflist())
 endfunction
 
 function! ferret#private#installprompt() abort
@@ -213,7 +229,7 @@ function! ferret#private#installprompt() abort
         \ )
 endfunction
 
-function! ferret#private#lack(...) abort
+function! ferret#private#lack(bang, ...) abort
   let l:command=s:parse(a:000)
   call ferret#private#hlsearch()
 
@@ -224,7 +240,7 @@ function! ferret#private#lack(...) abort
   endif
 
   if ferret#private#async()
-    call ferret#private#async#search(l:command, 0)
+    call ferret#private#async#search(l:command, 0, a:bang)
   else
     call ferret#private#vanilla#search(l:command, 0)
   endif

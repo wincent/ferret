@@ -363,7 +363,14 @@
 "
 " ## master (not yet released)
 "
+" - Improvements to the handling of very large result sets (due to wide lines or
+"   many results).
 " - Added |g:FerretLazyInit|.
+" - Added missing documentation for |g:FerretJob|.
+" - Added |g:FerretMaxResults|.
+" - Added feature-detection for `rg` and `ag`, allowing Ferret to gracefully
+"   work with older versions of those tools that do not support all desired
+"   command-line switches.
 "
 " ## 1.4 (21 January 2017)
 "
@@ -506,7 +513,13 @@ endif
 " enter |Cmdline-mode| with `:Ack` inserted on the |Cmdline|. Likewise <leader>s
 " (|<Plug>(FerretAckWord)|) is a shortcut for running |:Ack| with the word
 " currently under the cursor.
-command! -nargs=+ -complete=customlist,ferret#private#ackcomplete Ack call ferret#private#ack(<f-args>)
+"
+" @command :Ack! {pattern} {options}
+"
+" Like |:Ack|, but returns all results irrespective of the value of
+" |g:FerretMaxResults|.
+"
+command! -bang -nargs=+ -complete=customlist,ferret#private#ackcomplete Ack call ferret#private#ack(<bang>0, <f-args>)
 
 ""
 " @command :Lack {pattern} {options}
@@ -517,7 +530,13 @@ command! -nargs=+ -complete=customlist,ferret#private#ackcomplete Ack call ferre
 "
 " Note that |:Lack| always runs synchronously via |:cexpr|, because dispatch.vim
 " doesn't currently support the |location-list|.
-command! -nargs=+ -complete=customlist,ferret#private#lackcomplete Lack call ferret#private#lack(<f-args>)
+"
+" @command :Lack! {pattern} {options}
+"
+" Like |:Lack|, but returns all results irrespective of the value of
+" |g:FerretMaxResults|.
+"
+command! -bang -nargs=+ -complete=customlist,ferret#private#lackcomplete Lack call ferret#private#lack(<bang>0, <f-args>)
 
 ""
 " @command :Back {pattern} {options}
@@ -527,7 +546,13 @@ command! -nargs=+ -complete=customlist,ferret#private#lackcomplete Lack call fer
 " which means that only buffers written to disk will be searched. If no buffers
 " are written to disk, then |:Back| behaves exactly like |:Ack| and will search
 " all files in the current directory.
-command! -nargs=+ -complete=customlist,ferret#private#backcomplete Back call ferret#private#back(<f-args>)
+"
+" @command :Back! {pattern} {options}
+"
+" Like |:Back|, but returns all results irrespective of the value of
+" |g:FerretMaxResults|.
+"
+command! -bang -nargs=+ -complete=customlist,ferret#private#backcomplete Back call ferret#private#back(<bang>0, <f-args>)
 
 ""
 " @command :Black {pattern} {options}
@@ -537,7 +562,13 @@ command! -nargs=+ -complete=customlist,ferret#private#backcomplete Back call fer
 " `ack-grep`), which means that only buffers written to disk will be searched.
 " Likewise, If no buffers are written to disk, then |:Black| behaves exactly
 " like |:Lack| and will search all files in the current directory.
-command! -nargs=+ -complete=customlist,ferret#private#blackcomplete Black call ferret#private#black(<f-args>)
+"
+" @command :Black! {pattern} {options}
+"
+" Like |:Black|, but returns all results irrespective of the value of
+" |g:FerretMaxResults|.
+"
+command! -bang -nargs=+ -complete=customlist,ferret#private#blackcomplete Black call ferret#private#black(<bang>0, <f-args>)
 
 ""
 " @command :Acks /{pattern}/{replacement}/

@@ -10,7 +10,7 @@ function! s:info_from_channel(channel)
   endif
 endfunction
 
-function! ferret#private#async#search(command, ack) abort
+function! ferret#private#async#search(command, ack, bang) abort
   call ferret#private#async#cancel()
   call ferret#private#autocmd('FerretAsyncStart')
   let l:command_and_args=extend(split(ferret#private#executable()), a:command)
@@ -33,7 +33,9 @@ function! ferret#private#async#search(command, ack) abort
         \   'pending_output': '',
         \   'pending_error_length': 0,
         \   'pending_output_length': 0,
+        \   'result_count': 0,
         \   'ack': a:ack,
+        \   'bang': a:bang,
         \   'window': win_getid()
         \ }
 endfunction
@@ -69,9 +71,31 @@ function! ferret#private#async#err_cb(channel, msg)
   endif
 endfunction
 
+""
+" @option g:FerretMaxResults number 100000
+"
+" Controls the maximum number of results Ferret will attempt to gather before
+" displaying the results. Note that this only applies when searching
+" asynchronously; that is, on recent versions of Vim with |+job| support and
+" when |g:FerretJob| is not set to 0.
+"
+" The intent of this option is to prevent runaway search processes that produce
+" huge volumes of output (for example, searching for a common string like "test"
+" inside a |$HOME| directory containing millions of files) from locking up Vim.
+"
+" In the event that Ferret aborts a search that has hit the |g:FerretMaxResults|
+" limit, a message will be printed prompting users to run the search again
+" with |:Ack!| or |:Lack!| if they want to bypass the limit.
+"
+let s:limit=max([1, +get(g:, 'FerretMaxResults', 100000)]) - 1
+
 function! ferret#private#async#out_cb(channel, msg)
   let l:info=s:info_from_channel(a:channel)
   if type(l:info) == 4
+    if !l:info.bang && l:info.result_count > s:limit
+      call s:MaxResultsExceeded(l:info)
+      return
+    endif
     let l:lines=split(a:msg, '\n', 1)
     let l:count=len(l:lines)
     for l:i in range(l:count)
@@ -89,6 +113,13 @@ function! ferret#private#async#out_cb(channel, msg)
         endif
         let l:info.pending_output=''
         let l:info.pending_output_length=0
+        if !l:info.bang
+          let l:info.result_count+=1
+          if l:info.result_count > s:limit
+            call s:MaxResultsExceeded(l:info)
+            break
+          endif
+        endif
       elseif l:info.pending_output_length < s:max_line_length
         let l:info.pending_output.=l:line
         let l:info.pending_output_length+=strlen(l:line)
@@ -132,6 +163,19 @@ function! ferret#private#async#cancel() abort
   if l:canceled
     call ferret#private#autocmd('FerretAsyncFinish')
   endif
+endfunction
+
+" Stop a single job as a result of hitting g:FerretMaxResults.
+function! s:MaxResultsExceeded(info)
+  call ferret#private#shared#finalize_search(a:info.output, a:info.ack)
+  call job_stop(a:info.job)
+  call remove(s:jobs, a:info.channel_id)
+  call ferret#private#autocmd('FerretAsyncFinish')
+  call ferret#private#error(
+        \   'Maximum result count exceeded. ' .
+        \   'Either increase g:FerretMaxResults or ' .
+        \   're-run the search with :Ack!, :Lack! etc.'
+        \ )
 endfunction
 
 function! ferret#private#async#debug() abort

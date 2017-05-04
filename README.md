@@ -98,6 +98,12 @@ Likewise, {options} are passed through. In this example, we pass the `-w` option
 
 As a convenience <leader>a is set-up (<strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong>) as a shortcut to enter <strong>`Cmdline-mode`</strong> with `:Ack` inserted on the <strong>`Cmdline`</strong>. Likewise <leader>s (<strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong>) is a shortcut for running <strong>[`:Ack`](#user-content-ack)</strong> with the word currently under the cursor.
 
+<p align="right"><a name="ack" href="#user-content-ack"><code>:Ack!</code></a></p>
+
+### `:Ack! {pattern} {options}`<a name="ferret-ack-pattern-options" href="#user-content-ferret-ack-pattern-options"></a>
+
+Like <strong>[`:Ack`](#user-content-ack)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+
 <p align="right"><a name="lack" href="#user-content-lack"><code>:Lack</code></a></p>
 
 ### `:Lack {pattern} {options}`<a name="ferret-lack-pattern-options" href="#user-content-ferret-lack-pattern-options"></a>
@@ -106,17 +112,35 @@ Just like <strong>[`:Ack`](#user-content-ack)</strong>, but instead of using the
 
 Note that <strong>[`:Lack`](#user-content-lack)</strong> always runs synchronously via <strong>`:cexpr`</strong>, because dispatch.vim doesn't currently support the <strong>`location-list`</strong>.
 
+<p align="right"><a name="lack" href="#user-content-lack"><code>:Lack!</code></a></p>
+
+### `:Lack! {pattern} {options}`<a name="ferret-lack-pattern-options" href="#user-content-ferret-lack-pattern-options"></a>
+
+Like <strong>[`:Lack`](#user-content-lack)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+
 <p align="right"><a name="back" href="#user-content-back"><code>:Back</code></a></p>
 
 ### `:Back {pattern} {options}`<a name="ferret-back-pattern-options" href="#user-content-ferret-back-pattern-options"></a>
 
 Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only listed buffers. Note that the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `ack-grep`), which means that only buffers written to disk will be searched. If no buffers are written to disk, then <strong>[`:Back`](#user-content-back)</strong> behaves exactly like <strong>[`:Ack`](#user-content-ack)</strong> and will search all files in the current directory.
 
+<p align="right"><a name="back" href="#user-content-back"><code>:Back!</code></a></p>
+
+### `:Back! {pattern} {options}`<a name="ferret-back-pattern-options" href="#user-content-ferret-back-pattern-options"></a>
+
+Like <strong>[`:Back`](#user-content-back)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+
 <p align="right"><a name="black" href="#user-content-black"><code>:Black</code></a></p>
 
 ### `:Black {pattern} {options}`<a name="ferret-black-pattern-options" href="#user-content-ferret-black-pattern-options"></a>
 
 Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed buffers. As with <strong>[`:Back`](#user-content-back)</strong>, the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `ack-grep`), which means that only buffers written to disk will be searched. Likewise, If no buffers are written to disk, then <strong>[`:Black`](#user-content-black)</strong> behaves exactly like <strong>[`:Lack`](#user-content-lack)</strong> and will search all files in the current directory.
+
+<p align="right"><a name="black" href="#user-content-black"><code>:Black!</code></a></p>
+
+### `:Black! {pattern} {options}`<a name="ferret-black-pattern-options" href="#user-content-ferret-black-pattern-options"></a>
+
+Like <strong>[`:Black`](#user-content-black)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
 
 <p align="right"><a name="acks" href="#user-content-acks"><code>:Acks</code></a></p>
 
@@ -213,6 +237,18 @@ Controls whether to use vim-dispatch (and specifically, <strong>`:Make`</strong>
 let g:FerretDispatch=0
 ```
 
+Note that on sufficiently recent versions of Vim with <strong>`+job`</strong> support, Ferret will first try to use <strong>`+job`</strong>, falling back to vim-dispatch and consulting <strong>`g:FerretDispatch`</strong> only if <strong>`g:FerretJob`</strong> is set to 0.
+
+<p align="right"><a name="gferretjob" href="#user-content-gferretjob"><code>g:FerretJob</code></a></p>
+
+### `g:FerretJob` (boolean, default: 1)<a name="ferret-gferretjob-boolean-default-1" href="#user-content-ferret-gferretjob-boolean-default-1"></a>
+
+Controls whether to use Vim's <strong>`+job`</strong> feature, when available, to run searches asynchronously. To prevent <strong>`+job`</strong> from being used, set to 0, in which case Ferret will fall back to vim-dispatch (see also: <strong>`g:FerretDispatch`</strong>):
+
+```
+let g:FerretJob=0
+```
+
 <p align="right"><a name="gferrethlsearch" href="#user-content-gferrethlsearch"><code>g:FerretHlsearch</code></a></p>
 
 ### `g:FerretHlsearch` (boolean, default: none)<a name="ferret-gferrethlsearch-boolean-default-none" href="#user-content-ferret-gferrethlsearch-boolean-default-none"></a>
@@ -235,6 +271,16 @@ Example:
 " Prefer `ag` over `rg`.
 let g:FerretExecutable='ag,rg'
 ```
+
+<p align="right"><a name="gferretmaxresults" href="#user-content-gferretmaxresults"><code>g:FerretMaxResults</code></a></p>
+
+### `g:FerretMaxResults` (number, default: 100000)<a name="ferret-gferretmaxresults-number-default-100000" href="#user-content-ferret-gferretmaxresults-number-default-100000"></a>
+
+Controls the maximum number of results Ferret will attempt to gather before displaying the results. Note that this only applies when searching asynchronously; that is, on recent versions of Vim with <strong>`+job`</strong> support and when <strong>`g:FerretJob`</strong> is not set to 0.
+
+The intent of this option is to prevent runaway search processes that produce huge volumes of output (for example, searching for a common string like "test" inside a <strong>`$HOME`</strong> directory containing millions of files) from locking up Vim.
+
+In the event that Ferret aborts a search that has hit the <strong>`g:FerretMaxResults`</strong> limit, a message will be printed prompting users to run the search again with <strong>[`:Ack!`](#user-content-ack)</strong> or <strong>[`:Lack!`](#user-content-lack)</strong> if they want to bypass the limit.
 
 <p align="right"><a name="gferretqfoptions" href="#user-content-gferretqfoptions"><code>g:FerretQFOptions</code></a></p>
 
@@ -519,7 +565,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
 
+- Improvements to the handling of very large result sets (due to wide lines or many results).
 - Added <strong>`g:FerretLazyInit`</strong>.
+- Added missing documentation for <strong>`g:FerretJob`</strong>.
+- Added <strong>`g:FerretMaxResults`</strong>.
+- Added feature-detection for `rg` and `ag`, allowing Ferret to gracefully work with older versions of those tools that do not support all desired command-line switches.
 
 
 ### 1.4 (21 January 2017)<a name="ferret-14-21-january-2017" href="#user-content-ferret-14-21-january-2017"></a>
