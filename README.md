@@ -171,7 +171,7 @@ It takes the files currently in the <strong>`quickfix`</strong> listing and sets
 
 Note that Ferret will not try to set up the <leader> mappings if any of the following are true:
 
-- A mapping for already exists.
+- A mapping with the same <strong>`{lhs}`</strong> already exists.
 - An alternative mapping for the same functionality has already been set up from a <strong>`.vimrc`</strong>.
 - The mapping has been suppressed by setting <strong>`g:FerretMap`</strong> to 1 in your <strong>`.vimrc`</strong>.
 
