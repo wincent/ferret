@@ -361,7 +361,7 @@
 "
 " # History
 "
-" ## master (not yet released)
+" ## 1.5 "Cinco de Cuatro" (4 May 2017)
 "
 " - Improvements to the handling of very large result sets (due to wide lines or
 "   many results).
