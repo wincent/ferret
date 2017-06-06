@@ -362,7 +362,7 @@
 "
 " # History
 "
-" ## master (not yet released)
+" ## 2.0 (6 June 2017)
 "
 " - Add support for Neovim, along with |g:FerretNvim| setting.
 "
