@@ -282,6 +282,19 @@ will first try to use |+job|, falling back to vim-dispatch and consulting
 |g:FerretDispatch| only if |g:FerretJob| is set to 0.
 
 
+                                                                  *g:FerretNvim*
+|g:FerretNvim|                                              boolean (default: 1)
+
+Controls whether to use Neovim's |job-control| features, when available, to
+run searches asynchronously. To prevent this from being used, set to 0, in
+which case Ferret will fall back to the next method in the list (Vim's
+built-in async primitives -- see |g:FerretJob| -- which are typically not
+available in Neovim, so will then fall back to the next method,
+vim-dispatch; see |g:FerretDispatch|).
+>
+    let g:FerretNvim=0
+<
+
                                                                    *g:FerretJob*
 |g:FerretJob|                                               boolean (default: 1)
 
@@ -635,6 +648,10 @@ order):
 - Vaibhav Sagar
 
 HISTORY                                                         *ferret-history*
+
+master (not yet released) ~
+
+- Add support for Neovim, along with |g:FerretNvim| setting.
 
 1.5 "Cinco de Cuatro" (4 May 2017) ~
 

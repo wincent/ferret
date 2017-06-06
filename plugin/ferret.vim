@@ -361,6 +361,10 @@
 "
 " # History
 "
+" ## master (not yet released)
+"
+" - Add support for Neovim, along with |g:FerretNvim| setting.
+"
 " ## 1.5 "Cinco de Cuatro" (4 May 2017)
 "
 " - Improvements to the handling of very large result sets (due to wide lines or

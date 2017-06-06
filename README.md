@@ -239,6 +239,16 @@ let g:FerretDispatch=0
 
 Note that on sufficiently recent versions of Vim with <strong>`+job`</strong> support, Ferret will first try to use <strong>`+job`</strong>, falling back to vim-dispatch and consulting <strong>`g:FerretDispatch`</strong> only if <strong>`g:FerretJob`</strong> is set to 0.
 
+<p align="right"><a name="gferretnvim" href="#user-content-gferretnvim"><code>g:FerretNvim</code></a></p>
+
+### `g:FerretNvim` (boolean, default: 1)<a name="ferret-gferretnvim-boolean-default-1" href="#user-content-ferret-gferretnvim-boolean-default-1"></a>
+
+Controls whether to use Neovim's <strong>`job-control`</strong> features, when available, to run searches asynchronously. To prevent this from being used, set to 0, in which case Ferret will fall back to the next method in the list (Vim's built-in async primitives -- see <strong>`g:FerretJob`</strong> -- which are typically not available in Neovim, so will then fall back to the next method, vim-dispatch; see <strong>`g:FerretDispatch`</strong>).
+
+```
+let g:FerretNvim=0
+```
+
 <p align="right"><a name="gferretjob" href="#user-content-gferretjob"><code>g:FerretJob</code></a></p>
 
 ### `g:FerretJob` (boolean, default: 1)<a name="ferret-gferretjob-boolean-default-1" href="#user-content-ferret-gferretjob-boolean-default-1"></a>
@@ -561,6 +571,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
+
+
+### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
+
+- Add support for Neovim, along with <strong>`g:FerretNvim`</strong> setting.
 
 
 ### 1.5 "Cinco de Cuatro" (4 May 2017)<a name="ferret-15-cinco-de-cuatro-4-may-2017" href="#user-content-ferret-15-cinco-de-cuatro-4-may-2017"></a>

@@ -41,6 +41,27 @@ function! ferret#private#dispatch() abort
   return l:dispatch && exists(':Make') == 2
 endfunction
 
+" Returns 1 if we should use Neovim's |job-control| features.
+function! ferret#private#nvim()
+  ""
+  " @option g:FerretNvim boolean 1
+  "
+  " Controls whether to use Neovim's |job-control| features, when
+  " available, to run searches asynchronously. To prevent this from
+  " being used, set to 0, in which case Ferret will fall back to the next
+  " method in the list (Vim's built-in async primitives -- see
+  " |g:FerretJob| -- which are typically not available in Neovim, so
+  " will then fall back to the next method, vim-dispatch; see
+  " |g:FerretDispatch|).
+  "
+  " ```
+  " let g:FerretNvim=0
+  " ```
+  let l:nvim=get(g:, 'FerretNvim', 1)
+
+  return l:nvim && has('nvim')
+endfunction
+
 " Returns 1 if we can use Vim's built-in async primitives.
 function! ferret#private#async()
   ""
@@ -127,7 +148,7 @@ function! s:parse(args) abort
     endif
   endfor
 
-  if ferret#private#async()
+  if ferret#private#nvim() || ferret#private#async()
     return l:expanded_args
   endif
 
@@ -200,7 +221,9 @@ function! ferret#private#ack(bang, ...) abort
     return
   endif
 
-  if ferret#private#async()
+  if ferret#private#nvim()
+    call ferret#private#nvim#search(l:command, 1, a:bang)
+  elseif ferret#private#async()
     call ferret#private#async#search(l:command, 1, a:bang)
   elseif ferret#private#dispatch()
     call ferret#private#dispatch#search(l:command)
@@ -239,7 +262,9 @@ function! ferret#private#lack(bang, ...) abort
     return
   endif
 
-  if ferret#private#async()
+  if ferret#private#nvim()
+    call ferret#private#nvim#search(l:command, 1, a:bang)
+  elseif ferret#private#async()
     call ferret#private#async#search(l:command, 0, a:bang)
   else
     call ferret#private#vanilla#search(l:command, 0)
@@ -628,6 +653,26 @@ function! ferret#private#executable() abort
     endif
   endfor
   return ''
+endfunction
+
+function! ferret#private#limit() abort
+  ""
+  " @option g:FerretMaxResults number 100000
+  "
+  " Controls the maximum number of results Ferret will attempt to gather before
+  " displaying the results. Note that this only applies when searching
+  " asynchronously; that is, on recent versions of Vim with |+job| support and
+  " when |g:FerretJob| is not set to 0.
+  "
+  " The intent of this option is to prevent runaway search processes that produce
+  " huge volumes of output (for example, searching for a common string like "test"
+  " inside a |$HOME| directory containing millions of files) from locking up Vim.
+  "
+  " In the event that Ferret aborts a search that has hit the |g:FerretMaxResults|
+  " limit, a message will be printed prompting users to run the search again
+  " with |:Ack!| or |:Lack!| if they want to bypass the limit.
+  "
+  return max([1, +get(g:, 'FerretMaxResults', 100000)]) - 1
 endfunction
 
 call ferret#private#init()
