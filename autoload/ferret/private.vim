@@ -20,27 +20,6 @@ function! s:delete(first, last)
   execute "normal \<C-W>\<C-P>"
 endfunction
 
-" Returns 1 if we should/can use vim-dispatch.
-function! ferret#private#dispatch() abort
-  ""
-  " @option g:FerretDispatch boolean 1
-  "
-  " Controls whether to use vim-dispatch (and specifically, |:Make|) to run
-  " |:Ack| searches asynchronously, when available. To prevent vim-dispatch from
-  " being used, set to 0:
-  "
-  " ```
-  " let g:FerretDispatch=0
-  " ```
-  "
-  " Note that on sufficiently recent versions of Vim with |+job| support, Ferret
-  " will first try to use |+job|, falling back to vim-dispatch and consulting
-  " |g:FerretDispatch| only if |g:FerretJob| is set to 0.
-  "
-  let l:dispatch=get(g:, 'FerretDispatch', 1)
-  return l:dispatch && exists(':Make') == 2
-endfunction
-
 " Returns 1 if we should use Neovim's |job-control| features.
 function! ferret#private#nvim()
   ""
@@ -51,8 +30,7 @@ function! ferret#private#nvim()
   " being used, set to 0, in which case Ferret will fall back to the next
   " method in the list (Vim's built-in async primitives -- see
   " |g:FerretJob| -- which are typically not available in Neovim, so
-  " will then fall back to the next method, vim-dispatch; see
-  " |g:FerretDispatch|).
+  " will then fall back to the next available method).
   "
   " ```
   " let g:FerretNvim=0
@@ -69,8 +47,7 @@ function! ferret#private#async()
   "
   " Controls whether to use Vim's |+job| feature, when available, to run
   " searches asynchronously. To prevent |+job| from being used, set to 0, in
-  " which case Ferret will fall back to vim-dispatch (see also:
-  " |g:FerretDispatch|):
+  " which case Ferret will fall back to the next available method.
   "
   " ```
   " let g:FerretJob=0
@@ -88,24 +65,15 @@ endfunction
 "
 " (1) Using `:echomsg`
 "
-"     When not using vim-dispatch, the screen is getting cleared before the
-"     user sees it, even with a pre-emptive `:redraw!` beforehand. Note that
-"     we can get the message to linger on the screen by making it multi-line and
-"     forcing Vim to show a prompt (see `:h hit-enter-prompt`), but this is not
-"     reliable because the number of lines required to force the prompt will
-"     vary by system, depending on the value of `'cmdheight'`.
+"     The screen is getting cleared before the user sees it, even
+"     with a pre-emptive `:redraw!` beforehand. Note that we can get
+"     the message to linger on the screen by making it multi-line and
+"     forcing Vim to show a prompt (see `:h hit-enter-prompt`), but
+"     this is not reliable because the number of lines required to
+"     force the prompt will vary by system, depending on the value of
+"     `'cmdheight'`.
 "
-"     When using vim-dispatch, anything we output ends up getting swallowed
-"     before the user sees it, because something it is doing is clearing the
-"     screen. This is true no matter how many lines we output.
-"
-" (2) Writing back into the quickfix/location list
-"
-"     This interacts poorly with vim-dispatch. If we write back an error message
-"     and then call `:copen 1`, vim-dispatch ends up closing the listing before
-"     the user sees it.
-"
-" (3) Using `:echoerr`
+" (2) Using `:echoerr`
 "
 "     This works, but presents to the user as an exception (see `:h :echoerr`).
 "
@@ -224,18 +192,12 @@ function! ferret#private#post(type) abort
 
       let l:base = 'Search for `' . l:lastsearch . '` failed'
 
-      " When using vim-dispatch, the messages printed above get cleared, so the
-      " only way to see them is with `:messages`.
-      let l:suffix = a:type == 'qf' && ferret#private#dispatch() ?
-            \ ' (run `:messages` to see details)' :
-            \ ''
-
       " If search pattern looks like `'foo` or `"bar`, it means the user
       " probably tried to search for 'foo bar' or "bar baz" etc.
       if l:lastsearch =~ '\v^[' . "'" . '"].+[^' . "'" . '"]$'
-        call ferret#private#error(l:base . l:tip . l:suffix)
+        call ferret#private#error(l:base . l:tip)
       else
-        call ferret#private#error(l:base . l:suffix)
+        call ferret#private#error(l:base)
       endif
     endif
   endif
@@ -255,8 +217,6 @@ function! ferret#private#ack(bang, args) abort
     call ferret#private#nvim#search(l:command, 1, a:bang)
   elseif ferret#private#async()
     call ferret#private#async#search(l:command, 1, a:bang)
-  elseif ferret#private#dispatch()
-    call ferret#private#dispatch#search(l:command)
   else
     call ferret#private#vanilla#search(l:command, 1)
   endif

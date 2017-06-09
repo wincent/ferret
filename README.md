@@ -24,8 +24,6 @@ Results are normally displayed in the <strong>`quickfix`</strong> window, but Fe
 
 <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> are analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>, but scoped to search within currently open buffers only.
 
-Finally, Ferret offers integration with dispatch.vim (https://github.com/tpope/vim-dispatch), which enables asynchronous searching on older versions of Vim (prior to version 8), despite the fact that Vim itself is single-threaded.
-
 
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
 
@@ -80,8 +78,6 @@ Searches for {pattern} in all the files under the current directory (see <strong
 
 On newer versions of Vim (version 8 and above), the search process runs asynchronously in the background and does not block the UI.
 
-On older Vim versions (prior to version 8), if dispatch.vim is installed the search process will run asynchronously via the <strong>`:Make`</strong> command, otherwise it will be run synchronously via <strong>`:cexpr`</strong>. The <strong>`g:FerretDispatch`</strong> option can be used to prevent the use of dispatch.vim.
-
 Asynchronous searches are preferred because they do not block, despite the fact that Vim itself is single threaded.
 
 The {pattern} is passed through as-is to the underlying search program, and no escaping is required other than preceding spaces by a single backslash. For example, to search for "\bfoo[0-9]{2} bar\b" (ie. using `ag`'s Perl-style regular expression syntax), you could do:
@@ -110,7 +106,7 @@ Like <strong>[`:Ack`](#user-content-ack)</strong>, but returns all results irres
 
 Just like <strong>[`:Ack`](#user-content-ack)</strong>, but instead of using the <strong>`quickfix`</strong> listing, which is global across an entire Vim instance, it uses the <strong>`location-list`</strong>, which is a per-window construct.
 
-Note that <strong>[`:Lack`](#user-content-lack)</strong> always runs synchronously via <strong>`:cexpr`</strong>, because dispatch.vim doesn't currently support the <strong>`location-list`</strong>.
+Note that <strong>[`:Lack`](#user-content-lack)</strong> always runs synchronously via <strong>`:cexpr`</strong>.
 
 <p align="right"><a name="lack" href="#user-content-lack"><code>:Lack!</code></a></p>
 
@@ -227,23 +223,11 @@ nmap <leader>u <Plug>(FerretAcks)
 
 ## Options<a name="ferret-options" href="#user-content-ferret-options"></a>
 
-<p align="right"><a name="gferretdispatch" href="#user-content-gferretdispatch"><code>g:FerretDispatch</code></a></p>
-
-### `g:FerretDispatch` (boolean, default: 1)<a name="ferret-gferretdispatch-boolean-default-1" href="#user-content-ferret-gferretdispatch-boolean-default-1"></a>
-
-Controls whether to use vim-dispatch (and specifically, <strong>`:Make`</strong>) to run <strong>[`:Ack`](#user-content-ack)</strong> searches asynchronously, when available. To prevent vim-dispatch from being used, set to 0:
-
-```
-let g:FerretDispatch=0
-```
-
-Note that on sufficiently recent versions of Vim with <strong>`+job`</strong> support, Ferret will first try to use <strong>`+job`</strong>, falling back to vim-dispatch and consulting <strong>`g:FerretDispatch`</strong> only if <strong>`g:FerretJob`</strong> is set to 0.
-
 <p align="right"><a name="gferretnvim" href="#user-content-gferretnvim"><code>g:FerretNvim</code></a></p>
 
 ### `g:FerretNvim` (boolean, default: 1)<a name="ferret-gferretnvim-boolean-default-1" href="#user-content-ferret-gferretnvim-boolean-default-1"></a>
 
-Controls whether to use Neovim's <strong>`job-control`</strong> features, when available, to run searches asynchronously. To prevent this from being used, set to 0, in which case Ferret will fall back to the next method in the list (Vim's built-in async primitives -- see <strong>`g:FerretJob`</strong> -- which are typically not available in Neovim, so will then fall back to the next method, vim-dispatch; see <strong>`g:FerretDispatch`</strong>).
+Controls whether to use Neovim's <strong>`job-control`</strong> features, when available, to run searches asynchronously. To prevent this from being used, set to 0, in which case Ferret will fall back to the next method in the list (Vim's built-in async primitives -- see <strong>`g:FerretJob`</strong> -- which are typically not available in Neovim, so will then fall back to the next available method).
 
 ```
 let g:FerretNvim=0
@@ -253,7 +237,7 @@ let g:FerretNvim=0
 
 ### `g:FerretJob` (boolean, default: 1)<a name="ferret-gferretjob-boolean-default-1" href="#user-content-ferret-gferretjob-boolean-default-1"></a>
 
-Controls whether to use Vim's <strong>`+job`</strong> feature, when available, to run searches asynchronously. To prevent <strong>`+job`</strong> from being used, set to 0, in which case Ferret will fall back to vim-dispatch (see also: <strong>`g:FerretDispatch`</strong>):
+Controls whether to use Vim's <strong>`+job`</strong> feature, when available, to run searches asynchronously. To prevent <strong>`+job`</strong> from being used, set to 0, in which case Ferret will fall back to the next available method.
 
 ```
 let g:FerretJob=0
@@ -558,8 +542,6 @@ git archive -o ferret-$VERSION.zip HEAD -- .
 
 Ferret is written and maintained by Greg Hurrell <greg@hurrell.net>.
 
-The idea for vim-dispatch integration was taken from Miles Sterrett's ack.vim plug-in (https://github.com/mileszs/ack.vim).
-
 Other contributors that have submitted patches include (in alphabetical order):
 
 - Daniel Silva
@@ -571,6 +553,12 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
+
+
+### 3.0 (not yet released)<a name="ferret-30-not-yet-released" href="#user-content-ferret-30-not-yet-released"></a>
+
+- Improve handling of backslash escapes (https://github.com/wincent/ferret/issues/41).
+- Drop support for vim-dispatch.
 
 
 ### 2.0 (6 June 2017)<a name="ferret-20-6-june-2017" href="#user-content-ferret-20-6-june-2017"></a>
