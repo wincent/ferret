@@ -127,9 +127,39 @@ function! s:parse(args) abort
     unlet g:ferret_lastsearch
   endif
 
+  " Split on unescaped spaces:
+  "
+  "   foo bar     -> [foo, bar]
+  "   foo\ bar    -> [foo\ bar] (no split)
+  "   foo\\ bar   -> [foo\\, bar]
+  "   foo\\\ bar  -> [foo\\\ bar] (no split)
+  "   foo\\\\ bar -> [foo\\\\, bar]
+  "
+  " We build a regex for this as follows:
+  "
+  "   - match an odd number of "X": X(XX)*
+  "   - add negative lookbehind (don't match after an "X"): X\@<!X(XX)*
+  "   - with whitespace (for readability): X \@<! X(XX)*
+  "   - add negative lookahead (don't match before an "X"): X\@<!X(XX)*X\@!
+  "   - with whitespace: X \@<! X(XX)* X\@!
+  "   - denote this "..."
+  "   - match a "Y" not preceded by the above: (...)\@<!Y
+  "   - with whitespace: (...) \@<! Y
+  "   - replace "..." with actual pattern: (X\@<!X(XX)*X\@!)\@<!Y
+  "   - escape ( and ): \(X\@<!X\(XX\)*X\@!\)\@<!Y
+  "   - replace "X" with "\\": \(\\\@<!\\\(\\\\\)*\\\@!\)\@<!Y
+  "   - replace "Y" with " ": '\(\\\@<!\\\(\\\\\)*\\\@!\)\@<! '
+  "
+  let l:odd_number_of_backslashes='\\\@<!\\\(\\\\\)*\\\@!'
+  let l:unescaped_space='\('.l:odd_number_of_backslashes.'\)\@<! '
+  let l:args=split(a:args, l:unescaped_space)
   let l:expanded_args=[]
 
-  for l:arg in a:args
+  for l:arg in l:args
+    " Because we split on unescaped spaces, we know any escaped spaces remaining
+    " inside arguments really are supposed to be just spaces.
+    let l:arg=substitute(l:arg, '\\ ', ' ', '')
+
     if ferret#private#option(l:arg)
       " Options get passed through as-is.
       call add(l:expanded_args, l:arg)
@@ -211,8 +241,8 @@ function! ferret#private#post(type) abort
   endif
 endfunction
 
-function! ferret#private#ack(bang, ...) abort
-  let l:command=s:parse(a:000)
+function! ferret#private#ack(bang, args) abort
+  let l:command=s:parse(a:args)
   call ferret#private#hlsearch()
 
   let l:executable=ferret#private#executable()
@@ -238,12 +268,12 @@ function! ferret#private#buflist() abort
   return l:bufpaths
 endfunction
 
-function! ferret#private#back(bang, ...) abort
-  call call('ferret#private#ack', a:bang, a:000 + ferret#private#buflist())
+function! ferret#private#back(bang, args) abort
+  call call('ferret#private#ack', a:bang, a:args . ' ' . ferret#private#buflist())
 endfunction
 
-function! ferret#private#black(bang, ...) abort
-  call call('ferret#private#lack', a:bang, a:000 + ferret#private#buflist())
+function! ferret#private#black(bang, args) abort
+  call call('ferret#private#lack', a:bang, a:args . ' ' . ferret#private#buflist())
 endfunction
 
 function! ferret#private#installprompt() abort
@@ -252,8 +282,8 @@ function! ferret#private#installprompt() abort
         \ )
 endfunction
 
-function! ferret#private#lack(bang, ...) abort
-  let l:command=s:parse(a:000)
+function! ferret#private#lack(bang, args) abort
+  let l:command=s:parse(a:args)
   call ferret#private#hlsearch()
 
   let l:executable=ferret#private#executable()
