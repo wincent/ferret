@@ -354,7 +354,7 @@
 "
 " # History
 "
-" ## 3.0 (not yet released)
+" ## 3.0 (13 June 2017)
 "
 " - Improve handling of backslash escapes
 "   (https://github.com/wincent/ferret/issues/41).
