@@ -16,7 +16,8 @@
 " ## 1. Powerful multi-file search
 "
 " Ferret provides an |:Ack| command for searching across multiple files using
-" The Silver Searcher (https://github.com/ggreer/the_silver_searcher), or Ack
+" ripgrep (https://github.com/BurntSushi/ripgrep), The Silver Searcher
+" (https://github.com/ggreer/the_silver_searcher), or Ack
 " (http://beyondgrep.com/). Support for passing options through to the
 " underlying search command exists, along with the ability to use full regular
 " expression syntax without doing special escaping. On modern versions
