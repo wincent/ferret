@@ -69,8 +69,9 @@ easier to immediately identify matches by centering them within the viewport.
 
 Finally, Ferret provides a |:Qargs| command that puts the files currently in
 the |quickfix| listing into the |:args| list, where they can be operated on in
-bulk via the |:argdo| command. This is what's used under the covers by |:Acks|
-to do its work.
+bulk via the |:argdo| command. This is what's used under the covers on older
+versions of Vim by |:Acks| to do its work (on newer versions the built-in
+|:cfdo| is used instead).
 
 INSTALLATION                                               *ferret-installation*
 
