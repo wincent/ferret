@@ -168,7 +168,8 @@ function! ferret#private#post(type) abort
   let l:lastsearch = get(g:, 'ferret_lastsearch', '')
   let l:qflist = a:type == 'qf' ? getqflist() : getloclist(0)
   let l:tip = ' [see `:help ferret-quotes`]'
-  if len(l:qflist) == 0
+  let l:len=len(l:qflist)
+  if l:len == 0
     let l:base = 'No results for search pattern `' . l:lastsearch . '`'
 
     " Search pattern has no spaces and is entirely enclosed in quotes;
@@ -181,7 +182,7 @@ function! ferret#private#post(type) abort
   else
     " Find any "invalid" entries in the list.
     let l:invalid = filter(copy(l:qflist), 'v:val.valid == 0')
-    if len(l:invalid) == len(l:qflist)
+    if len(l:invalid) == l:len
       " Every item in the list was invalid.
       redraw!
       echohl ErrorMsg
@@ -201,6 +202,7 @@ function! ferret#private#post(type) abort
       endif
     endif
   endif
+  return l:len
 endfunction
 
 function! ferret#private#ack(bang, args) abort

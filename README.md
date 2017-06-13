@@ -276,6 +276,22 @@ The intent of this option is to prevent runaway search processes that produce hu
 
 In the event that Ferret aborts a search that has hit the <strong>`g:FerretMaxResults`</strong> limit, a message will be printed prompting users to run the search again with <strong>[`:Ack!`](#user-content-ack)</strong> or <strong>[`:Lack!`](#user-content-lack)</strong> if they want to bypass the limit.
 
+<p align="right"><a name="gferretautojump" href="#user-content-gferretautojump"><code>g:FerretAutojump</code></a></p>
+
+### `g:FerretAutojump` (number, default: 1)<a name="ferret-gferretautojump-number-default-1" href="#user-content-ferret-gferretautojump-number-default-1"></a>
+
+Controls whether Ferret will automatically jump to the first found match.
+
+- Set to 0, Ferret will show the search results but perform no jump.
+- Set to 1 (the default), Ferret will show the search results and focus the result listing.
+- Set to 2, Ferret will show the search results and jump to the first found match.
+
+Example override:
+
+```
+let g:FerretAutojump=2
+```
+
 <p align="right"><a name="gferretqfoptions" href="#user-content-gferretqfoptions"><code>g:FerretQFOptions</code></a></p>
 
 ### `g:FerretQFOptions` (boolean, default: 1)<a name="ferret-gferretqfoptions-boolean-default-1" href="#user-content-ferret-gferretqfoptions-boolean-default-1"></a>
@@ -558,6 +574,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 ### 3.0 (not yet released)<a name="ferret-30-not-yet-released" href="#user-content-ferret-30-not-yet-released"></a>
 
 - Improve handling of backslash escapes (https://github.com/wincent/ferret/issues/41).
+- Add <strong>`g:FerretAutojump`</strong>.
 - Drop support for vim-dispatch.
 
 

@@ -325,6 +325,22 @@ limit, a message will be printed prompting users to run the search again
 with |:Ack!| or |:Lack!| if they want to bypass the limit.
 
 
+                                                              *g:FerretAutojump*
+|g:FerretAutojump|                                           number (default: 1)
+
+Controls whether Ferret will automatically jump to the first found match.
+
+- Set to 0, Ferret will show the search results but perform no jump.
+- Set to 1 (the default), Ferret will show the search results and focus the
+  result listing.
+- Set to 2, Ferret will show the search results and jump to the first found
+  match.
+
+Example override:
+>
+    let g:FerretAutojump=2
+<
+
                                                              *g:FerretQFOptions*
 |g:FerretQFOptions|                                         boolean (default: 1)
 
@@ -625,6 +641,7 @@ HISTORY                                                         *ferret-history*
 
 - Improve handling of backslash escapes
   (https://github.com/wincent/ferret/issues/41).
+- Add |g:FerretAutojump|.
 - Drop support for vim-dispatch.
 
 2.0 (6 June 2017) ~

@@ -1,18 +1,60 @@
 " Copyright 2015-present Greg Hurrell. All rights reserved.
 " Licensed under the terms of the BSD 2-clause license.
 
+""
+"
+" @option g:FerretAutojump number 1
+"
+" Controls whether Ferret will automatically jump to the first found match.
+"
+" - Set to 0, Ferret will show the search results but perform no jump.
+" - Set to 1 (the default), Ferret will show the search results and
+"   focus the result listing.
+" - Set to 2, Ferret will show the search results and jump to the first found
+"   match.
+"
+" Example override:
+"
+" ```
+" let g:FerretAutojump=2
+" ```
+function! s:autojump()
+  let l:autojump=get(g:, 'FerretAutojump', 1)
+  if l:autojump != 0 && l:autojump != 1 && l:autojump != 2
+    let l:autojump=1
+  endif
+  return l:autojump
+endfunction
+
 function! ferret#private#shared#finalize_search(output, ack)
   let l:original_errorformat=&errorformat
+  let l:autojump=s:autojump()
+  if a:ack
+    let l:prefix='c' " Will use cexpr, cgetexpr.
+    let l:handler=get(g:, 'FerretQFHandler', 'botright copen')
+    let l:post='qf'
+  else
+    let l:prefix='l' " Will use lexpr, lgetexpr.
+    let l:handler=get(g:, 'FerretLLHandler', 'lopen')
+    let l:post='location'
+  endif
   try
     let &errorformat=g:FerretFormat
-    if a:ack
-      call s:swallow('cexpr a:1', a:output)
-      execute get(g:, 'FerretQFHandler', 'botright cwindow')
-      call ferret#private#post('qf')
+    if l:autojump == 2 " Show listing and jump to first result.
+      call s:swallow(l:prefix . 'expr a:1', a:output)
     else
-      call s:swallow('lexpr a:1', a:output)
-      execute get(g:, 'FerretLLHandler', 'lwindow')
-      call ferret#private#post('location')
+      call s:swallow(l:prefix . 'getexpr a:1', a:output)
+    endif
+    let l:before=winnr()
+    let l:len=ferret#private#post(l:post)
+    if l:len
+      execute l:handler
+      if l:autojump != 1 " Show listing, but don't jump anywhere.
+        let l:after=winnr()
+        if l:before != l:after
+          execute l:before . 'wincmd w'
+        end
+      endif
     endif
   finally
     let &errorformat=l:original_errorformat

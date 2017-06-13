@@ -358,6 +358,7 @@
 "
 " - Improve handling of backslash escapes
 "   (https://github.com/wincent/ferret/issues/41).
+" - Add |g:FerretAutojump|.
 " - Drop support for vim-dispatch.
 "
 " ## 2.0 (6 June 2017)
