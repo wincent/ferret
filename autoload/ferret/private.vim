@@ -584,12 +584,27 @@ endfunction
 " ```
 let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack,ack-grep')
 
-let s:executables={
-      \   'rg': 'rg --vimgrep --no-heading',
-      \   'ag': 'ag',
-      \   'ack': 'ack --column --with-filename',
-      \   'ack-grep': 'ack-grep --column --with-filename'
-      \ }
+""
+" @option g:FerretGrepCommand string ""
+"
+" By default, Ferret will try to autodetect what command it can use based on
+" what you have installed on your system (rg, ag, ack, ack-grep). This
+" setting is intended to override that automatic behavior and set the raw
+" command to be used internally to grep files. This is different than
+" |g:FerretExecutable| because you need to set the full command, including
+" arguments. This is useful if you need to use some switches by
+" default.
+"
+" This setting will override |g:FerretExecutable|.
+"
+" Example:
+"
+" ```
+" " Use ag to search for hidden files by default
+" let g:FerretGrepCommand='ag --vimgrep --width 4096 --hidden --ignore .git'
+" ```
+
+let s:overriden_grep_command=get(g:, 'FerretGrepCommand', '')
 
 let s:init_done=0
 
@@ -597,6 +612,29 @@ function! ferret#private#init() abort
   if s:init_done
     return
   endif
+
+  " If the grep command is already overriden, there's no point in trying to
+  " figure what are the available ones
+  if empty(s:overriden_grep_command)
+    call ferret#private#detect_executables()
+  endif
+
+  let l:executable=ferret#private#executable()
+  if !empty(l:executable)
+    let &grepprg=l:executable
+    let &grepformat=g:FerretFormat
+  endif
+
+  let s:init_done=1
+endfunction
+
+function! ferret#private#detect_executables() abort
+  let s:executables={
+        \   'rg': 'rg --vimgrep --no-heading',
+        \   'ag': 'ag',
+        \   'ack': 'ack --column --with-filename',
+        \   'ack-grep': 'ack-grep --column --with-filename'
+        \ }
 
   if executable('rg') && match(system('rg --help'), '--max-columns') != -1
     let s:executables['rg'].=' --max-columns 4096'
@@ -613,17 +651,13 @@ function! ferret#private#init() abort
       let s:executables['ag'].=' --width 4096'
     endif
   endif
-
-  let l:executable=ferret#private#executable()
-  if !empty(l:executable)
-    let &grepprg=l:executable
-    let &grepformat=g:FerretFormat
-  endif
-
-  let s:init_done=1
 endfunction
 
 function! ferret#private#executable() abort
+  if !empty(s:overriden_grep_command)
+    return s:overriden_grep_command
+  endif
+
   let l:valid=keys(s:executables)
   let l:executables=split(s:force, '\v\s*,\s*')
   let l:executables=filter(l:executables, 'index(l:valid, v:val) != -1')

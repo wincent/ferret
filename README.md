@@ -266,6 +266,21 @@ Example:
 let g:FerretExecutable='ag,rg'
 ```
 
+<p align="right"><a name="gferretgrepcommand" href="#user-content-gferretgrepcommand"><code>g:FerretGrepCommand</code></a></p>
+
+### `g:FerretGrepCommand` (string, default: "")<a name="ferret-gferretgrepcommand-string-default" href="#ferret-gferretgrepcommand-string-default"></a>
+
+By default, Ferret will try to autodetect what command it can use based on what you have installed on your system (`rg`, `ag`, `ack`, `ack-grep`). This setting is intended to override that automatic behavior and set the raw command to be used internally to grep files. This is different than <strong>`g:FerretExecutable`</strong> because you need to set the full command, including arguments. This is useful if you need to use some switches by default.
+
+This setting will override <strong>`g:FerretExecutable`</strong>.
+
+Example:
+
+```
+" Use ag to search for hidden files by default
+let g:FerretGrepCommand='ag --vimgrep --width 4096 --hidden --ignore .git'
+```
+
 <p align="right"><a name="gferretmaxresults" href="#user-content-gferretmaxresults"><code>g:FerretMaxResults</code></a></p>
 
 ### `g:FerretMaxResults` (number, default: 100000)<a name="ferret-gferretmaxresults-number-default-100000" href="#user-content-ferret-gferretmaxresults-number-default-100000"></a>
