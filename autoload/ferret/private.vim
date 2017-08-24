@@ -126,7 +126,7 @@ function! s:parse(args) abort
   for l:arg in l:args
     " Because we split on unescaped spaces, we know any escaped spaces remaining
     " inside arguments really are supposed to be just spaces.
-    let l:arg=substitute(l:arg, '\\ ', ' ', '')
+    let l:arg=substitute(l:arg, '\\ ', ' ', 'g')
 
     if ferret#private#option(l:arg)
       " Options get passed through as-is.
