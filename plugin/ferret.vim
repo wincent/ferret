@@ -356,6 +356,11 @@
 "
 " # History
 "
+" ## 3.0.1 (24 August 2017)
+"
+" - Fix failure to handle search patterns containing multiple escaped spaces
+"   (https://github.com/wincent/ferret/issues/49).
+"
 " ## 3.0 (13 June 2017)
 "
 " - Improve handling of backslash escapes

@@ -571,6 +571,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
 
+### 3.0.1 (24 August 2017)<a name="ferret-301-24-august-2017" href="#user-content-ferret-301-24-august-2017"></a>
+
+- Fix failure to handle search patterns containing multiple escaped spaces (https://github.com/wincent/ferret/issues/49).
+
+
 ### 3.0 (13 June 2017)<a name="ferret-30-13-june-2017" href="#user-content-ferret-30-13-june-2017"></a>
 
 - Improve handling of backslash escapes (https://github.com/wincent/ferret/issues/41).
