@@ -227,15 +227,15 @@ endfunction
 function! ferret#private#buflist() abort
   let l:buflist=getbufinfo({'buflisted': 1})
   let l:bufpaths=filter(map(l:buflist, 'v:val.name'), 'v:val !=# ""')
-  return l:bufpaths
+  return join(l:bufpaths, ' ')
 endfunction
 
 function! ferret#private#back(bang, args) abort
-  call call('ferret#private#ack', a:bang, a:args . ' ' . ferret#private#buflist())
+  call call('ferret#private#ack', [a:bang, a:args . ' ' . ferret#private#buflist()])
 endfunction
 
 function! ferret#private#black(bang, args) abort
-  call call('ferret#private#lack', a:bang, a:args . ' ' . ferret#private#buflist())
+  call call('ferret#private#lack', [a:bang, a:args . ' ' . ferret#private#buflist()])
 endfunction
 
 function! ferret#private#installprompt() abort
