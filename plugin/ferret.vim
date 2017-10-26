@@ -356,6 +356,11 @@
 "
 " # History
 "
+" ## 3.0.2 (25 October 2017)
+"
+" - Fix broken |:Back| and |:Black| commands
+"   (https://github.com/wincent/ferret/issues/48).
+"
 " ## 3.0.1 (24 August 2017)
 "
 " - Fix failure to handle search patterns containing multiple escaped spaces
