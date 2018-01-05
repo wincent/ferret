@@ -169,7 +169,7 @@ Note that Ferret will not try to set up the <leader> mappings if any of the foll
 
 - A mapping with the same <strong>`{lhs}`</strong> already exists.
 - An alternative mapping for the same functionality has already been set up from a <strong>`.vimrc`</strong>.
-- The mapping has been suppressed by setting <strong>`g:FerretMap`</strong> to 1 in your <strong>`.vimrc`</strong>.
+- The mapping has been suppressed by setting <strong>`g:FerretMap`</strong> to 0 in your <strong>`.vimrc`</strong>.
 
 
 ### Mappings specific to the quickfix window<a name="ferret-mappings-specific-to-the-quickfix-window" href="#user-content-ferret-mappings-specific-to-the-quickfix-window"></a>

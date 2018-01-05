@@ -98,7 +98,7 @@
 " - A mapping with the same |{lhs}| already exists.
 " - An alternative mapping for the same functionality has already been set up
 "   from a |.vimrc|.
-" - The mapping has been suppressed by setting |g:FerretMap| to 1 in your
+" - The mapping has been suppressed by setting |g:FerretMap| to 0 in your
 "   |.vimrc|.
 "
 " ## Mappings specific to the quickfix window
