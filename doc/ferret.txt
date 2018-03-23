@@ -639,6 +639,11 @@ order):
 
 HISTORY                                                         *ferret-history*
 
+3.0.3 (23 March 2018) ~
+
+- Fix for |:Lack| results opening in quickfix listing in Neovim
+  (https://github.com/wincent/ferret/issues/47).
+
 3.0.2 (25 October 2017) ~
 
 - Fix broken |:Back| and |:Black| commands

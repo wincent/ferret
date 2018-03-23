@@ -571,6 +571,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
 
+### 3.0.3 (23 March 2018)<a name="ferret-303-23-march-2018" href="#user-content-ferret-303-23-march-2018"></a>
+
+- Fix for <strong>[`:Lack`](#user-content-lack)</strong> results opening in quickfix listing in Neovim (https://github.com/wincent/ferret/issues/47).
+
+
 ### 3.0.2 (25 October 2017)<a name="ferret-302-25-october-2017" href="#user-content-ferret-302-25-october-2017"></a>
 
 - Fix broken <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands (https://github.com/wincent/ferret/issues/48).
