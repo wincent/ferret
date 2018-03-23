@@ -255,7 +255,7 @@ function! ferret#private#lack(bang, args) abort
   endif
 
   if ferret#private#nvim()
-    call ferret#private#nvim#search(l:command, 1, a:bang)
+    call ferret#private#nvim#search(l:command, 0, a:bang)
   elseif ferret#private#async()
     call ferret#private#async#search(l:command, 0, a:bang)
   else
