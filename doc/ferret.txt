@@ -189,6 +189,13 @@ directory:
     :Ack foo
     :Acks /foo/bar/
 <
+The pattern and replacement are passed through literally to Vim's
+|:substitute| command, preserving all characters and escapes, including
+references to matches in the pattern. For example, the following could be
+used to swap the order of "foo123" and "bar":
+>
+    :Acks /\v(foo\d+)(bar)/\2\1/
+<
 :Qargs                                                                  *:Qargs*
 
 This is a utility function that is used internally when running on older

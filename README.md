@@ -151,6 +151,12 @@ A typical sequence consists of an <strong>[`:Ack`](#user-content-ack)</strong> i
 :Acks /foo/bar/
 ```
 
+The pattern and replacement are passed through literally to Vim's <strong>`:substitute`</strong> command, preserving all characters and escapes, including references to matches in the pattern. For example, the following could be used to swap the order of &quot;foo123&quot; and &quot;bar&quot;:
+
+```
+:Acks /\v(foo\d+)(bar)/\2\1/
+```
+
 <p align="right"><a name="qargs" href="#user-content-qargs"><code>:Qargs</code></a></p>
 
 ### `:Qargs`<a name="ferret-qargs" href="#user-content-ferret-qargs"></a>

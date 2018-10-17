@@ -601,6 +601,15 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#blackcomplete Black 
 " :Ack foo
 " :Acks /foo/bar/
 " ```
+"
+" The pattern and replacement are passed through literally to Vim's
+" |:substitute| command, preserving all characters and escapes,
+" including references to matches in the pattern. For example, the
+" following could be used to swap the order of "foo123" and "bar":
+"
+" ```
+" :Acks /\v(foo\d+)(bar)/\2\1/
+" ```
 command! -nargs=1 Acks call ferret#private#acks(<q-args>)
 command! FerretCancelAsync call ferret#private#async#cancel()
 command! FerretPullAsync call ferret#private#async#pull()
