@@ -86,7 +86,7 @@ The {pattern} is passed through as-is to the underlying search program, and no e
 :Ack \bfoo[0-9]{2}\ bar\b
 ```
 
-Likewise, {options} are passed through. In this example, we pass the `-w` option (to search on word boundaries), and scope the search to the &quot;foo&quot; and &quot;bar&quot; subdirectories: &gt;
+Likewise, {options} are passed through. In this example, we pass the `-w` option (to search on word boundaries), and scope the search to the &quot;foo&quot; and &quot;bar&quot; subdirectories:
 
 ```
 :Ack -w something foo bar

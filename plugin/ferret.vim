@@ -519,7 +519,7 @@ endif
 "
 " Likewise, {options} are passed through. In this example, we pass the `-w`
 " option (to search on word boundaries), and scope the search to the "foo" and
-" "bar" subdirectories: >
+" "bar" subdirectories:
 "
 " ```
 " :Ack -w something foo bar
