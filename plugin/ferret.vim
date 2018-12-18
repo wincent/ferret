@@ -356,6 +356,10 @@
 "
 " # History
 "
+" ## master (not yet released)
+"
+" - Try to avoid "press ENTER to continue" prompts.
+"
 " ## 3.0.3 (23 March 2018)
 "
 " - Fix for |:Lack| results opening in quickfix listing in Neovim

@@ -59,32 +59,44 @@ function! ferret#private#async()
   return l:async && has('patch-7-4-1829')
 endfunction
 
-" Use `input()` to show error output to user. Ideally, we would do this in a way
-" that didn't require user interaction, but this is the only reliable mechanism
-" that works for all cases. Alternatives considered:
-"
-" (1) Using `:echomsg`
-"
-"     The screen is getting cleared before the user sees it, even
-"     with a pre-emptive `:redraw!` beforehand. Note that we can get
-"     the message to linger on the screen by making it multi-line and
-"     forcing Vim to show a prompt (see `:h hit-enter-prompt`), but
-"     this is not reliable because the number of lines required to
-"     force the prompt will vary by system, depending on the value of
-"     `'cmdheight'`.
-"
-" (2) Using `:echoerr`
-"
-"     This works, but presents to the user as an exception (see `:h :echoerr`).
-"
 function! ferret#private#error(message) abort
-  call inputsave()
-  echohl ErrorMsg
-  unsilent call input(a:message . ': press ENTER to continue')
-  echohl NONE
-  call inputrestore()
-  unsilent echo
+  if has('lambda') && has('timers')
+    call timer_start(100, {-> s:print_error_with_echomsg(a:message)})
+  else
+    " Use `input()` to show error output to user. Ideally, we would do this
+    " in a way that didn't require user interaction, but this is the only
+    " reliable mechanism that works for all cases. Alternatives considered:
+    "
+    " (1) Using straight `:echomsg`
+    "
+    "     The screen gets cleared before the user sees it, even with a
+    "     pre-emptive `:redraw!` beforehand. Note that we can get the
+    "     message to linger on the screen by making it multi-line and
+    "     forcing Vim to show a prompt (see `:h hit-enter-prompt`), but
+    "     this is not reliable because the number of lines required to
+    "     force the prompt will vary by system, depending on the value
+    "     of `'cmdheight'`.
+    "
+    " (2) Using `:echoerr`
+    "
+    "     This works, but presents to the user as an exception (see `:h
+    "     :echoerr`).
+    "
+    call inputsave()
+    echohl ErrorMsg
+    unsilent call input(a:message . ': press ENTER to continue')
+    echohl NONE
+    call inputrestore()
+    unsilent echo
+    redraw!
+  endif
+endfunction
+
+function! s:print_error_with_echomsg(message)
   redraw!
+  echohl ErrorMsg
+  echomsg a:message
+  echohl NONE
 endfunction
 
 " Parses arguments, extracting a search pattern (which is stored in
