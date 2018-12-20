@@ -569,12 +569,19 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Daniel Silva
 - Filip Szymański
 - Joe Lencioni
+- Jon Parise
 - Nelo-Thara Wallus
 - Tom Dooner
 - Vaibhav Sagar
 
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
+
+
+### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
+
+- Try to avoid &quot;press ENTER to continue&quot; prompts.
+- Put search term in <strong>`w:quickfix_title`</strong> for use in statuslines (https://github.com/wincent/ferret/pull/57).
 
 
 ### 3.0.3 (23 March 2018)<a name="ferret-303-23-march-2018" href="#user-content-ferret-303-23-march-2018"></a>
