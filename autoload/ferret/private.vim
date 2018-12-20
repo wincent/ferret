@@ -175,12 +175,24 @@ function! ferret#private#clearautocmd() abort
   endif
 endfunction
 
+function! s:qfsize(type) abort
+  if has('patch-8.0.1112')
+    if a:type ==# 'qf'
+      return get(getqflist({'size' : 0}), 'size', 0)
+    else
+      return get(getloclist(0, {'size' : 0}), 'size', 0)
+    endif
+  else
+    let l:qflist = a:type ==# 'qf' ? getqflist() : getloclist(0)
+    return len(l:qflist)
+  endif
+endfunction
+
 function! ferret#private#post(type) abort
   call ferret#private#clearautocmd()
   let l:lastsearch = get(g:, 'ferret_lastsearch', '')
-  let l:qflist = a:type == 'qf' ? getqflist() : getloclist(0)
   let l:tip = ' [see `:help ferret-quotes`]'
-  let l:len=len(l:qflist)
+  let l:len = s:qfsize(a:type)
   if l:len == 0
     let l:base = 'No results for search pattern `' . l:lastsearch . '`'
 
@@ -193,6 +205,7 @@ function! ferret#private#post(type) abort
     endif
   else
     " Find any "invalid" entries in the list.
+    let l:qflist = a:type ==# 'qf' ? getqflist() : getloclist(0)
     let l:invalid = filter(copy(l:qflist), 'v:val.valid == 0')
     if len(l:invalid) == l:len
       " Every item in the list was invalid.
