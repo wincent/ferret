@@ -349,6 +349,7 @@
 " - Daniel Silva
 " - Filip Szymański
 " - Joe Lencioni
+" - Jon Parise
 " - Nelo-Thara Wallus
 " - Tom Dooner
 " - Vaibhav Sagar
@@ -359,6 +360,8 @@
 " ## master (not yet released)
 "
 " - Try to avoid "press ENTER to continue" prompts.
+" - Put search term in |w:quickfix_title| for use in statuslines
+"   (https://github.com/wincent/ferret/pull/57).
 "
 " ## 3.0.3 (23 March 2018)
 "
