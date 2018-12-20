@@ -26,7 +26,7 @@ function! s:autojump()
   return l:autojump
 endfunction
 
-function! s:settitle(type, title) abort
+function! s:set_title(type, title)
   if has('patch-7.4.2200')
     if a:type ==# 'qf'
       call setqflist([], 'a', {'title' : a:title})
@@ -34,7 +34,7 @@ function! s:settitle(type, title) abort
       call setloclist(0, [], 'a', {'title' : a:title})
     endif
   elseif a:type ==# 'qf'
-    let w:quickfix_title = a:title
+    let w:quickfix_title=a:title
   endif
 endfunction
 
@@ -58,7 +58,7 @@ function! ferret#private#shared#finalize_search(output, ack)
     else
       call s:swallow(l:prefix . 'getexpr a:1', a:output)
     endif
-    call s:settitle(l:post, 'Search `' . l:lastsearch . '`')
+    call s:set_title(l:post, 'Search `' . l:lastsearch . '`')
     let l:before=winnr()
     let l:len=ferret#private#post(l:post)
     if l:len
