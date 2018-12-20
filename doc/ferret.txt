@@ -650,6 +650,7 @@ order):
 - Daniel Silva
 - Filip Szymański
 - Joe Lencioni
+- Jon Parise
 - Nelo-Thara Wallus
 - Tom Dooner
 - Vaibhav Sagar
