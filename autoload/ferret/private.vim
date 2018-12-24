@@ -175,14 +175,26 @@ function! ferret#private#clearautocmd() abort
   endif
 endfunction
 
+function! s:qfsize(type) abort
+  if has('patch-8.0.1112')
+    if a:type ==# 'qf'
+      return get(getqflist({'size' : 0}), 'size', 0)
+    else
+      return get(getloclist(0, {'size' : 0}), 'size', 0)
+    endif
+  else
+    let l:qflist=a:type ==# 'qf' ? getqflist() : getloclist(0)
+    return len(l:qflist)
+  endif
+endfunction
+
 function! ferret#private#post(type) abort
   call ferret#private#clearautocmd()
-  let l:lastsearch = get(g:, 'ferret_lastsearch', '')
-  let l:qflist = a:type == 'qf' ? getqflist() : getloclist(0)
-  let l:tip = ' [see `:help ferret-quotes`]'
-  let l:len=len(l:qflist)
+  let l:lastsearch=get(g:, 'ferret_lastsearch', '')
+  let l:tip=' [see `:help ferret-quotes`]'
+  let l:len=s:qfsize(a:type)
   if l:len == 0
-    let l:base = 'No results for search pattern `' . l:lastsearch . '`'
+    let l:base='No results for search pattern `' . l:lastsearch . '`'
 
     " Search pattern has no spaces and is entirely enclosed in quotes;
     " eg 'foo' or "bar"
@@ -193,7 +205,8 @@ function! ferret#private#post(type) abort
     endif
   else
     " Find any "invalid" entries in the list.
-    let l:invalid = filter(copy(l:qflist), 'v:val.valid == 0')
+    let l:qflist=a:type ==# 'qf' ? getqflist() : getloclist(0)
+    let l:invalid=filter(copy(l:qflist), 'v:val.valid == 0')
     if len(l:invalid) == l:len
       " Every item in the list was invalid.
       redraw!
@@ -203,7 +216,7 @@ function! ferret#private#post(type) abort
       endfor
       echohl NONE
 
-      let l:base = 'Search for `' . l:lastsearch . '` failed'
+      let l:base='Search for `' . l:lastsearch . '` failed'
 
       " If search pattern looks like `'foo` or `"bar`, it means the user
       " probably tried to search for 'foo bar' or "bar baz" etc.
@@ -319,7 +332,7 @@ endfunction
 " way for mnemonics, as it will most often be preceded by an :Ack invocation.)
 function! ferret#private#acks(command) abort
   " Accept any pattern allowed by E146 (crude sanity check).
-  let l:matches = matchlist(a:command, '\v\C^(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)$')
+  let l:matches=matchlist(a:command, '\v\C^(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)$')
   if !len(l:matches)
     call ferret#private#error(
           \ 'Ferret: Expected a substitution expression (/foo/bar/); got: ' .
@@ -330,8 +343,8 @@ function! ferret#private#acks(command) abort
 
   " Pass through options `c`, `i`/`I` to `:substitute`.
   " Add options `e` and `g` if not already present.
-  let l:pattern = l:matches[1]
-  let l:options = l:matches[3]
+  let l:pattern=l:matches[1]
+  let l:options=l:matches[3]
   if l:options !~# 'e'
     let l:options .= 'e'
   endif
@@ -412,7 +425,7 @@ function! ferret#private#executable_name()
   let l:binary=matchstr(l:executable, '\v\w+')
 endfunction
 
-let s:options = {
+let s:options={
       \   'ack': [
       \     '--ignore-ack-defaults',
       \     '--ignore-case',
