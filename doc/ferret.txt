@@ -7,16 +7,17 @@ CONTENTS                                                       *ferret-contents*
 3. Commands               |ferret-commands|
 4. Mappings               |ferret-mappings|
 5. Options                |ferret-options|
-6. Custom autocommands    |ferret-custom-autocommands|
-7. Overrides              |ferret-overrides|
-8. Troubleshooting        |ferret-troubleshooting|
-9. FAQ                    |ferret-faq|
-10. Related               |ferret-related|
-11. Website               |ferret-website|
-12. License               |ferret-license|
-13. Development           |ferret-development|
-14. Authors               |ferret-authors|
-15. History               |ferret-history|
+6. Functions              |ferret-functions|
+7. Custom autocommands    |ferret-custom-autocommands|
+8. Overrides              |ferret-overrides|
+9. Troubleshooting        |ferret-troubleshooting|
+10. FAQ                   |ferret-faq|
+11. Related               |ferret-related|
+12. Website               |ferret-website|
+13. License               |ferret-license|
+14. Development           |ferret-development|
+15. Authors               |ferret-authors|
+16. History               |ferret-history|
 
 INTRO                                                             *ferret-intro*
 
@@ -326,6 +327,21 @@ Example:
     let g:FerretExecutable='ag,rg'
 <
 
+                                                   *g:FerretExecutableArguments*
+|g:FerretExecutableArguments|                                 dict (default: {})
+
+Allows you to override the default arguments that get passed to the
+underlying search executables. For example, to add `-s` to the default
+arguments passed to `ack` (`--column --with-filename`):
+>
+    let g:FerretExecutableArguments = {
+      \   'ack': '--column --with-filename -s'
+      \ }
+<
+To find out the default arguments for a given executable, see
+|ferret#get_default_arguments()|.
+
+
                                                             *g:FerretMaxResults*
 |g:FerretMaxResults|                                    number (default: 100000)
 
@@ -436,6 +452,19 @@ set to 0:
 |g:FerretFormat|                                 string (default: "%f:%l:%c:%m")
 
 Sets the '|grepformat|' used by Ferret.
+
+FUNCTIONS                                                     *ferret-functions*
+
+                                              *ferret#get_default_arguments()()*
+ferret#get_default_arguments()() ~
+
+Call this with an executable name to find out the default arguments that
+will be passed when invoking that executable. For example:
+>
+    echo ferret#get_default_arguments('rg')
+<
+This may be useful if you wish to extend or otherwise modify the arguments
+by setting |g:FerretExecutableArguments|.
 
 CUSTOM AUTOCOMMANDS                                 *ferret-custom-autocommands*
 
@@ -662,6 +691,8 @@ master (not yet released) ~
 - Try to avoid "press ENTER to continue" prompts.
 - Put search term in |w:quickfix_title| for use in statuslines
   (https://github.com/wincent/ferret/pull/57).
+- Add |g:FerretExecutableArguments| and |ferret#get_default_arguments()|
+  (https://github.com/wincent/ferret/pull/46).
 
 3.0.3 (23 March 2018) ~
 

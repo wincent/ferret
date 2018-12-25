@@ -362,6 +362,8 @@
 " - Try to avoid "press ENTER to continue" prompts.
 " - Put search term in |w:quickfix_title| for use in statuslines
 "   (https://github.com/wincent/ferret/pull/57).
+" - Add |g:FerretExecutableArguments| and |ferret#get_default_arguments()|
+"   (https://github.com/wincent/ferret/pull/46).
 "
 " ## 3.0.3 (23 March 2018)
 "

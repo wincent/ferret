@@ -618,6 +618,10 @@ let s:executables={
 
 let s:init_done=0
 
+function! ferret#private#executables() abort
+  return copy(s:executables)
+endfunction
+
 function! ferret#private#init() abort
   if s:init_done
     return
@@ -666,7 +670,29 @@ function! ferret#private#executable() abort
   endif
   for l:executable in l:executables
     if executable(l:executable)
-      return l:executable . ' ' . s:executables[l:executable]
+      ""
+      " @option g:FerretExecutableArguments dict {}
+      "
+      " Allows you to override the default arguments that get passed to the
+      " underlying search executables. For example, to add `-s` to the default
+      " arguments passed to `ack` (`--column --with-filename`):
+      "
+      " ```
+      " let g:FerretExecutableArguments = {
+      "   \   'ack': '--column --with-filename -s'
+      "   \ }
+      " ```
+      "
+      " To find out the default arguments for a given executable, see
+      " |ferret#get_default_arguments()|.
+      "
+      let l:overrides=get(g:, 'FerretExecutableArguments', {})
+      let l:type=exists('v:t_dict') ? v:t_dict : 4
+      if type(l:overrides) == l:type && has_key(l:overrides, l:executable)
+        return l:executable . ' ' . l:overrides[l:executable]
+      else
+        return l:executable . ' ' . s:executables[l:executable]
+      endif
     endif
   endfor
   return ''

@@ -272,6 +272,20 @@ Example:
 let g:FerretExecutable='ag,rg'
 ```
 
+<p align="right"><a name="gferretexecutablearguments" href="#user-content-gferretexecutablearguments"><code>g:FerretExecutableArguments</code></a></p>
+
+### `g:FerretExecutableArguments` (dict, default: {})<a name="ferret-gferretexecutablearguments-dict-default-" href="#user-content-ferret-gferretexecutablearguments-dict-default-"></a>
+
+Allows you to override the default arguments that get passed to the underlying search executables. For example, to add `-s` to the default arguments passed to `ack` (`--column --with-filename`):
+
+```
+let g:FerretExecutableArguments = {
+  \   'ack': '--column --with-filename -s'
+  \ }
+```
+
+To find out the default arguments for a given executable, see <strong>`ferret#get_default_arguments()`</strong>.
+
 <p align="right"><a name="gferretmaxresults" href="#user-content-gferretmaxresults"><code>g:FerretMaxResults</code></a></p>
 
 ### `g:FerretMaxResults` (number, default: 100000)<a name="ferret-gferretmaxresults-number-default-100000" href="#user-content-ferret-gferretmaxresults-number-default-100000"></a>
@@ -373,6 +387,21 @@ let g:FerretQFCommands=0
 ### `g:FerretFormat` (string, default: "%f:%l:%c:%m")<a name="ferret-gferretformat-string-default-flcm" href="#user-content-ferret-gferretformat-string-default-flcm"></a>
 
 Sets the '<strong>`grepformat`</strong>' used by Ferret.
+
+
+## Functions<a name="ferret-functions" href="#user-content-ferret-functions"></a>
+
+<p align="right"><a name="ferretgetdefaultarguments" href="#user-content-ferretgetdefaultarguments"><code>ferret#get_default_arguments()()</code></a></p>
+
+### `ferret#get_default_arguments()()`<a name="ferret-ferretgetdefaultarguments" href="#user-content-ferret-ferretgetdefaultarguments"></a>
+
+Call this with an executable name to find out the default arguments that will be passed when invoking that executable. For example:
+
+```
+echo ferret#get_default_arguments('rg')
+```
+
+This may be useful if you wish to extend or otherwise modify the arguments by setting <strong>`g:FerretExecutableArguments`</strong>.
 
 
 ## Custom autocommands<a name="ferret-custom-autocommands" href="#user-content-ferret-custom-autocommands"></a>
@@ -582,6 +611,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 - Try to avoid &quot;press ENTER to continue&quot; prompts.
 - Put search term in <strong>`w:quickfix_title`</strong> for use in statuslines (https://github.com/wincent/ferret/pull/57).
+- Add <strong>`g:FerretExecutableArguments`</strong> and <strong>`ferret#get_default_arguments()`</strong> (https://github.com/wincent/ferret/pull/46).
 
 
 ### 3.0.3 (23 March 2018)<a name="ferret-303-23-march-2018" href="#user-content-ferret-303-23-march-2018"></a>
