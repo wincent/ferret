@@ -98,7 +98,7 @@ As a convenience &lt;leader&gt;a is set-up (<strong>[`<Plug>(FerretAck)`](#user-
 
 ### `:Ack! {pattern} {options}`<a name="ferret-ack-pattern-options" href="#user-content-ferret-ack-pattern-options"></a>
 
-Like <strong>[`:Ack`](#user-content-ack)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+Like <strong>[`:Ack`](#user-content-ack)</strong>, but returns all results irrespective of the value of <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 
 <p align="right"><a name="lack" href="#user-content-lack"><code>:Lack</code></a></p>
 
@@ -112,7 +112,7 @@ Note that <strong>[`:Lack`](#user-content-lack)</strong> always runs synchronous
 
 ### `:Lack! {pattern} {options}`<a name="ferret-lack-pattern-options" href="#user-content-ferret-lack-pattern-options"></a>
 
-Like <strong>[`:Lack`](#user-content-lack)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+Like <strong>[`:Lack`](#user-content-lack)</strong>, but returns all results irrespective of the value of <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 
 <p align="right"><a name="back" href="#user-content-back"><code>:Back</code></a></p>
 
@@ -124,7 +124,7 @@ Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only listed buff
 
 ### `:Back! {pattern} {options}`<a name="ferret-back-pattern-options" href="#user-content-ferret-back-pattern-options"></a>
 
-Like <strong>[`:Back`](#user-content-back)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+Like <strong>[`:Back`](#user-content-back)</strong>, but returns all results irrespective of the value of <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 
 <p align="right"><a name="black" href="#user-content-black"><code>:Black</code></a></p>
 
@@ -136,7 +136,7 @@ Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed bu
 
 ### `:Black! {pattern} {options}`<a name="ferret-black-pattern-options" href="#user-content-ferret-black-pattern-options"></a>
 
-Like <strong>[`:Black`](#user-content-black)</strong>, but returns all results irrespective of the value of <strong>`g:FerretMaxResults`</strong>.
+Like <strong>[`:Black`](#user-content-black)</strong>, but returns all results irrespective of the value of <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 
 <p align="right"><a name="acks" href="#user-content-acks"><code>:Acks</code></a></p>
 
@@ -175,12 +175,12 @@ Note that Ferret will not try to set up the &lt;leader&gt; mappings if any of th
 
 - A mapping with the same <strong>`{lhs}`</strong> already exists.
 - An alternative mapping for the same functionality has already been set up from a <strong>`.vimrc`</strong>.
-- The mapping has been suppressed by setting <strong>`g:FerretMap`</strong> to 0 in your <strong>`.vimrc`</strong>.
+- The mapping has been suppressed by setting <strong>[`g:FerretMap`](#user-content-gferretmap)</strong> to 0 in your <strong>`.vimrc`</strong>.
 
 
 ### Mappings specific to the quickfix window<a name="ferret-mappings-specific-to-the-quickfix-window" href="#user-content-ferret-mappings-specific-to-the-quickfix-window"></a>
 
-Additionally, Ferret will set up special mappings in <strong>`quickfix`</strong> listings, unless prevented from doing so by <strong>`g:FerretQFMap`</strong>:
+Additionally, Ferret will set up special mappings in <strong>`quickfix`</strong> listings, unless prevented from doing so by <strong>[`g:FerretQFMap`](#user-content-gferretqfmap)</strong>:
 
 - `d` (<strong>`visual-mode`</strong>): delete visual selection
 - `dd` (<strong>`Normal-mode`</strong>): delete current line
@@ -233,7 +233,7 @@ nmap <leader>u <Plug>(FerretAcks)
 
 ### `g:FerretNvim` (boolean, default: 1)<a name="ferret-gferretnvim-boolean-default-1" href="#user-content-ferret-gferretnvim-boolean-default-1"></a>
 
-Controls whether to use Neovim's <strong>`job-control`</strong> features, when available, to run searches asynchronously. To prevent this from being used, set to 0, in which case Ferret will fall back to the next method in the list (Vim's built-in async primitives -- see <strong>`g:FerretJob`</strong> -- which are typically not available in Neovim, so will then fall back to the next available method).
+Controls whether to use Neovim's <strong>`job-control`</strong> features, when available, to run searches asynchronously. To prevent this from being used, set to 0, in which case Ferret will fall back to the next method in the list (Vim's built-in async primitives -- see <strong>[`g:FerretJob`](#user-content-gferretjob)</strong> -- which are typically not available in Neovim, so will then fall back to the next available method).
 
 ```
 let g:FerretNvim=0
@@ -253,7 +253,7 @@ let g:FerretJob=0
 
 ### `g:FerretHlsearch` (boolean, default: none)<a name="ferret-gferrethlsearch-boolean-default-none" href="#user-content-ferret-gferrethlsearch-boolean-default-none"></a>
 
-Controls whether Ferret should attempt to highlight the search pattern when running <strong>[`:Ack`](#user-content-ack)</strong> or <strong>[`:Lack`](#user-content-lack)</strong>. If left unset, Ferret will respect the current 'hlsearch' setting. To force highlighting on or off irrespective of 'hlsearch', set <strong>`g:FerretHlsearch`</strong> to 1 (on) or 0 (off):
+Controls whether Ferret should attempt to highlight the search pattern when running <strong>[`:Ack`](#user-content-ack)</strong> or <strong>[`:Lack`](#user-content-lack)</strong>. If left unset, Ferret will respect the current 'hlsearch' setting. To force highlighting on or off irrespective of 'hlsearch', set <strong>[`g:FerretHlsearch`](#user-content-gferrethlsearch)</strong> to 1 (on) or 0 (off):
 
 ```
 let g:FerretHlsearch=0
@@ -290,11 +290,11 @@ To find out the default arguments for a given executable, see <strong>`ferret#ge
 
 ### `g:FerretMaxResults` (number, default: 100000)<a name="ferret-gferretmaxresults-number-default-100000" href="#user-content-ferret-gferretmaxresults-number-default-100000"></a>
 
-Controls the maximum number of results Ferret will attempt to gather before displaying the results. Note that this only applies when searching asynchronously; that is, on recent versions of Vim with <strong>`+job`</strong> support and when <strong>`g:FerretJob`</strong> is not set to 0.
+Controls the maximum number of results Ferret will attempt to gather before displaying the results. Note that this only applies when searching asynchronously; that is, on recent versions of Vim with <strong>`+job`</strong> support and when <strong>[`g:FerretJob`](#user-content-gferretjob)</strong> is not set to 0.
 
 The intent of this option is to prevent runaway search processes that produce huge volumes of output (for example, searching for a common string like &quot;test&quot; inside a <strong>`$HOME`</strong> directory containing millions of files) from locking up Vim.
 
-In the event that Ferret aborts a search that has hit the <strong>`g:FerretMaxResults`</strong> limit, a message will be printed prompting users to run the search again with <strong>[`:Ack!`](#user-content-ack)</strong> or <strong>[`:Lack!`](#user-content-lack)</strong> if they want to bypass the limit.
+In the event that Ferret aborts a search that has hit the <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong> limit, a message will be printed prompting users to run the search again with <strong>[`:Ack!`](#user-content-ack)</strong> or <strong>[`:Lack!`](#user-content-lack)</strong> if they want to bypass the limit.
 
 <p align="right"><a name="gferretautojump" href="#user-content-gferretautojump"><code>g:FerretAutojump</code></a></p>
 
@@ -320,7 +320,7 @@ Controls whether to set up setting overrides for <strong>`quickfix`</strong> win
 
 A full list of overridden settings can be found in <strong>[`ferret-overrides`](#user-content-ferret-overrides)</strong>.
 
-To prevent the custom settings from being applied, set <strong>`g:FerretQFOptions`</strong> to 0:
+To prevent the custom settings from being applied, set <strong>[`g:FerretQFOptions`](#user-content-gferretqfoptions)</strong> to 0:
 
 ```
 let g:FerretQFOptions=0
@@ -346,7 +346,7 @@ let g:FerretQFMap=0
 
 ### `g:FerretLoaded` (any, default: none)<a name="ferret-gferretloaded-any-default-none" href="#user-content-ferret-gferretloaded-any-default-none"></a>
 
-To prevent Ferret from being loaded, set <strong>`g:FerretLoaded`</strong> to any value in your <strong>`.vimrc`</strong>. For example:
+To prevent Ferret from being loaded, set <strong>[`g:FerretLoaded`](#user-content-gferretloaded)</strong> to any value in your <strong>`.vimrc`</strong>. For example:
 
 ```
 let g:FerretLoaded=1
@@ -356,7 +356,7 @@ let g:FerretLoaded=1
 
 ### `g:FerretLazyInit` (boolean, default: 1)<a name="ferret-gferretlazyinit-boolean-default-1" href="#user-content-ferret-gferretlazyinit-boolean-default-1"></a>
 
-In order to minimize impact on Vim start-up time Ferret will initialize itself lazily on first use by default. If you wish to force immediate initialization (for example, to cause <strong>`'grepprg'`</strong> and <strong>`'grepformat'`</strong> to be set as soon as Vim launches), then set <strong>`g:FerretLazyInit`</strong> to 0 in your <strong>`.vimrc`</strong>:
+In order to minimize impact on Vim start-up time Ferret will initialize itself lazily on first use by default. If you wish to force immediate initialization (for example, to cause <strong>`'grepprg'`</strong> and <strong>`'grepformat'`</strong> to be set as soon as Vim launches), then set <strong>[`g:FerretLazyInit`](#user-content-gferretlazyinit)</strong> to 0 in your <strong>`.vimrc`</strong>:
 
 ```
 let g:FerrerLazyInit=0
@@ -401,7 +401,7 @@ Call this with an executable name to find out the default arguments that will be
 echo ferret#get_default_arguments('rg')
 ```
 
-This may be useful if you wish to extend or otherwise modify the arguments by setting <strong>`g:FerretExecutableArguments`</strong>.
+This may be useful if you wish to extend or otherwise modify the arguments by setting <strong>[`g:FerretExecutableArguments`](#user-content-gferretexecutablearguments)</strong>.
 
 
 ## Custom autocommands<a name="ferret-custom-autocommands" href="#user-content-ferret-custom-autocommands"></a>
@@ -464,7 +464,7 @@ Set to 0 because the <strong>`quickfix`</strong> listing is usually small by def
 
 Turned off to reduce visual clutter.
 
-To prevent any of these <strong>`quickfix`</strong>-specific overrides from being set up, you can set <strong>`g:FerretQFOptions`</strong> to 0 in your <strong>`.vimrc`</strong>:
+To prevent any of these <strong>`quickfix`</strong>-specific overrides from being set up, you can set <strong>[`g:FerretQFOptions`](#user-content-gferretqfoptions)</strong> to 0 in your <strong>`.vimrc`</strong>:
 
 ```
 let g:FerretQFOptions=0
@@ -617,7 +617,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 - Try to avoid &quot;press ENTER to continue&quot; prompts.
 - Put search term in <strong>`w:quickfix_title`</strong> for use in statuslines (https://github.com/wincent/ferret/pull/57).
-- Add <strong>`g:FerretExecutableArguments`</strong> and <strong>`ferret#get_default_arguments()`</strong> (https://github.com/wincent/ferret/pull/46).
+- Add <strong>[`g:FerretExecutableArguments`](#user-content-gferretexecutablearguments)</strong> and <strong>`ferret#get_default_arguments()`</strong> (https://github.com/wincent/ferret/pull/46).
 
 
 ### 3.0.3 (23 March 2018)<a name="ferret-303-23-march-2018" href="#user-content-ferret-303-23-march-2018"></a>
@@ -638,21 +638,21 @@ Other contributors that have submitted patches include (in alphabetical order):
 ### 3.0 (13 June 2017)<a name="ferret-30-13-june-2017" href="#user-content-ferret-30-13-june-2017"></a>
 
 - Improve handling of backslash escapes (https://github.com/wincent/ferret/issues/41).
-- Add <strong>`g:FerretAutojump`</strong>.
+- Add <strong>[`g:FerretAutojump`](#user-content-gferretautojump)</strong>.
 - Drop support for vim-dispatch.
 
 
 ### 2.0 (6 June 2017)<a name="ferret-20-6-june-2017" href="#user-content-ferret-20-6-june-2017"></a>
 
-- Add support for Neovim, along with <strong>`g:FerretNvim`</strong> setting.
+- Add support for Neovim, along with <strong>[`g:FerretNvim`](#user-content-gferretnvim)</strong> setting.
 
 
 ### 1.5 "Cinco de Cuatro" (4 May 2017)<a name="ferret-15-cinco-de-cuatro-4-may-2017" href="#user-content-ferret-15-cinco-de-cuatro-4-may-2017"></a>
 
 - Improvements to the handling of very large result sets (due to wide lines or many results).
-- Added <strong>`g:FerretLazyInit`</strong>.
-- Added missing documentation for <strong>`g:FerretJob`</strong>.
-- Added <strong>`g:FerretMaxResults`</strong>.
+- Added <strong>[`g:FerretLazyInit`](#user-content-gferretlazyinit)</strong>.
+- Added missing documentation for <strong>[`g:FerretJob`](#user-content-gferretjob)</strong>.
+- Added <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 - Added feature-detection for `rg` and `ag`, allowing Ferret to gracefully work with older versions of those tools that do not support all desired command-line switches.
 
 
@@ -673,7 +673,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ### 1.2a (16 May 2016)<a name="ferret-12a-16-may-2016" href="#user-content-ferret-12a-16-may-2016"></a>
 
-- Add optional support for running searches asynchronously using Vim's <strong>`+job`</strong> feature (enabled by default in sufficiently recent versions of Vim); see <strong>`g:FerretJob`</strong>, <strong>`:FerretCancelAsync`</strong> and <strong>`:FerretPullAsync`</strong>.
+- Add optional support for running searches asynchronously using Vim's <strong>`+job`</strong> feature (enabled by default in sufficiently recent versions of Vim); see <strong>[`g:FerretJob`](#user-content-gferretjob)</strong>, <strong>`:FerretCancelAsync`</strong> and <strong>`:FerretPullAsync`</strong>.
 
 
 ### 1.1.1 (7 March 2016)<a name="ferret-111-7-march-2016" href="#user-content-ferret-111-7-march-2016"></a>
@@ -693,7 +693,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 - Fix broken <strong>[`:Qargs`](#user-content-qargs)</strong> command (patch from Daniel Silva).
 - Add <strong>`g:FerretQFHandler`</strong> and <strong>`g:FerretLLHandler`</strong> options (patch from Daniel Silva).
-- Make <strong>`<Plug>`</strong> mappings accessible even <strong>`g:FerretMap`</strong> is set to 0.
+- Make <strong>`<Plug>`</strong> mappings accessible even <strong>[`g:FerretMap`](#user-content-gferretmap)</strong> is set to 0.
 - Fix failure to report filename when using `ack` and explicitly scoping search to a single file (patch from Daniel Silva).
 - When using `ag`, report multiple matches per line instead of just the first (patch from Daniel Silva).
 - Improve content and display of error messages.
@@ -701,7 +701,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ### 0.3 (24 July 2015)<a name="ferret-03-24-july-2015" href="#user-content-ferret-03-24-july-2015"></a>
 
-- Added highlighting of search pattern and related <strong>`g:FerretHlsearch`</strong> option (patch from Nelo-Thara Wallus).
+- Added highlighting of search pattern and related <strong>[`g:FerretHlsearch`](#user-content-gferrethlsearch)</strong> option (patch from Nelo-Thara Wallus).
 - Add better error reporting for failed or incorrect searches.
 
 
