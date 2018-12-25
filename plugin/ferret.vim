@@ -357,7 +357,7 @@
 "
 " # History
 "
-" ## master (not yet released)
+" ## 4.0 (25 December 2018)
 "
 " - Try to avoid "press ENTER to continue" prompts.
 " - Put search term in |w:quickfix_title| for use in statuslines

@@ -637,7 +637,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
 
-### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
+### 4.0 (25 December 2018)<a name="ferret-40-25-december-2018" href="#user-content-ferret-40-25-december-2018"></a>
 
 - Try to avoid &quot;press ENTER to continue&quot; prompts.
 - Put search term in <strong>`w:quickfix_title`</strong> for use in statuslines (https://github.com/wincent/ferret/pull/57).
