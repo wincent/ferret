@@ -388,6 +388,13 @@ Example override:
     let g:FerretAutojump=2
 <
 
+                                                             *g:FerretQFHandler*
+|g:FerretQFHandler|                           string (default: "botright copen")
+
+Allows you to override the mechanism that opens the |quickfix| window to
+display search results.
+
+
                                                              *g:FerretLLHandler*
 |g:FerretLLHandler|                                    string (default: "lopen")
 

@@ -324,6 +324,12 @@ Example override:
 let g:FerretAutojump=2
 ```
 
+<p align="right"><a name="gferretqfhandler" href="#user-content-gferretqfhandler"><code>g:FerretQFHandler</code></a></p>
+
+### `g:FerretQFHandler` (string, default: "botright copen")<a name="ferret-gferretqfhandler-string-default-botright-copen" href="#user-content-ferret-gferretqfhandler-string-default-botright-copen"></a>
+
+Allows you to override the mechanism that opens the <strong>`quickfix`</strong> window to display search results.
+
 <p align="right"><a name="gferretllhandler" href="#user-content-gferretllhandler"><code>g:FerretLLHandler</code></a></p>
 
 ### `g:FerretLLHandler` (string, default: "lopen")<a name="ferret-gferretllhandler-string-default-lopen" href="#user-content-ferret-gferretllhandler-string-default-lopen"></a>
@@ -710,7 +716,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 ### 1.0 (28 December 2015)<a name="ferret-10-28-december-2015" href="#user-content-ferret-10-28-december-2015"></a>
 
 - Fix broken <strong>[`:Qargs`](#user-content-qargs)</strong> command (patch from Daniel Silva).
-- Add <strong>`g:FerretQFHandler`</strong> and <strong>[`g:FerretLLHandler`](#user-content-gferretllhandler)</strong> options (patch from Daniel Silva).
+- Add <strong>[`g:FerretQFHandler`](#user-content-gferretqfhandler)</strong> and <strong>[`g:FerretLLHandler`](#user-content-gferretllhandler)</strong> options (patch from Daniel Silva).
 - Make <strong>`<Plug>`</strong> mappings accessible even <strong>[`g:FerretMap`](#user-content-gferretmap)</strong> is set to 0.
 - Fix failure to report filename when using `ack` and explicitly scoping search to a single file (patch from Daniel Silva).
 - When using `ag`, report multiple matches per line instead of just the first (patch from Daniel Silva).
