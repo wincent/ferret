@@ -610,10 +610,10 @@ endfunction
 let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack,ack-grep')
 
 let s:executables={
-      \   'rg': 'rg --vimgrep --no-heading',
-      \   'ag': 'ag',
-      \   'ack': 'ack --column --with-filename',
-      \   'ack-grep': 'ack-grep --column --with-filename'
+      \   'rg': '--vimgrep --no-heading',
+      \   'ag': '',
+      \   'ack': '--column --with-filename',
+      \   'ack-grep': '--column --with-filename'
       \ }
 
 let s:init_done=0
@@ -666,7 +666,7 @@ function! ferret#private#executable() abort
   endif
   for l:executable in l:executables
     if executable(l:executable)
-      return s:executables[l:executable]
+      return l:executable . ' ' . s:executables[l:executable]
     endif
   endfor
   return ''
