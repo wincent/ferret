@@ -145,14 +145,14 @@
 "
 " @indent
 "                                                                 *ferret-nolist*
-"   'nolist'
+"   ## 'nolist'
 "
 "   Turned off to reduce visual clutter in the search results, and because
 "   'list' is most useful in files that are being actively edited, which is not
 "   the case for |quickfix| results.
 "
 "                                                       *ferret-norelativenumber*
-"   'norelativenumber'
+"   ## 'norelativenumber'
 "
 "   Turned off, because it is more useful to have a sense of absolute progress
 "   through the results list than to have the ability to jump to nearby results
@@ -161,26 +161,26 @@
 "   respectively).
 "
 "                                                                 *ferret-nowrap*
-"   'nowrap'
+"   ## 'nowrap'
 "
 "   Turned off to avoid ugly wrapping that makes the results list hard to read,
 "   and because in search results, the most relevant information is the
 "   filename, which is on the left and is usually visible even without wrapping.
 "
 "                                                                 *ferret-number*
-"   'number'
+"   ## 'number'
 "
 "   Turned on to give a sense of absolute progress through the results.
 "
 "                                                              *ferret-scrolloff*
-"   'scrolloff'
+"   ## 'scrolloff'
 "
 "   Set to 0 because the |quickfix| listing is usually small by default, so
 "   trying to keep the current line away from the edge of the viewpoint is
 "   futile; by definition it is usually near the edge.
 "
 "                                                           *ferret-nocursorline*
-"   'nocursorline'
+"   ## 'nocursorline'
 "
 "   Turned off to reduce visual clutter.
 "

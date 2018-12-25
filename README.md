@@ -429,32 +429,38 @@ Ferret overrides the 'grepformat' and 'grepprg' settings, preferentially setting
 Additionally, Ferret includes an <strong>`ftplugin`</strong> for the <strong>`quickfix`</strong> listing that adjusts a number of settings to improve the usability of search results.
 
 <p align="right"><a name="ferret-nolist" href="#user-content-ferret-nolist"><code>ferret-nolist</code></a></p>
-'nolist'
+
+### 'nolist'<a name="ferret-nolist" href="#user-content-ferret-nolist"></a>
 
 Turned off to reduce visual clutter in the search results, and because 'list' is most useful in files that are being actively edited, which is not the case for <strong>`quickfix`</strong> results.
 
 <p align="right"><a name="ferret-norelativenumber" href="#user-content-ferret-norelativenumber"><code>ferret-norelativenumber</code></a></p>
-'norelativenumber'
+
+### 'norelativenumber'<a name="ferret-norelativenumber" href="#user-content-ferret-norelativenumber"></a>
 
 Turned off, because it is more useful to have a sense of absolute progress through the results list than to have the ability to jump to nearby results (especially seeing as the most common operations are moving to the next or previous file, which are both handled nicely by <strong>`:cnf`</strong> and <strong>`:cpf`</strong> respectively).
 
 <p align="right"><a name="ferret-nowrap" href="#user-content-ferret-nowrap"><code>ferret-nowrap</code></a></p>
-'nowrap'
+
+### 'nowrap'<a name="ferret-nowrap" href="#user-content-ferret-nowrap"></a>
 
 Turned off to avoid ugly wrapping that makes the results list hard to read, and because in search results, the most relevant information is the filename, which is on the left and is usually visible even without wrapping.
 
 <p align="right"><a name="ferret-number" href="#user-content-ferret-number"><code>ferret-number</code></a></p>
-'number'
+
+### 'number'<a name="ferret-number" href="#user-content-ferret-number"></a>
 
 Turned on to give a sense of absolute progress through the results.
 
 <p align="right"><a name="ferret-scrolloff" href="#user-content-ferret-scrolloff"><code>ferret-scrolloff</code></a></p>
-'scrolloff'
+
+### 'scrolloff'<a name="ferret-scrolloff" href="#user-content-ferret-scrolloff"></a>
 
 Set to 0 because the <strong>`quickfix`</strong> listing is usually small by default, so trying to keep the current line away from the edge of the viewpoint is futile; by definition it is usually near the edge.
 
 <p align="right"><a name="ferret-nocursorline" href="#user-content-ferret-nocursorline"><code>ferret-nocursorline</code></a></p>
-'nocursorline'
+
+### 'nocursorline'<a name="ferret-nocursorline" href="#user-content-ferret-nocursorline"></a>
 
 Turned off to reduce visual clutter.
 
