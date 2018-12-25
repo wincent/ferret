@@ -610,7 +610,7 @@ endfunction
 let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack,ack-grep')
 
 let s:executables={
-      \   'rg': '--vimgrep --no-heading',
+      \   'rg': '--vimgrep --no-config --no-heading',
       \   'ag': '',
       \   'ack': '--column --with-filename',
       \   'ack-grep': '--column --with-filename'
