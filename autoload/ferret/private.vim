@@ -609,6 +609,8 @@ endfunction
 " ```
 let s:force=get(g:, 'FerretExecutable', 'rg,ag,ack,ack-grep')
 
+" Base set of default arguments for each executable; these get extended by
+" ferret#private#init() upon startup.
 let s:executables={
       \   'rg': '--vimgrep --no-config --no-heading',
       \   'ag': '',
@@ -634,9 +636,9 @@ function! ferret#private#init() abort
   if executable('ag')
     let l:ag_help=system('ag --help')
     if match(l:ag_help, '--vimgrep') != -1
-      let s:executables['ag'].=' --vimgrep'
+      let s:executables['ag'].='--vimgrep'
     else
-      let s:executables['ag'].=' --column'
+      let s:executables['ag'].='--column'
     endif
     if match(l:ag_help, '--width') != -1
       let s:executables['ag'].=' --width 4096'
