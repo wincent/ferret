@@ -284,7 +284,7 @@ let g:FerretExecutableArguments = {
   \ }
 ```
 
-To find out the default arguments for a given executable, see <strong>`ferret#get_default_arguments()`</strong>.
+To find out the default arguments for a given executable, see <strong>[`ferret#get_default_arguments()`](#user-content-ferretgetdefaultarguments)</strong>.
 
 <p align="right"><a name="gferretmaxresults" href="#user-content-gferretmaxresults"><code>g:FerretMaxResults</code></a></p>
 
@@ -617,7 +617,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 - Try to avoid &quot;press ENTER to continue&quot; prompts.
 - Put search term in <strong>`w:quickfix_title`</strong> for use in statuslines (https://github.com/wincent/ferret/pull/57).
-- Add <strong>[`g:FerretExecutableArguments`](#user-content-gferretexecutablearguments)</strong> and <strong>`ferret#get_default_arguments()`</strong> (https://github.com/wincent/ferret/pull/46).
+- Add <strong>[`g:FerretExecutableArguments`](#user-content-gferretexecutablearguments)</strong> and <strong>[`ferret#get_default_arguments()`](#user-content-ferretgetdefaultarguments)</strong> (https://github.com/wincent/ferret/pull/46).
 
 
 ### 3.0.3 (23 March 2018)<a name="ferret-303-23-march-2018" href="#user-content-ferret-303-23-march-2018"></a>
