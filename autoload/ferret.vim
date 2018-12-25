@@ -2,7 +2,7 @@
 " Licensed under the terms of the BSD 2-clause license.
 
 ""
-" @function ferret#get_default_arguments()
+" @function ferret#get_default_arguments
 "
 " Call this with an executable name to find out the default arguments that will
 " be passed when invoking that executable. For example:

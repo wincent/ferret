@@ -391,9 +391,9 @@ Sets the '<strong>`grepformat`</strong>' used by Ferret.
 
 ## Functions<a name="ferret-functions" href="#user-content-ferret-functions"></a>
 
-<p align="right"><a name="ferretgetdefaultarguments" href="#user-content-ferretgetdefaultarguments"><code>ferret#get_default_arguments()()</code></a></p>
+<p align="right"><a name="ferretgetdefaultarguments" href="#user-content-ferretgetdefaultarguments"><code>ferret#get_default_arguments()</code></a></p>
 
-### `ferret#get_default_arguments()()`<a name="ferret-ferretgetdefaultarguments" href="#user-content-ferret-ferretgetdefaultarguments"></a>
+### `ferret#get_default_arguments()`<a name="ferret-ferretgetdefaultarguments" href="#user-content-ferret-ferretgetdefaultarguments"></a>
 
 Call this with an executable name to find out the default arguments that will be passed when invoking that executable. For example:
 
