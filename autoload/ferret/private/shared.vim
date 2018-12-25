@@ -44,10 +44,22 @@ function! ferret#private#shared#finalize_search(output, ack)
   let l:autojump=s:autojump()
   if a:ack
     let l:prefix='c' " Will use cexpr, cgetexpr.
+    ""
+    " @option g:FerretQFHandler string "botright copen"
+    "
+    " Allows you to override the mechanism that opens the |quickfix| window to
+    " display search results.
+    "
     let l:handler=get(g:, 'FerretQFHandler', 'botright copen')
     let l:post='qf'
   else
     let l:prefix='l' " Will use lexpr, lgetexpr.
+    ""
+    " @option g:FerretLLHandler string "lopen"
+    "
+    " Allows you to override the mechanism that opens the |location-list|
+    " window to display search results.
+    "
     let l:handler=get(g:, 'FerretLLHandler', 'lopen')
     let l:post='location'
   endif

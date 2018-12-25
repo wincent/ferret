@@ -620,7 +620,21 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#blackcomplete Black 
 " :Acks /\v(foo\d+)(bar)/\2\1/
 " ```
 command! -nargs=1 Acks call ferret#private#acks(<q-args>)
+
+""
+" @command :FerretCancelAsync
+"
+" Cancels any asynchronous search that may be in progress in the background.
+"
 command! FerretCancelAsync call ferret#private#async#cancel()
+
+""
+" @command :FerretPullAsync
+"
+" Eagerly populates the |quickfix| (or |location-list|) window with any results
+" that may have been produced by a long-running asynchronoous search in progress
+" in the background.
+"
 command! FerretPullAsync call ferret#private#async#pull()
 
 nnoremap <Plug>(FerretAck) :Ack<space>
