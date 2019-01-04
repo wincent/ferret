@@ -637,6 +637,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
 
+### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
+
+- Make <strong>[`:Acks`](#user-content-acks)</strong> behavior the same irrespective of the <strong>`'gdefault'`</strong> setting.
+
+
 ### 4.0 (25 December 2018)<a name="ferret-40-25-december-2018" href="#user-content-ferret-40-25-december-2018"></a>
 
 - Try to avoid &quot;press ENTER to continue&quot; prompts.

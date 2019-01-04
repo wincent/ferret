@@ -342,14 +342,17 @@ function! ferret#private#acks(command) abort
   endif
 
   " Pass through options `c`, `i`/`I` to `:substitute`.
-  " Add options `e` and `g` if not already present.
+  " Add options `e`, and `g` (if appropriate), if not already present.
   let l:pattern=l:matches[1]
   let l:options=l:matches[3]
   if l:options !~# 'e'
-    let l:options .= 'e'
+    let l:options.='e'
   endif
-  if l:options !~# 'g'
-    let l:options .= 'g'
+  if !&gdefault && l:options !~# 'g'
+    let l:options.='g'
+  elseif &gdefault && l:options =~# 'g'
+    " 'gdefault' inverts the meaning of the 'g' flag, so we must strip it.
+    let l:options=substitute(l:options, 'g', '', 'g')
   endif
 
   let l:cfdo=has('listcmds') && exists(':cfdo') == 2

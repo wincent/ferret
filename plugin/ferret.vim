@@ -357,6 +357,10 @@
 "
 " # History
 "
+" ## master (not yet released)
+"
+" - Make |:Acks| behavior the same irrespective of the |'gdefault'| setting.
+"
 " ## 4.0 (25 December 2018)
 "
 " - Try to avoid "press ENTER to continue" prompts.
