@@ -348,8 +348,14 @@ function! ferret#private#acks(command) abort
   if l:options !~# 'e'
     let l:options.='e'
   endif
-  if !&gdefault && l:options !~# 'g'
-    let l:options.='g'
+  if !&gdefault
+    if l:options !~# 'g'
+      let l:options.='g'
+    else
+      " Make sure there is exactly one 'g' flag present, otherwise an even
+      " number of 'g' flags will actually cancel each other out.
+      let l:options=substitute(l:options, 'g', '', 'g') . 'g'
+    endif
   elseif &gdefault && l:options =~# 'g'
     " 'gdefault' inverts the meaning of the 'g' flag, so we must strip it.
     let l:options=substitute(l:options, 'g', '', 'g')
