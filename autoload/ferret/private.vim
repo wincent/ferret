@@ -321,12 +321,12 @@ endfunction
 "
 "   :Ack foo
 "   :Qargs
-"   :argdo %s/foo/bar/ge | update
+"   :argdo %substitute/foo/bar/ge | update
 "
 " and the following on Vim 8 or after:
 "
 "   :Ack foo
-"   :cfdo %s/foo/bar/ge | update
+"   :cfdo %substitute/foo/bar/ge | update
 "
 " (Note: there's nothing specific to Ack in this function; it's just named this
 " way for mnemonics, as it will most often be preceded by an :Ack invocation.)
@@ -370,9 +370,9 @@ function! ferret#private#acks(command) abort
 
   call ferret#private#autocmd('FerretWillWrite')
   if l:cfdo
-    execute 'cfdo' '%s' . l:pattern . l:options . ' | update'
+    execute 'cfdo' '%substitute' . l:pattern . l:options . ' | update'
   else
-    execute 'argdo' '%s' . l:pattern . l:options . ' | update'
+    execute 'argdo' '%substitute' . l:pattern . l:options . ' | update'
   endif
   call ferret#private#autocmd('FerretDidWrite')
 endfunction
