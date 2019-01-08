@@ -357,7 +357,7 @@
 "
 " # History
 "
-" ## master (not yet released)
+" ## 4.0.1 (8 January 2019)
 "
 " - Make |:Acks| behavior the same irrespective of the |'gdefault'| setting.
 "
