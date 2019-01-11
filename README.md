@@ -636,7 +636,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-master (not yet released)
+4.0.2 (11 January 2019)
 
 - Restore compatibility with versions of `rg` prior to v0.8 (https://github.com/wincent/ferret/issues/59).
 
