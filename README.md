@@ -167,7 +167,7 @@ Cancels any asynchronous search that may be in progress in the background.
 
 ### `:FerretPullAsync`<a name="ferret-ferretpullasync" href="#user-content-ferret-ferretpullasync"></a>
 
-Eagerly populates the <strong>`quickfix`</strong> (or <strong>`location-list`</strong>) window with any results that may have been produced by a long-running asynchronoous search in progress in the background.
+Eagerly populates the <strong>`quickfix`</strong> (or <strong>`location-list`</strong>) window with any results that may have been produced by a long-running asynchronous search in progress in the background.
 
 <p align="right"><a name="qargs" href="#user-content-qargs"><code>:Qargs</code></a></p>
 

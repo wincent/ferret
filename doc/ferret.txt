@@ -215,7 +215,7 @@ Cancels any asynchronous search that may be in progress in the background.
 :FerretPullAsync  ~
 
 Eagerly populates the |quickfix| (or |location-list|) window with any results
-that may have been produced by a long-running asynchronoous search in
+that may have been produced by a long-running asynchronous search in
 progress in the background.
 
                                                                         *:Qargs*

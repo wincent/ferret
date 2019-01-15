@@ -641,7 +641,7 @@ command! FerretCancelAsync call ferret#private#async#cancel()
 " @command :FerretPullAsync
 "
 " Eagerly populates the |quickfix| (or |location-list|) window with any results
-" that may have been produced by a long-running asynchronoous search in progress
+" that may have been produced by a long-running asynchronous search in progress
 " in the background.
 "
 command! FerretPullAsync call ferret#private#async#pull()
