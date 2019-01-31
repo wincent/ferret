@@ -48,7 +48,8 @@ provides a |:Lack| command that behaves like |:Ack| but uses the |location-list|
 instead, and a <leader>l mapping as a shortcut to |:Lack|.
 
 |:Back| and |:Black| are analogous to |:Ack| and |:Lack|, but scoped to search
-within currently open buffers only.
+within currently open buffers only. |:Quack| is scoped to search among the
+files currently in the |quickfix| list.
 
 2. Streamlined multi-file replace ~
 
@@ -182,6 +183,21 @@ search all files in the current directory.
 :Black! {pattern} {options} ~
 
 Like |:Black|, but returns all results irrespective of the value of
+|g:FerretMaxResults|.
+
+                                                                        *:Quack*
+:Quack {pattern} {options} ~
+
+Like |:Ack|, but searches only among files currently in the |quickfix| listing.
+Note that the search is still delegated to the underlying |'grepprg'| (`rg`, `ag`,
+`ack` or `ack-grep`), which means that only buffers written to disk will be
+searched. If no buffers are written to disk, then |:Quack| behaves exactly
+like |:Ack| and will search all files in the current directory.
+
+                                                                       *:Quack!*
+:Quack! {pattern} {options} ~
+
+Like |:Quack|, but returns all results irrespective of the value of
 |g:FerretMaxResults|.
 
                                                                          *:Acks*
@@ -712,7 +728,13 @@ order):
 
 HISTORY                                                         *ferret-history*
 
-4.0.2 (11 January 2019)
+4.1 (31 January 2019) ~
+
+- Added |:Quack| command, analogous to |:Ack| but scoped to the files currently
+  listed in the |quickfix| window.
+- Fixed option autocompletion.
+
+4.0.2 (11 January 2019) ~
 
 - Restore compatibility with versions of `rg` prior to v0.8
   (https://github.com/wincent/ferret/issues/59).

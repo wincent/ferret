@@ -22,7 +22,7 @@ Shortcut mappings are provided to start an <strong>[`:Ack`](#user-content-ack)</
 
 Results are normally displayed in the <strong>`quickfix`</strong> window, but Ferret also provides a <strong>[`:Lack`](#user-content-lack)</strong> command that behaves like <strong>[`:Ack`](#user-content-ack)</strong> but uses the <strong>`location-list`</strong> instead, and a &lt;leader&gt;l mapping as a shortcut to <strong>[`:Lack`](#user-content-lack)</strong>.
 
-<strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> are analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>, but scoped to search within currently open buffers only.
+<strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> are analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>, but scoped to search within currently open buffers only. <strong>[`:Quack`](#user-content-quack)</strong> is scoped to search among the files currently in the <strong>`quickfix`</strong> list.
 
 
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
@@ -137,6 +137,18 @@ Like <strong>[`:Lack`](#user-content-lack)</strong>, but searches only listed bu
 ### `:Black! {pattern} {options}`<a name="ferret-black-pattern-options" href="#user-content-ferret-black-pattern-options"></a>
 
 Like <strong>[`:Black`](#user-content-black)</strong>, but returns all results irrespective of the value of <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
+
+<p align="right"><a name="quack" href="#user-content-quack"><code>:Quack</code></a></p>
+
+### `:Quack {pattern} {options}`<a name="ferret-quack-pattern-options" href="#user-content-ferret-quack-pattern-options"></a>
+
+Like <strong>[`:Ack`](#user-content-ack)</strong>, but searches only among files currently in the <strong>`quickfix`</strong> listing. Note that the search is still delegated to the underlying <strong>`'grepprg'`</strong> (`rg`, `ag`, `ack` or `ack-grep`), which means that only buffers written to disk will be searched. If no buffers are written to disk, then <strong>[`:Quack`](#user-content-quack)</strong> behaves exactly like <strong>[`:Ack`](#user-content-ack)</strong> and will search all files in the current directory.
+
+<p align="right"><a name="quack" href="#user-content-quack"><code>:Quack!</code></a></p>
+
+### `:Quack! {pattern} {options}`<a name="ferret-quack-pattern-options" href="#user-content-ferret-quack-pattern-options"></a>
+
+Like <strong>[`:Quack`](#user-content-quack)</strong>, but returns all results irrespective of the value of <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 
 <p align="right"><a name="acks" href="#user-content-acks"><code>:Acks</code></a></p>
 
@@ -636,7 +648,14 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-4.0.2 (11 January 2019)
+
+### 4.1 (31 January 2019)<a name="ferret-41-31-january-2019" href="#user-content-ferret-41-31-january-2019"></a>
+
+- Added <strong>[`:Quack`](#user-content-quack)</strong> command, analogous to <strong>[`:Ack`](#user-content-ack)</strong> but scoped to the files currently listed in the <strong>`quickfix`</strong> window.
+- Fixed option autocompletion.
+
+
+### 4.0.2 (11 January 2019)<a name="ferret-402-11-january-2019" href="#user-content-ferret-402-11-january-2019"></a>
 
 - Restore compatibility with versions of `rg` prior to v0.8 (https://github.com/wincent/ferret/issues/59).
 

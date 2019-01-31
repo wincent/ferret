@@ -358,7 +358,7 @@
 "
 " # History
 "
-" ## master (not yet released)
+" ## 4.1 (31 January 2019)
 "
 " - Added |:Quack| command, analogous to |:Ack| but scoped to the files
 "   currently listed in the |quickfix| window.
