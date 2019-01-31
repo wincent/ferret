@@ -417,11 +417,11 @@ function! ferret#private#ackcomplete(arglead, cmdline, cursorpos) abort
 endfunction
 
 function! ferret#private#backcomplete(arglead, cmdline, cursorpos) abort
-  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 0)
+  return ferret#private#complete('Back', a:arglead, a:cmdline, a:cursorpos, 0)
 endfunction
 
 function! ferret#private#blackcomplete(arglead, cmdline, cursorpos) abort
-  return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 0)
+  return ferret#private#complete('Black', a:arglead, a:cmdline, a:cursorpos, 0)
 endfunction
 
 function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
