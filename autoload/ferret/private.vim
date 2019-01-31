@@ -263,6 +263,14 @@ function! ferret#private#black(bang, args) abort
   call call('ferret#private#lack', [a:bang, a:args . ' ' . ferret#private#buflist()])
 endfunction
 
+function! ferret#private#quack(bang, args) abort
+  if s:qfsize('qf') == 0
+    call ferret#private#error('Cannot search in empty quickfix list')
+  else
+    call call('ferret#private#ack', [a:bang, a:args . ' ' . ferret#private#qargs()])
+  endif
+endfunction
+
 function! ferret#private#installprompt() abort
   call ferret#private#error(
         \   'Unable to find suitable executable; install rg, ag, ack or ack-grep'
@@ -426,6 +434,10 @@ endfunction
 
 function! ferret#private#lackcomplete(arglead, cmdline, cursorpos) abort
   return ferret#private#complete('Lack', a:arglead, a:cmdline, a:cursorpos, 1)
+endfunction
+
+function! ferret#private#quackcomplete(arglead, cmdline, cursorpos) abort
+  return ferret#private#complete('Quack', a:arglead, a:cmdline, a:cursorpos, 0)
 endfunction
 
 " Return first word (the name of the binary) of the executable string.

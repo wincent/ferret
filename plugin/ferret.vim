@@ -32,7 +32,8 @@
 " |location-list| instead, and a <leader>l mapping as a shortcut to |:Lack|.
 "
 " |:Back| and |:Black| are analogous to |:Ack| and |:Lack|, but scoped to search
-" within currently open buffers only.
+" within currently open buffers only. |:Quack| is scoped to search among the
+" files currently in the |quickfix| list.
 "
 " ## 2. Streamlined multi-file replace
 "
@@ -359,6 +360,8 @@
 "
 " ## master (not yet released)
 "
+" - Added |:Quack| command, analogous to |:Ack| but scoped to the files
+"   currently listed in the |quickfix| window.
 " - Fixed option autocompletion.
 "
 " ## 4.0.2 (11 January 2019)
@@ -606,6 +609,23 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#backcomplete Back ca
 " |g:FerretMaxResults|.
 "
 command! -bang -nargs=1 -complete=customlist,ferret#private#blackcomplete Black call ferret#private#black(<bang>0, <q-args>)
+
+""
+" @command :Quack {pattern} {options}
+"
+" Like |:Ack|, but searches only among files currently in the |quickfix|
+" listing. Note that the search is still delegated to the underlying
+" |'grepprg'| (`rg`, `ag`, `ack` or `ack-grep`), which means that only
+" buffers written to disk will be searched. If no buffers are written
+" to disk, then |:Quack| behaves exactly like |:Ack| and will search all
+" files in the current directory.
+"
+" @command :Quack! {pattern} {options}
+"
+" Like |:Quack|, but returns all results irrespective of the value of
+" |g:FerretMaxResults|.
+"
+command! -bang -nargs=1 -complete=customlist,ferret#private#quackcomplete Quack call ferret#private#quack(<bang>0, <q-args>)
 
 ""
 " @command :Acks /{pattern}/{replacement}/
