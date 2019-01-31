@@ -588,7 +588,10 @@ endfunction
 function! ferret#private#qargs() abort
   let l:buffer_numbers={}
   for l:item in getqflist()
-    let l:buffer_numbers[l:item['bufnr']]=bufname(l:item['bufnr'])
+    let l:number=l:item['bufnr']
+    if !has_key(l:buffer_numbers, l:number)
+      let l:buffer_numbers[l:number]=bufname(l:number)
+    endif
   endfor
   return join(map(values(l:buffer_numbers), 'fnameescape(v:val)'))
 endfunction
