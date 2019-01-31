@@ -431,7 +431,7 @@ endfunction
 " Return first word (the name of the binary) of the executable string.
 function! ferret#private#executable_name()
   let l:executable=ferret#private#executable()
-  let l:binary=matchstr(l:executable, '\v\w+')
+  return matchstr(l:executable, '\v\w+')
 endfunction
 
 let s:options={

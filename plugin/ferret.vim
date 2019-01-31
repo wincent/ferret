@@ -357,7 +357,11 @@
 "
 " # History
 "
-" 4.0.2 (11 January 2019)
+" ## master (not yet released)
+"
+" - Fixed option autocompletion.
+"
+" ## 4.0.2 (11 January 2019)
 "
 " - Restore compatibility with versions of `rg` prior to v0.8
 "   (https://github.com/wincent/ferret/issues/59).
