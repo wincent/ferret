@@ -26,8 +26,11 @@ if s:options
   setlocal nowrap
   setlocal number
 
-  " Want to set scrolloff only for the qf window, but it is a global option.
-  let s:original_scrolloff=&scrolloff
+  " Want to set scrolloff only for the qf window, but it is a
+  " unavoidably global option for which `setlocal` behaves just like `set`.
+  if !exists('s:original_scrolloff')
+    let s:original_scrolloff=&scrolloff
+  endif
   set scrolloff=0
 
   if has('autocmd')
