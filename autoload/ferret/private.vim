@@ -406,7 +406,7 @@ function! ferret#private#acks(command) abort
     " let g:FerretAcksCommand='cfdo'
     " ```
     "
-    if get(g:, 'FerretAcks', 'cdo') == 'cfdo'
+    if get(g:, 'FerretAcksCommand', 'cdo') == 'cfdo'
       execute 'cfdo' '%substitute' . l:pattern . l:options . ' | update'
     else
       execute 'cdo' 'substitute' . l:pattern . l:options . ' | update'
