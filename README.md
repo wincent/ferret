@@ -283,6 +283,18 @@ Controls whether Ferret should attempt to highlight the search pattern when runn
 let g:FerretHlsearch=0
 ```
 
+<p align="right"><a name="gferretverymagic" href="#user-content-gferretverymagic"><code>g:FerretVeryMagic</code></a></p>
+
+### `g:FerretVeryMagic` (boolean, default: 1)<a name="ferret-gferretverymagic-boolean-default-1" href="#user-content-ferret-gferretverymagic-boolean-default-1"></a>
+
+Controls whether the <strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong> mapping should populate the command line with the <strong>`/\v`</strong> &quot;very magic&quot; marker. Given that the argument passed to <strong>[`:Acks`](#user-content-acks)</strong> is handed straight to Vim, using &quot;very magic&quot; makes it more likely that the (probably Perl-compatible) regular expression used in the initial search can be used directly with Vim's (famously not-Perl-compatible) regular expression engine.
+
+To prevent the automatic use of <strong>`/\v`</strong>, set this option to 0:
+
+```
+let g:FerretVeryMagic=0
+```
+
 <p align="right"><a name="gferretexecutable" href="#user-content-gferretexecutable"><code>g:FerretExecutable</code></a></p>
 
 ### `g:FerretExecutable` (string, default: "rg,ag,ack,ack-grep")<a name="ferret-gferretexecutable-string-default-rgagackack-grep" href="#user-content-ferret-gferretexecutable-string-default-rgagackack-grep"></a>
@@ -647,6 +659,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
+
+
+### 5.0 (not yet released)<a name="ferret-50-not-yet-released" href="#user-content-ferret-50-not-yet-released"></a>
+
+- The <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong> mapping now uses <strong>`/\v`</strong> &quot;very magic&quot; mode by default. This default can be changed using the <strong>[`g:FerretVeryMagic`](#user-content-gferretverymagic)</strong> option.
 
 
 ### 4.1 (31 January 2019)<a name="ferret-41-31-january-2019" href="#user-content-ferret-41-31-january-2019"></a>

@@ -358,6 +358,11 @@
 "
 " # History
 "
+" ## 5.0 (not yet released)
+"
+" - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by
+"   default. This default can be changed using the |g:FerretVeryMagic| option.
+"
 " ## 4.1 (31 January 2019)
 "
 " - Added |:Quack| command, analogous to |:Ack| but scoped to the files
@@ -673,8 +678,7 @@ command! FerretPullAsync call ferret#private#async#pull()
 nnoremap <Plug>(FerretAck) :Ack<space>
 nnoremap <Plug>(FerretLack) :Lack<space>
 nnoremap <Plug>(FerretAckWord) :Ack <C-r><C-w><CR>
-nnoremap <Plug>(FerretAcks)
-      \ :Acks <c-r>=(exists('g:ferret_lastsearch') ? '/' . g:ferret_lastsearch . '//' : ' ')<CR><Left>
+nnoremap <Plug>(FerretAcks) :Acks <c-r>=(ferret#private#acks_prompt())<CR><Left><Left>
 
 ""
 " @option g:FerretMap boolean 1

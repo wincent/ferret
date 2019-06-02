@@ -391,6 +391,31 @@ function! ferret#private#acks(command) abort
   call ferret#private#autocmd('FerretDidWrite')
 endfunction
 
+""
+" @option g:FerretVeryMagic boolean 1
+"
+" Controls whether the |<Plug>(FerretAck)| mapping should populate the command
+" line with the |/\v| "very magic" marker. Given that the argument passed to
+" |:Acks| is handed straight to Vim, using "very magic" makes it more likely
+" that the (probably Perl-compatible) regular expression used in the initial
+" search can be used directly with Vim's (famously not-Perl-compatible) regular
+" expression engine.
+"
+" To prevent the automatic use of |/\v|, set this option to 0:
+"
+" ```
+" let g:FerretVeryMagic=0
+" ```
+function! ferret#private#acks_prompt() abort
+  let l:magic=get(g:, 'FerretVeryMagic', 1)
+  let l:mode=l:magic ? '\v' : ''
+  if exists('g:ferret_lastsearch')
+    return '/' . l:mode . g:ferret_lastsearch . '// '
+  else
+    return '/' . l:mode . '//'
+  endif
+endfunction
+
 function! ferret#private#autocmd(cmd) abort
   if v:version > 703 || v:version == 703 && has('patch438')
     execute 'silent doautocmd <nomodeline> User ' . a:cmd

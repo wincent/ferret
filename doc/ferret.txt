@@ -339,6 +339,21 @@ running |:Ack| or |:Lack|. If left unset, Ferret will respect the current
     let g:FerretHlsearch=0
 <
 
+                                                             *g:FerretVeryMagic*
+|g:FerretVeryMagic|                                         boolean (default: 1)
+
+Controls whether the |<Plug>(FerretAck)| mapping should populate the command
+line with the |/\v| "very magic" marker. Given that the argument passed to
+|:Acks| is handed straight to Vim, using "very magic" makes it more likely
+that the (probably Perl-compatible) regular expression used in the initial
+search can be used directly with Vim's (famously not-Perl-compatible)
+regular expression engine.
+
+To prevent the automatic use of |/\v|, set this option to 0:
+>
+    let g:FerretVeryMagic=0
+<
+
                                                             *g:FerretExecutable*
 |g:FerretExecutable|                      string (default: "rg,ag,ack,ack-grep")
 
@@ -727,6 +742,11 @@ order):
 - Vaibhav Sagar
 
 HISTORY                                                         *ferret-history*
+
+5.0 (not yet released) ~
+
+- The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by default.
+  This default can be changed using the |g:FerretVeryMagic| option.
 
 4.1 (31 January 2019) ~
 
