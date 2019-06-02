@@ -73,8 +73,8 @@ easier to immediately identify matches by centering them within the viewport.
 Finally, Ferret provides a |:Qargs| command that puts the files currently in
 the |quickfix| listing into the |:args| list, where they can be operated on in
 bulk via the |:argdo| command. This is what's used under the covers on older
-versions of Vim by |:Acks| to do its work (on newer versions the built-in
-|:cfdo| is used instead).
+versions of Vim by |:Acks| to do its work (on newer versions the built-in |:cdo|
+or |:cfdo| are used instead).
 
 INSTALLATION                                               *ferret-installation*
 
@@ -337,6 +337,20 @@ running |:Ack| or |:Lack|. If left unset, Ferret will respect the current
 'hlsearch', set |g:FerretHlsearch| to 1 (on) or 0 (off):
 >
     let g:FerretHlsearch=0
+<
+
+                                                           *g:FerretAcksCommand*
+|g:FerretAcksCommand|                                    string (default: "cdo")
+
+Controls the underlying Vim command that |:Acks| uses to peform substitutions.
+On versions of Vim that have it, defaults to |:cdo|, which means that
+substitutions will apply to the specific lines currently in the |quickfix|
+listing. Can be set to "cfdo" to instead use |:cfdo| (if available), which
+means that the substitutions will be applied on a per-file basis to all the
+files in the |quickfix| listing. This distinction is important if you have
+used Ferret's bindings to delete entries from the listing.
+>
+    let g:FerretAcksCommand='cfdo'
 <
 
                                                              *g:FerretVeryMagic*
@@ -747,6 +761,12 @@ HISTORY                                                         *ferret-history*
 
 - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by default.
   This default can be changed using the |g:FerretVeryMagic| option.
+- |:Acks| now preferentially uses |:cdo| (rather than |:cfdo|) to make
+  replacements, which means that it no longer operates on a per-file level
+  and instead targets individual entries within the |quickfix| window. This is
+  relevant if you've used Ferrets mappings to delete entries from the
+  window. The old behavior can be restored with the |g:FerretAcksCommand|
+  option.
 
 4.1 (31 January 2019) ~
 

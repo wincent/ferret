@@ -334,6 +334,12 @@ endfunction
 " and the following on Vim 8 or after:
 "
 "   :Ack foo
+"   :cdo substitute/foo/bar/ge | update
+"
+" Note that if |g:FerretAcksCommand| is set to "cfdo" then this will be used
+" instead:
+"
+"   :Ack foo
 "   :cfdo %substitute/foo/bar/ge | update
 "
 " (Note: there's nothing specific to Ack in this function; it's just named this
@@ -369,8 +375,8 @@ function! ferret#private#acks(command) abort
     let l:options=substitute(l:options, 'g', '', 'g')
   endif
 
-  let l:cfdo=has('listcmds') && exists(':cfdo') == 2
-  if !l:cfdo
+  let l:cdo=has('listcmds') && exists(':cdo') == 2
+  if !l:cdo
     let l:filenames=ferret#private#qargs()
     if l:filenames ==# ''
       call ferret#private#error(
@@ -383,8 +389,28 @@ function! ferret#private#acks(command) abort
   endif
 
   call ferret#private#autocmd('FerretWillWrite')
-  if l:cfdo
-    execute 'cfdo' '%substitute' . l:pattern . l:options . ' | update'
+  if l:cdo
+    ""
+    " @option g:FerretAcksCommand string "cdo"
+    "
+    " Controls the underlying Vim command that |:Acks| uses to peform
+    " substitutions. On versions of Vim that have it, defaults to |:cdo|, which
+    " means that substitutions will apply to the specific lines currently in the
+    " |quickfix| listing. Can be set to "cfdo" to instead use |:cfdo| (if
+    " available), which means that the substitutions will be applied on a
+    " per-file basis to all the files in the |quickfix| listing. This
+    " distinction is important if you have used Ferret's bindings to delete
+    " entries from the listing.
+    "
+    " ```
+    " let g:FerretAcksCommand='cfdo'
+    " ```
+    "
+    if get(g:, 'FerretAcks', 'cdo') == 'cfdo'
+      execute 'cfdo' '%substitute' . l:pattern . l:options . ' | update'
+    else
+      execute 'cdo' 'substitute' . l:pattern . l:options . ' | update'
+    endif
   else
     execute 'argdo' '%substitute' . l:pattern . l:options . ' | update'
   endif

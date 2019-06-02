@@ -39,7 +39,7 @@ Additionally, Vim's <strong>`:cn`</strong>, <strong>`:cp`</strong>, <strong>`:cn
 
 ### 4. Easy operations on files in the quickfix listing<a name="ferret-4-easy-operations-on-files-in-the-quickfix-listing" href="#user-content-ferret-4-easy-operations-on-files-in-the-quickfix-listing"></a>
 
-Finally, Ferret provides a <strong>[`:Qargs`](#user-content-qargs)</strong> command that puts the files currently in the <strong>`quickfix`</strong> listing into the <strong>`:args`</strong> list, where they can be operated on in bulk via the <strong>`:argdo`</strong> command. This is what's used under the covers on older versions of Vim by <strong>[`:Acks`](#user-content-acks)</strong> to do its work (on newer versions the built-in <strong>`:cfdo`</strong> is used instead).
+Finally, Ferret provides a <strong>[`:Qargs`](#user-content-qargs)</strong> command that puts the files currently in the <strong>`quickfix`</strong> listing into the <strong>`:args`</strong> list, where they can be operated on in bulk via the <strong>`:argdo`</strong> command. This is what's used under the covers on older versions of Vim by <strong>[`:Acks`](#user-content-acks)</strong> to do its work (on newer versions the built-in <strong>`:cdo`</strong> or <strong>`:cfdo`</strong> are used instead).
 
 
 ## Installation<a name="ferret-installation" href="#user-content-ferret-installation"></a>
@@ -281,6 +281,16 @@ Controls whether Ferret should attempt to highlight the search pattern when runn
 
 ```
 let g:FerretHlsearch=0
+```
+
+<p align="right"><a name="gferretackscommand" href="#user-content-gferretackscommand"><code>g:FerretAcksCommand</code></a></p>
+
+### `g:FerretAcksCommand` (string, default: "cdo")<a name="ferret-gferretackscommand-string-default-cdo" href="#user-content-ferret-gferretackscommand-string-default-cdo"></a>
+
+Controls the underlying Vim command that <strong>[`:Acks`](#user-content-acks)</strong> uses to peform substitutions. On versions of Vim that have it, defaults to <strong>`:cdo`</strong>, which means that substitutions will apply to the specific lines currently in the <strong>`quickfix`</strong> listing. Can be set to &quot;cfdo&quot; to instead use <strong>`:cfdo`</strong> (if available), which means that the substitutions will be applied on a per-file basis to all the files in the <strong>`quickfix`</strong> listing. This distinction is important if you have used Ferret's bindings to delete entries from the listing.
+
+```
+let g:FerretAcksCommand='cfdo'
 ```
 
 <p align="right"><a name="gferretverymagic" href="#user-content-gferretverymagic"><code>g:FerretVeryMagic</code></a></p>
@@ -664,6 +674,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 ### 5.0 (not yet released)<a name="ferret-50-not-yet-released" href="#user-content-ferret-50-not-yet-released"></a>
 
 - The <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong> mapping now uses <strong>`/\v`</strong> &quot;very magic&quot; mode by default. This default can be changed using the <strong>[`g:FerretVeryMagic`](#user-content-gferretverymagic)</strong> option.
+- <strong>[`:Acks`](#user-content-acks)</strong> now preferentially uses <strong>`:cdo`</strong> (rather than <strong>`:cfdo`</strong>) to make replacements, which means that it no longer operates on a per-file level and instead targets individual entries within the <strong>`quickfix`</strong> window. This is relevant if you've used Ferrets mappings to delete entries from the window. The old behavior can be restored with the <strong>[`g:FerretAcksCommand`](#user-content-gferretackscommand)</strong> option.
 
 
 ### 4.1 (31 January 2019)<a name="ferret-41-31-january-2019" href="#user-content-ferret-41-31-january-2019"></a>

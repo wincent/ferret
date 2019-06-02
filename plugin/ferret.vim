@@ -59,7 +59,7 @@
 " the |quickfix| listing into the |:args| list, where they can be operated on in
 " bulk via the |:argdo| command. This is what's used under the covers on older
 " versions of Vim by |:Acks| to do its work (on newer versions the built-in
-" |:cfdo| is used instead).
+" |:cdo| or |:cfdo| are used instead).
 "
 "
 " # Installation
@@ -362,6 +362,11 @@
 "
 " - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by
 "   default. This default can be changed using the |g:FerretVeryMagic| option.
+" - |:Acks| now preferentially uses |:cdo| (rather than |:cfdo|) to make
+"   replacements, which means that it no longer operates on a per-file level and
+"   instead targets individual entries within the |quickfix| window. This is
+"   relevant if you've used Ferrets mappings to delete entries from the window.
+"   The old behavior can be restored with the |g:FerretAcksCommand| option.
 "
 " ## 4.1 (31 January 2019)
 "
