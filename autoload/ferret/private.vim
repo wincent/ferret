@@ -267,7 +267,7 @@ function! ferret#private#quack(bang, args) abort
   if s:qfsize('qf') == 0
     call ferret#private#error('Cannot search in empty quickfix list')
   else
-    call call('ferret#private#ack', [a:bang, a:args . ' ' . ferret#private#qargs()])
+    call call('ferret#private#ack', [a:bang, a:args . ' ' . ferret#private#args('qf')])
   endif
 endfunction
 
@@ -344,7 +344,7 @@ endfunction
 "
 " (Note: there's nothing specific to Ack in this function; it's just named this
 " way for mnemonics, as it will most often be preceded by an :Ack invocation.)
-function! ferret#private#acks(command) abort
+function! ferret#private#acks(command, type) abort
   " Accept any pattern allowed by E146 (crude sanity check).
   let l:matches=matchlist(a:command, '\v\C^(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)$')
   if !len(l:matches)
@@ -377,7 +377,7 @@ function! ferret#private#acks(command) abort
 
   let l:cdo=has('listcmds') && exists(':cdo') == 2
   if !l:cdo
-    let l:filenames=ferret#private#qargs()
+    let l:filenames=ferret#private#args(a:type)
     if l:filenames ==# ''
       call ferret#private#error(
             \ 'Ferret: Quickfix filenames must be present, but there are none ' .
@@ -389,31 +389,64 @@ function! ferret#private#acks(command) abort
   endif
 
   call ferret#private#autocmd('FerretWillWrite')
+
   if l:cdo
-    ""
-    " @option g:FerretAcksCommand string "cdo"
-    "
-    " Controls the underlying Vim command that |:Acks| uses to peform
-    " substitutions. On versions of Vim that have it, defaults to |:cdo|, which
-    " means that substitutions will apply to the specific lines currently in the
-    " |quickfix| listing. Can be set to "cfdo" to instead use |:cfdo| (if
-    " available), which means that the substitutions will be applied on a
-    " per-file basis to all the files in the |quickfix| listing. This
-    " distinction is important if you have used Ferret's bindings to delete
-    " entries from the listing.
-    "
-    " ```
-    " let g:FerretAcksCommand='cfdo'
-    " ```
-    "
-    if get(g:, 'FerretAcksCommand', 'cdo') == 'cfdo'
-      execute 'cfdo' '%substitute' . l:pattern . l:options . ' | update'
+    if a:type == 'qf'
+      ""
+      " @option g:FerretAcksCommand string "cdo"
+      "
+      " Controls the underlying Vim command that |:Acks| uses to peform
+      " substitutions. On versions of Vim that have it, defaults to |:cdo|, which
+      " means that substitutions will apply to the specific lines currently in the
+      " |quickfix| listing. Can be set to "cfdo" to instead use |:cfdo| (if
+      " available), which means that the substitutions will be applied on a
+      " per-file basis to all the files in the |quickfix| listing. This
+      " distinction is important if you have used Ferret's bindings to delete
+      " entries from the listing.
+      "
+      " ```
+      " let g:FerretAcksCommand='cfdo'
+      " ```
+      "
+      if get(g:, 'FerretAcksCommand', 'cdo') == 'cfdo'
+        let l:command='cfdo'
+        let l:substitute='%substitute'
+      else
+        let l:command='cdo'
+        let l:substitute='substitute'
+      endif
     else
-      execute 'cdo' 'substitute' . l:pattern . l:options . ' | update'
+      ""
+      " @option g:FerretLacksCommand string "ldo"
+      "
+      " Controls the underlying Vim command that |:Lacks| uses to peform
+      " substitutions. On versions of Vim that have it, defaults to |:ldo|, which
+      " means that substitutions will apply to the specific lines currently in the
+      " |location-list|. Can be set to "lfdo" to instead use |:lfdo| (if
+      " available), which means that the substitutions will be applied on a
+      " per-file basis to all the files in the |location-list|. This
+      " distinction is important if you have used Ferret's bindings to delete
+      " entries from the listing.
+      "
+      " ```
+      " let g:FerretLacksCommand='lfdo'
+      " ```
+      "
+      if get(g:, 'FerretLacksCommand', 'ldo') == 'lfdo'
+        let l:command='lfdo'
+        let l:substitute='%substitute'
+      else
+        let l:command='ldo'
+        let l:substitute='substitute'
+      endif
     endif
   else
-    execute 'argdo' '%substitute' . l:pattern . l:options . ' | update'
+    let l:command='argdo'
+    let l:substitute='%substitute'
   endif
+
+  execute l:command l:substitute . l:pattern . l:options . ' | update'
+
   call ferret#private#autocmd('FerretDidWrite')
 endfunction
 
@@ -635,10 +668,12 @@ function! ferret#private#option(str) abort
   return a:str =~# '^-'
 endfunction
 
-" Populate the :args list with the filenames currently in the quickfix window.
-function! ferret#private#qargs() abort
+" Populate the :args list with the filenames currently in the quickfix window or
+" location list.
+function! ferret#private#args(type) abort
   let l:buffer_numbers={}
-  for l:item in getqflist()
+  let l:items=a:type == 'qf' ? getqflist() : getloclist(0)
+  for l:item in l:items
     let l:number=l:item['bufnr']
     if !has_key(l:buffer_numbers, l:number)
       let l:buffer_numbers[l:number]=bufname(l:number)

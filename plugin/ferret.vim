@@ -40,7 +40,10 @@
 " The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute", accessible via
 " shortcut <leader>r), which allows you to run a multi-file replace across all
 " the files placed in the |quickfix| window by a previous invocation of |:Ack|
-" (or |:Back|).
+" (or |:Back|, or |:Quack|).
+"
+" Correspondingly, results obtained by |:Lack| can be targeted for replacement
+" with |:Lacks|.
 "
 " ## 3. Quickfix listing enhancements
 "
@@ -119,7 +122,7 @@
 "                                                *FerretWillWrite* *FerretDidWrite*
 " For maximum compatibility with other plug-ins, Ferret runs the following
 " "User" autocommands before and after running the file writing operations
-" during |:Acks|:
+" during |:Acks| or |:Lacks|:
 "
 " - FerretWillWrite
 " - FerretDidWrite
@@ -358,7 +361,7 @@
 "
 " # History
 "
-" ## 5.0 (not yet released)
+" ## 5.0 (7 June 2019)
 "
 " - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by
 "   default. This default can be changed using the |g:FerretVeryMagic| option.
@@ -367,6 +370,10 @@
 "   instead targets individual entries within the |quickfix| window. This is
 "   relevant if you've used Ferrets mappings to delete entries from the window.
 "   The old behavior can be restored with the |g:FerretAcksCommand| option.
+" - Ferret now has a |:Lacks| command, an analog to |:Acks| which applies to the
+"   |location-list|.
+" - Likewise, Ferret now has a |:Largs| command, analogous to |:Qargs|, which
+"   applies to the |location-list| instead of the |quickfix| window.
 "
 " ## 4.1 (31 January 2019)
 "
@@ -662,7 +669,16 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#quackcomplete Quack 
 " ```
 " :Acks /\v(foo\d+)(bar)/\2\1/
 " ```
-command! -nargs=1 Acks call ferret#private#acks(<q-args>)
+command! -nargs=1 Acks call ferret#private#acks(<q-args>, 'qf')
+
+""
+" @command :Lacks /{pattern}/{replacement}/
+"
+" Takes all of the files in the current |location-list| and performs a
+" substitution of all instances of {pattern} by {replacement}. This is an analog
+" of the |:Acks| command, which operates on the |quickfix| listing.
+"
+command! -nargs=1 Lacks call ferret#private#acks(<q-args>, 'location')
 
 ""
 " @command :FerretCancelAsync
@@ -769,7 +785,16 @@ endif
 "
 " It takes the files currently in the |quickfix| listing and sets them as
 " |:args| so that they can be operated on en masse via the |:argdo| command.
-command! -bar Qargs execute 'args' ferret#private#qargs()
+command! -bar Qargs execute 'args' ferret#private#args('qf')
+
+""
+" @command :Largs
+"
+" Just like |:Qargs|, but applies to the current |location-list|.
+"
+" It takes the files in the current |location-list| and sets them as
+" |:args| so that they can be operated on en masse via the |:argdo| command.
+command! -bar Largs execute 'args' ferret#private#args('location')
 
 ""
 " @option g:FerretQFCommands boolean 1
