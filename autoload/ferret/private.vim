@@ -1,9 +1,21 @@
 " Copyright 2015-present Greg Hurrell. All rights reserved.
 " Licensed under the terms of the BSD 2-clause license.
 
+function! s:is_quickfix()
+  if exists('*getwininfo')
+    let l:info=getwininfo(win_getid())[0]
+    return l:info.quickfix && !l:info.loclist
+  else
+    " On old Vim, degrade such that we at least handle the common case (ie.
+    " quickfix windows).
+    return 1
+  endif
+endfunction
+
 " Remove lines a:first through a:last from the quickfix listing.
 function! s:delete(first, last)
-  let l:list=getqflist()
+  let l:type=s:is_quickfix() ? 'qf' : 'location'
+  let l:list=l:type == 'qf' ? getqflist() : getloclist(0)
   let l:line=a:first
 
   while l:line >= a:first && l:line <= a:last
@@ -11,12 +23,17 @@ function! s:delete(first, last)
     let l:list[l:line - 1]=0
     let l:line=l:line + 1
   endwhile
-  call setqflist(l:list, 'r')
 
-  " Go to next entry.
-  execute 'cc ' . a:first
+  " Update listing and go to next entry.
+  if l:type ==# 'qf'
+    call setqflist(l:list, 'r')
+    execute 'cc ' . a:first
+  else
+    call setloclist(0, l:list, 'r')
+    execute 'll ' . a:first
+  endif
 
-  " Move focus back to quickfix listing.
+  " Move focus back to listing.
   execute "normal \<C-W>\<C-P>"
 endfunction
 
