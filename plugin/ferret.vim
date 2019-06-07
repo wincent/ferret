@@ -64,6 +64,8 @@
 " versions of Vim by |:Acks| to do its work (on newer versions the built-in
 " |:cdo| or |:cfdo| are used instead).
 "
+" Ferret also provides a |:Largs| command, which is a |location-list| analog
+" for |:Qargs|.
 "
 " # Installation
 "
@@ -361,7 +363,7 @@
 "
 " # History
 "
-" ## 5.0 (7 June 2019)
+" ## 5.0 (8 June 2019)
 "
 " - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by
 "   default. This default can be changed using the |g:FerretVeryMagic| option.
@@ -374,6 +376,8 @@
 "   |location-list|.
 " - Likewise, Ferret now has a |:Largs| command, analogous to |:Qargs|, which
 "   applies to the |location-list| instead of the |quickfix| window.
+" - The Ferret bindings that are set-up in the |quickfix| window when
+"   |g:FerretQFMap| is enabled now also apply to the |location-list|.
 "
 " ## 4.1 (31 January 2019)
 "
@@ -676,7 +680,8 @@ command! -nargs=1 Acks call ferret#private#acks(<q-args>, 'qf')
 "
 " Takes all of the files in the current |location-list| and performs a
 " substitution of all instances of {pattern} by {replacement}. This is an analog
-" of the |:Acks| command, which operates on the |quickfix| listing.
+" of the |:Acks| command, but operates on the |location-list| instead of the
+" |quickfix| listing.
 "
 command! -nargs=1 Lacks call ferret#private#acks(<q-args>, 'location')
 

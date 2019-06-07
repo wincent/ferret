@@ -27,7 +27,9 @@ Results are normally displayed in the <strong>`quickfix`</strong> window, but Fe
 
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
 
-The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: &quot;Ack substitute&quot;, accessible via shortcut &lt;leader&gt;r), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong> (or <strong>[`:Back`](#user-content-back)</strong>).
+The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: &quot;Ack substitute&quot;, accessible via shortcut &lt;leader&gt;r), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong> (or <strong>[`:Back`](#user-content-back)</strong>, or <strong>[`:Quack`](#user-content-quack)</strong>).
+
+Correspondingly, results obtained by <strong>[`:Lack`](#user-content-lack)</strong> can be targeted for replacement with <strong>[`:Lacks`](#user-content-lacks)</strong>.
 
 
 ### 3. Quickfix listing enhancements<a name="ferret-3-quickfix-listing-enhancements" href="#user-content-ferret-3-quickfix-listing-enhancements"></a>
@@ -40,6 +42,8 @@ Additionally, Vim's <strong>`:cn`</strong>, <strong>`:cp`</strong>, <strong>`:cn
 ### 4. Easy operations on files in the quickfix listing<a name="ferret-4-easy-operations-on-files-in-the-quickfix-listing" href="#user-content-ferret-4-easy-operations-on-files-in-the-quickfix-listing"></a>
 
 Finally, Ferret provides a <strong>[`:Qargs`](#user-content-qargs)</strong> command that puts the files currently in the <strong>`quickfix`</strong> listing into the <strong>`:args`</strong> list, where they can be operated on in bulk via the <strong>`:argdo`</strong> command. This is what's used under the covers on older versions of Vim by <strong>[`:Acks`](#user-content-acks)</strong> to do its work (on newer versions the built-in <strong>`:cdo`</strong> or <strong>`:cfdo`</strong> are used instead).
+
+Ferret also provides a <strong>[`:Largs`](#user-content-largs)</strong> command, which is a <strong>`location-list`</strong> analog for <strong>[`:Qargs`](#user-content-qargs)</strong>.
 
 
 ## Installation<a name="ferret-installation" href="#user-content-ferret-installation"></a>
@@ -169,6 +173,12 @@ The pattern and replacement are passed through literally to Vim's <strong>`:subs
 :Acks /\v(foo\d+)(bar)/\2\1/
 ```
 
+<p align="right"><a name="lacks" href="#user-content-lacks"><code>:Lacks</code></a></p>
+
+### `:Lacks /{pattern}/{replacement}/`<a name="ferret-lacks-patternreplacement" href="#user-content-ferret-lacks-patternreplacement"></a>
+
+Takes all of the files in the current <strong>`location-list`</strong> and performs a substitution of all instances of {pattern} by {replacement}. This is an analog of the <strong>[`:Acks`](#user-content-acks)</strong> command, but operates on the <strong>`location-list`</strong> instead of the <strong>`quickfix`</strong> listing.
+
 <p align="right"><a name="ferretcancelasync" href="#user-content-ferretcancelasync"><code>:FerretCancelAsync</code></a></p>
 
 ### `:FerretCancelAsync`<a name="ferret-ferretcancelasync" href="#user-content-ferret-ferretcancelasync"></a>
@@ -188,6 +198,14 @@ Eagerly populates the <strong>`quickfix`</strong> (or <strong>`location-list`</s
 This is a utility function that is used internally when running on older versions of Vim (prior to version 8) but is also generally useful enough to warrant being exposed publicly.
 
 It takes the files currently in the <strong>`quickfix`</strong> listing and sets them as <strong>`:args`</strong> so that they can be operated on en masse via the <strong>`:argdo`</strong> command.
+
+<p align="right"><a name="largs" href="#user-content-largs"><code>:Largs</code></a></p>
+
+### `:Largs`<a name="ferret-largs" href="#user-content-ferret-largs"></a>
+
+Just like <strong>[`:Qargs`](#user-content-qargs)</strong>, but applies to the current <strong>`location-list`</strong>.
+
+It takes the files in the current <strong>`location-list`</strong> and sets them as <strong>`:args`</strong> so that they can be operated on en masse via the <strong>`:argdo`</strong> command.
 
 
 ## Mappings<a name="ferret-mappings" href="#user-content-ferret-mappings"></a>
@@ -293,6 +311,16 @@ Controls the underlying Vim command that <strong>[`:Acks`](#user-content-acks)</
 let g:FerretAcksCommand='cfdo'
 ```
 
+<p align="right"><a name="gferretlackscommand" href="#user-content-gferretlackscommand"><code>g:FerretLacksCommand</code></a></p>
+
+### `g:FerretLacksCommand` (string, default: "ldo")<a name="ferret-gferretlackscommand-string-default-ldo" href="#user-content-ferret-gferretlackscommand-string-default-ldo"></a>
+
+Controls the underlying Vim command that <strong>[`:Lacks`](#user-content-lacks)</strong> uses to peform substitutions. On versions of Vim that have it, defaults to <strong>`:ldo`</strong>, which means that substitutions will apply to the specific lines currently in the <strong>`location-list`</strong>. Can be set to &quot;lfdo&quot; to instead use <strong>`:lfdo`</strong> (if available), which means that the substitutions will be applied on a per-file basis to all the files in the <strong>`location-list`</strong>. This distinction is important if you have used Ferret's bindings to delete entries from the listing.
+
+```
+let g:FerretLacksCommand='lfdo'
+```
+
 <p align="right"><a name="gferretverymagic" href="#user-content-gferretverymagic"><code>g:FerretVeryMagic</code></a></p>
 
 ### `g:FerretVeryMagic` (boolean, default: 1)<a name="ferret-gferretverymagic-boolean-default-1" href="#user-content-ferret-gferretverymagic-boolean-default-1"></a>
@@ -388,7 +416,7 @@ let g:FerretQFOptions=0
 
 ### `g:FerretQFMap` (boolean, default: 1)<a name="ferret-gferretqfmap-boolean-default-1" href="#user-content-ferret-gferretqfmap-boolean-default-1"></a>
 
-Controls whether to set up mappings in the <strong>`quickfix`</strong> results window for deleting results. The mappings include:
+Controls whether to set up mappings in the <strong>`quickfix`</strong> results window and <strong>`location-list`</strong> for deleting results. The mappings include:
 
 - `d` (<strong>`visual-mode`</strong>): delete visual selection
 - `dd` (<strong>`Normal-mode`</strong>): delete current line
@@ -465,7 +493,7 @@ This may be useful if you wish to extend or otherwise modify the arguments by se
 ## Custom autocommands<a name="ferret-custom-autocommands" href="#user-content-ferret-custom-autocommands"></a>
 
 <p align="right"><a name="ferretdidwrite" href="#user-content-ferretdidwrite"><code>FerretDidWrite</code></a> <a name="ferretwillwrite" href="#user-content-ferretwillwrite"><code>FerretWillWrite</code></a></p>
-For maximum compatibility with other plug-ins, Ferret runs the following &quot;User&quot; autocommands before and after running the file writing operations during <strong>[`:Acks`](#user-content-acks)</strong>:
+For maximum compatibility with other plug-ins, Ferret runs the following &quot;User&quot; autocommands before and after running the file writing operations during <strong>[`:Acks`](#user-content-acks)</strong> or <strong>[`:Lacks`](#user-content-lacks)</strong>:
 
 - FerretWillWrite
 - FerretDidWrite
@@ -671,10 +699,13 @@ Other contributors that have submitted patches include (in alphabetical order):
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
 
-### 5.0 (not yet released)<a name="ferret-50-not-yet-released" href="#user-content-ferret-50-not-yet-released"></a>
+### 5.0 (8 June 2019)<a name="ferret-50-8-june-2019" href="#user-content-ferret-50-8-june-2019"></a>
 
 - The <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong> mapping now uses <strong>`/\v`</strong> &quot;very magic&quot; mode by default. This default can be changed using the <strong>[`g:FerretVeryMagic`](#user-content-gferretverymagic)</strong> option.
 - <strong>[`:Acks`](#user-content-acks)</strong> now preferentially uses <strong>`:cdo`</strong> (rather than <strong>`:cfdo`</strong>) to make replacements, which means that it no longer operates on a per-file level and instead targets individual entries within the <strong>`quickfix`</strong> window. This is relevant if you've used Ferrets mappings to delete entries from the window. The old behavior can be restored with the <strong>[`g:FerretAcksCommand`](#user-content-gferretackscommand)</strong> option.
+- Ferret now has a <strong>[`:Lacks`](#user-content-lacks)</strong> command, an analog to <strong>[`:Acks`](#user-content-acks)</strong> which applies to the <strong>`location-list`</strong>.
+- Likewise, Ferret now has a <strong>[`:Largs`](#user-content-largs)</strong> command, analogous to <strong>[`:Qargs`](#user-content-qargs)</strong>, which applies to the <strong>`location-list`</strong> instead of the <strong>`quickfix`</strong> window.
+- The Ferret bindings that are set-up in the <strong>`quickfix`</strong> window when <strong>[`g:FerretQFMap`](#user-content-gferretqfmap)</strong> is enabled now also apply to the <strong>`location-list`</strong>.
 
 
 ### 4.1 (31 January 2019)<a name="ferret-41-31-january-2019" href="#user-content-ferret-41-31-january-2019"></a>

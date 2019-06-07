@@ -45,8 +45,8 @@ endif
 ""
 " @option g:FerretQFMap boolean 1
 "
-" Controls whether to set up mappings in the |quickfix| results window for
-" deleting results. The mappings include:
+" Controls whether to set up mappings in the |quickfix| results window and
+" |location-list| for deleting results. The mappings include:
 "
 " - `d` (|visual-mode|): delete visual selection
 " - `dd` (|Normal-mode|): delete current line

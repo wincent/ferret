@@ -56,7 +56,10 @@ files currently in the |quickfix| list.
 The companion to |:Ack| is |:Acks| (mnemonic: "Ack substitute", accessible via
 shortcut <leader>r), which allows you to run a multi-file replace across all
 the files placed in the |quickfix| window by a previous invocation of |:Ack| (or
-|:Back|).
+|:Back|, or |:Quack|).
+
+Correspondingly, results obtained by |:Lack| can be targeted for replacement
+with |:Lacks|.
 
 3. Quickfix listing enhancements ~
 
@@ -75,6 +78,9 @@ the |quickfix| listing into the |:args| list, where they can be operated on in
 bulk via the |:argdo| command. This is what's used under the covers on older
 versions of Vim by |:Acks| to do its work (on newer versions the built-in |:cdo|
 or |:cfdo| are used instead).
+
+Ferret also provides a |:Largs| command, which is a |location-list| analog for
+|:Qargs|.
 
 INSTALLATION                                               *ferret-installation*
 
@@ -222,6 +228,14 @@ used to swap the order of "foo123" and "bar":
 >
     :Acks /\v(foo\d+)(bar)/\2\1/
 <
+                                                                        *:Lacks*
+:Lacks /{pattern}/{replacement}/ ~
+
+Takes all of the files in the current |location-list| and performs a
+substitution of all instances of {pattern} by {replacement}. This is an
+analog of the |:Acks| command, but operates on the |location-list| instead of
+the |quickfix| listing.
+
                                                             *:FerretCancelAsync*
 :FerretCancelAsync  ~
 
@@ -243,6 +257,14 @@ warrant being exposed publicly.
 
 It takes the files currently in the |quickfix| listing and sets them as |:args|
 so that they can be operated on en masse via the |:argdo| command.
+
+                                                                        *:Largs*
+:Largs  ~
+
+Just like |:Qargs|, but applies to the current |location-list|.
+
+It takes the files in the current |location-list| and sets them as |:args| so
+that they can be operated on en masse via the |:argdo| command.
 
 MAPPINGS                                                       *ferret-mappings*
 
@@ -351,6 +373,20 @@ files in the |quickfix| listing. This distinction is important if you have
 used Ferret's bindings to delete entries from the listing.
 >
     let g:FerretAcksCommand='cfdo'
+<
+
+                                                          *g:FerretLacksCommand*
+|g:FerretLacksCommand|                                   string (default: "ldo")
+
+Controls the underlying Vim command that |:Lacks| uses to peform
+substitutions. On versions of Vim that have it, defaults to |:ldo|, which
+means that substitutions will apply to the specific lines currently in the
+|location-list|. Can be set to "lfdo" to instead use |:lfdo| (if available),
+which means that the substitutions will be applied on a per-file basis to
+all the files in the |location-list|. This distinction is important if you
+have used Ferret's bindings to delete entries from the listing.
+>
+    let g:FerretLacksCommand='lfdo'
 <
 
                                                              *g:FerretVeryMagic*
@@ -466,8 +502,8 @@ To prevent the custom settings from being applied, set |g:FerretQFOptions| to
                                                                  *g:FerretQFMap*
 |g:FerretQFMap|                                             boolean (default: 1)
 
-Controls whether to set up mappings in the |quickfix| results window for
-deleting results. The mappings include:
+Controls whether to set up mappings in the |quickfix| results window and
+|location-list| for deleting results. The mappings include:
 
 - `d` (|visual-mode|): delete visual selection
 - `dd` (|Normal-mode|): delete current line
@@ -543,7 +579,7 @@ CUSTOM AUTOCOMMANDS                                 *ferret-custom-autocommands*
                                                 *FerretDidWrite* *FerretWillWrite*
 For maximum compatibility with other plug-ins, Ferret runs the following
 "User" autocommands before and after running the file writing operations
-during |:Acks|:
+during |:Acks| or |:Lacks|:
 
 - FerretWillWrite
 - FerretDidWrite
@@ -757,7 +793,7 @@ order):
 
 HISTORY                                                         *ferret-history*
 
-5.0 (not yet released) ~
+5.0 (8 June 2019) ~
 
 - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by default.
   This default can be changed using the |g:FerretVeryMagic| option.
@@ -767,6 +803,12 @@ HISTORY                                                         *ferret-history*
   relevant if you've used Ferrets mappings to delete entries from the
   window. The old behavior can be restored with the |g:FerretAcksCommand|
   option.
+- Ferret now has a |:Lacks| command, an analog to |:Acks| which applies to the
+  |location-list|.
+- Likewise, Ferret now has a |:Largs| command, analogous to |:Qargs|, which
+  applies to the |location-list| instead of the |quickfix| window.
+- The Ferret bindings that are set-up in the |quickfix| window when
+  |g:FerretQFMap| is enabled now also apply to the |location-list|.
 
 4.1 (31 January 2019) ~
 
