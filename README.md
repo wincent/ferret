@@ -1,6 +1,8 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.jpg" />
-<img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.gif" />
+  <img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.jpg" />
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.gif" />
 </p>
 
 # ferret<a name="ferret-ferret" href="#user-content-ferret-ferret"></a>

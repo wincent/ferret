@@ -2,6 +2,13 @@
 " Licensed under the terms of the BSD 2-clause license.
 
 ""
+" @header
+"
+" @image https://raw.githubusercontent.com/wincent/ferret/media/ferret.jpg center
+" @image https://raw.githubusercontent.com/wincent/ferret/media/ferret.gif center
+"
+
+""
 " @plugin ferret Ferret plug-in for Vim
 "
 " # Intro
