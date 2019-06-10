@@ -363,7 +363,7 @@ endfunction
 " way for mnemonics, as it will most often be preceded by an :Ack invocation.)
 function! ferret#private#acks(command, type) abort
   " Accept any pattern allowed by E146 (crude sanity check).
-  let l:matches=matchlist(a:command, '\v\C^(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)$')
+  let l:matches=matchlist(a:command, '\v\C^\s*(([^|"\\a-zA-Z0-9]).+\2.*\2)([cgeiI]*)\s*$')
   if !len(l:matches)
     call ferret#private#error(
           \ 'Ferret: Expected a substitution expression (/foo/bar/); got: ' .
