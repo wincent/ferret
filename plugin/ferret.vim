@@ -759,7 +759,7 @@ if s:map
     ""
     " @mapping <Plug>(FerretAckWord)
     "
-    " Ferret maps <leader>s (mnemonix: "selection) to |<Plug>(FerretAckWord)|,
+    " Ferret maps <leader>s (mnemonic: "selection) to |<Plug>(FerretAckWord)|,
     " which uses |:Ack| to search for the word currently under the cursor. To
     " use an alternative mapping instead, create a different one in your
     " |.vimrc| instead using |:nmap|:
