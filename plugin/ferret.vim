@@ -370,6 +370,12 @@
 "
 " # History
 "
+" ## master (not yet released)
+"
+" - Add |g:FerretAckWordWord| setting, to pass `-w` to the underlying search
+"   tool when |<Plug>(FerretAckWord)| is pressed
+"   (https://github.com/wincent/ferret/issues/66).
+"
 " ## 5.0 (8 June 2019)
 "
 " - The |<Plug>(FerretAcks)| mapping now uses |/\v| "very magic" mode by
@@ -710,7 +716,29 @@ command! FerretPullAsync call ferret#private#async#pull()
 
 nnoremap <Plug>(FerretAck) :Ack<space>
 nnoremap <Plug>(FerretLack) :Lack<space>
-nnoremap <Plug>(FerretAckWord) :Ack <C-r><C-w><CR>
+
+""
+" @option g:FerretAckWordWord boolean 0
+"
+" When set to 1, passes the `-w` option to the underlying search tool whenever
+" |<Plug>(FerretAckWord)| is pressed. This forces the tool to match only on word
+" boundaries (ie. analagous to Vim's |star| mapping).
+"
+" The default is 0, which means the `-w` option is not passed and matches need
+" not occur on word boundaries (ie. analagous to Vim's |gstar| mapping).
+"
+" To override the default:
+"
+" ```
+" let g:FerretAckWordWord=1
+" ```
+let s:word=get(g:, 'FerretAckWordWord', 0)
+if s:word
+  nnoremap <Plug>(FerretAckWord) :Ack -w <C-r><C-w><CR>
+else
+  nnoremap <Plug>(FerretAckWord) :Ack <C-r><C-w><CR>
+endif
+
 nnoremap <Plug>(FerretAcks) :Acks <c-r>=(ferret#private#acks_prompt())<CR><Left><Left>
 
 ""

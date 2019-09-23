@@ -534,6 +534,21 @@ as soon as Vim launches), then set |g:FerretLazyInit| to 0 in your |.vimrc|:
     let g:FerrerLazyInit=0
 <
 
+                                                           *g:FerretAckWordWord*
+|g:FerretAckWordWord|                                       boolean (default: 0)
+
+When set to 1, passes the `-w` option to the underlying search tool whenever
+|<Plug>(FerretAckWord)| is pressed. This forces the tool to match only on word
+boundaries (ie. analagous to Vim's |star| mapping).
+
+The default is 0, which means the `-w` option is not passed and matches need
+not occur on word boundaries (ie. analagous to Vim's |gstar| mapping).
+
+To override the default:
+>
+    let g:FerretAckWordWord=1
+<
+
                                                                    *g:FerretMap*
 |g:FerretMap|                                               boolean (default: 1)
 
@@ -792,6 +807,12 @@ order):
 - Vaibhav Sagar
 
 HISTORY                                                         *ferret-history*
+
+master (not yet released) ~
+
+- Add |g:FerretAckWordWord| setting, to pass `-w` to the underlying search tool
+  when |<Plug>(FerretAckWord)| is pressed
+  (https://github.com/wincent/ferret/issues/66).
 
 5.0 (8 June 2019) ~
 

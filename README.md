@@ -450,6 +450,20 @@ In order to minimize impact on Vim start-up time Ferret will initialize itself l
 let g:FerrerLazyInit=0
 ```
 
+<p align="right"><a name="gferretackwordword" href="#user-content-gferretackwordword"><code>g:FerretAckWordWord</code></a></p>
+
+### `g:FerretAckWordWord` (boolean, default: 0)<a name="ferret-gferretackwordword-boolean-default-0" href="#user-content-ferret-gferretackwordword-boolean-default-0"></a>
+
+When set to 1, passes the `-w` option to the underlying search tool whenever <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong> is pressed. This forces the tool to match only on word boundaries (ie. analagous to Vim's <strong>`star`</strong> mapping).
+
+The default is 0, which means the `-w` option is not passed and matches need not occur on word boundaries (ie. analagous to Vim's <strong>`gstar`</strong> mapping).
+
+To override the default:
+
+```
+let g:FerretAckWordWord=1
+```
+
 <p align="right"><a name="gferretmap" href="#user-content-gferretmap"><code>g:FerretMap</code></a></p>
 
 ### `g:FerretMap` (boolean, default: 1)<a name="ferret-gferretmap-boolean-default-1" href="#user-content-ferret-gferretmap-boolean-default-1"></a>
@@ -699,6 +713,11 @@ Other contributors that have submitted patches include (in alphabetical order):
 
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
+
+
+### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
+
+- Add <strong>[`g:FerretAckWordWord`](#user-content-gferretackwordword)</strong> setting, to pass `-w` to the underlying search tool when <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong> is pressed (https://github.com/wincent/ferret/issues/66).
 
 
 ### 5.0 (8 June 2019)<a name="ferret-50-8-june-2019" href="#user-content-ferret-50-8-june-2019"></a>
