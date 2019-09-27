@@ -850,10 +850,10 @@ command! -bar Largs execute 'args' ferret#private#args('location')
 let s:commands=get(g:, 'FerretQFCommands', 1)
 if s:commands
   " Keep quickfix result centered, if possible, when jumping from result to result.
-  cabbrev <silent> <expr> cn ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cn <bar> normal zz' : 'cn')
-  cabbrev <silent> <expr> cnf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cnf <bar> normal zz' : 'cnf')
-  cabbrev <silent> <expr> cp ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cp <bar> normal zz' : 'cp')
-  cabbrev <silent> <expr> cpf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cpf <bar> normal zz' : 'cpf')
+  cabbrev <silent> <expr> cn ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cn <bar> normal! zz' : 'cn')
+  cabbrev <silent> <expr> cnf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cnf <bar> normal! zz' : 'cnf')
+  cabbrev <silent> <expr> cp ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cp <bar> normal! zz' : 'cp')
+  cabbrev <silent> <expr> cpf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cpf <bar> normal! zz' : 'cpf')
 endif
 
 ""
