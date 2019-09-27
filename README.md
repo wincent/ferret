@@ -707,9 +707,16 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Filip Szymański
 - Joe Lencioni
 - Jon Parise
-- Nelo-Thara Wallus
+- Nelo Wallus
 - Tom Dooner
 - Vaibhav Sagar
+- Yoni Weill
+
+This list produced with:
+
+```
+:read !git shortlog -s HEAD | grep -v 'Greg Hurrell' | cut -f 2-3 | sed -e 's/^/- /'
+```
 
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
@@ -718,6 +725,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 ### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
 
 - Add <strong>[`g:FerretAckWordWord`](#user-content-gferretackwordword)</strong> setting, to pass `-w` to the underlying search tool when <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong> is pressed (https://github.com/wincent/ferret/issues/66).
+- Use `:normal!` instead of <strong>`:normal`</strong> to avoid running custom mappings (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
 
 
 ### 5.0 (8 June 2019)<a name="ferret-50-8-june-2019" href="#user-content-ferret-50-8-june-2019"></a>
