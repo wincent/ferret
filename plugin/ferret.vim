@@ -363,10 +363,16 @@
 " - Filip Szymański
 " - Joe Lencioni
 " - Jon Parise
-" - Nelo-Thara Wallus
+" - Nelo Wallus
 " - Tom Dooner
 " - Vaibhav Sagar
+" - Yoni Weill
 "
+" This list produced with:
+"
+" ```
+" :read !git shortlog -s HEAD | grep -v 'Greg Hurrell' | cut -f 2-3 | sed -e 's/^/- /'
+" ```
 "
 " # History
 "
@@ -375,6 +381,8 @@
 " - Add |g:FerretAckWordWord| setting, to pass `-w` to the underlying search
 "   tool when |<Plug>(FerretAckWord)| is pressed
 "   (https://github.com/wincent/ferret/issues/66).
+" - Use `:normal!` instead of |:normal| to avoid running custom mappings
+"   (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
 "
 " ## 5.0 (8 June 2019)
 "
@@ -850,10 +858,10 @@ command! -bar Largs execute 'args' ferret#private#args('location')
 let s:commands=get(g:, 'FerretQFCommands', 1)
 if s:commands
   " Keep quickfix result centered, if possible, when jumping from result to result.
-  cabbrev <silent> <expr> cn ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cn <bar> normal zz' : 'cn')
-  cabbrev <silent> <expr> cnf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cnf <bar> normal zz' : 'cnf')
-  cabbrev <silent> <expr> cp ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cp <bar> normal zz' : 'cp')
-  cabbrev <silent> <expr> cpf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cpf <bar> normal zz' : 'cpf')
+  cabbrev <silent> <expr> cn ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cn <bar> normal! zz' : 'cn')
+  cabbrev <silent> <expr> cnf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cnf <bar> normal! zz' : 'cnf')
+  cabbrev <silent> <expr> cp ((getcmdtype() == ':' && getcmdpos() == 3) ? 'cp <bar> normal! zz' : 'cp')
+  cabbrev <silent> <expr> cpf ((getcmdtype() == ':' && getcmdpos() == 4) ? 'cpf <bar> normal! zz' : 'cpf')
 endif
 
 ""

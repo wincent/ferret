@@ -34,7 +34,7 @@ function! s:delete(first, last)
   endif
 
   " Move focus back to listing.
-  execute "normal \<C-W>\<C-P>"
+  execute "normal! \<C-W>\<C-P>"
 endfunction
 
 " Returns 1 if we should use Neovim's |job-control| features.
