@@ -663,7 +663,7 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos, files) abort
       if a:cursorpos <= l:position
         " Assume this is a filename, and it's the one we're trying to complete.
         " Do -complete=file style completion.
-        return glob(a:arglead . '*', 1, 1)
+        return map(glob(a:arglead . '*', 1, 1), 'isdirectory(v:val) ? v:val . "/" : v:val')
       end
     elseif l:command_seen
       " Let the pattern through unaltered.

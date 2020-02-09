@@ -383,6 +383,8 @@
 "   (https://github.com/wincent/ferret/issues/66).
 " - Use `:normal!` instead of |:normal| to avoid running custom mappings
 "   (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
+" - Append a trailing slash when autocompleting a directory name
+"   (https://github.com/wincent/ferret/issues/69).
 "
 " ## 5.0 (8 June 2019)
 "
