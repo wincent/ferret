@@ -599,7 +599,7 @@ Note that including quotes will not do what you intend.
  " Search for '"foo' in the 'bar"' directory:
  :Ack "foo bar"
 
- " Search for "'foo' in the "bar'" directory:
+ " Search for "'foo" in the "bar'" directory:
  :Ack 'foo bar'
 ```
 
