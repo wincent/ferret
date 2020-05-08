@@ -367,6 +367,7 @@
 " - Tom Dooner
 " - Vaibhav Sagar
 " - Yoni Weill
+" - fent
 "
 " This list produced with:
 "

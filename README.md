@@ -711,6 +711,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Tom Dooner
 - Vaibhav Sagar
 - Yoni Weill
+- fent
 
 This list produced with:
 
