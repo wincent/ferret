@@ -593,17 +593,25 @@ Unescaped spaces in the search are treated as argument separators, so a command 
 :Ack -w foo bar
 ```
 
-Note that including quotes will not do what you intend.
+Note that wrapping in quotes will probably not do what you want:
 
 ```
- " Search for '"foo' in the 'bar"' directory:
+ " Searches for:
+ "     "foo
+ " in the:
+ "     bar"
+ " directory:
  :Ack "foo bar"
 
- " Search for "'foo" in the "bar'" directory:
+ " Search for:
+ "     'foo
+ " in the:
+ "     bar'
+ " directory:
  :Ack 'foo bar'
 ```
 
-This approach to escaping is taken in order to make it straightfoward to use powerful Perl-compatible regular expression syntax in an unambiguous way without having to worry about shell escaping rules:
+This approach to escaping is taken in order to make it straightfoward to use powerful Perl-compatible regular expression syntax in an unambiguous way without having to worry about shell escaping rules; for example:
 
 ```
 :Ack \blog\((['"]).*?\1\) -i --ignore-dir=src/vendor src dist build
