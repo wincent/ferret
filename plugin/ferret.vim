@@ -230,22 +230,18 @@
 " :Ack -w foo bar
 " ```
 "
-" Note that wrapping in quotes will probably not do what you want:
+" Note that wrapping in quotes will probably not do what you want.
+"
+" This, for example, is a search for `"foo` in the `bar"` directory:
 "
 " ```
-" " Searches for:
-" "     "foo
-" " in the:
-" "     bar"
-" " directory:
 " :Ack "foo bar"
+" ```
 "
-" " Search for:
-" "     'foo
-" " in the:
-" "     bar'
-" " directory:
-" :Ack 'foo bar'
+" and this is a search for `'abc` in the `xyz'` directory:
+"
+" ```
+" :Ack 'abc xyz'
 " ```
 "
 " This approach to escaping is taken in order to make it straightfoward to use
