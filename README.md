@@ -599,7 +599,7 @@ Note that including quotes will not do what you intend.
  " Search for '"foo' in the 'bar"' directory:
  :Ack "foo bar"
 
- " Search for "'foo' in the "bar'" directory:
+ " Search for "'foo" in the "bar'" directory:
  :Ack 'foo bar'
 ```
 
@@ -711,6 +711,7 @@ Other contributors that have submitted patches include (in alphabetical order):
 - Tom Dooner
 - Vaibhav Sagar
 - Yoni Weill
+- fent
 
 This list produced with:
 
