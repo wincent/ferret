@@ -390,6 +390,7 @@
 "   (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
 " - Append a trailing slash when autocompleting a directory name
 "   (https://github.com/wincent/ferret/issues/69).
+" - Fixed failure to detect pre-existing mapping to |<Plug>(FerretLack)|.
 "
 " ## 5.0 (8 June 2019)
 "
@@ -783,7 +784,7 @@ if s:map
     nmap <unique> <leader>a <Plug>(FerretAck)
   endif
 
-  if !hasmapto('<Plug>FerretLack') && maparg('<leader>l', 'n') ==# ''
+  if !hasmapto('<Plug>(FerretLack)') && maparg('<leader>l', 'n') ==# ''
     ""
     " @mapping <Plug>(FerretLack)
     "
