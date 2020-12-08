@@ -447,7 +447,7 @@ let g:FerretLoaded=1
 In order to minimize impact on Vim start-up time Ferret will initialize itself lazily on first use by default. If you wish to force immediate initialization (for example, to cause <strong>`'grepprg'`</strong> and <strong>`'grepformat'`</strong> to be set as soon as Vim launches), then set <strong>[`g:FerretLazyInit`](#user-content-gferretlazyinit)</strong> to 0 in your <strong>`.vimrc`</strong>:
 
 ```
-let g:FerrerLazyInit=0
+let g:FerretLazyInit=0
 ```
 
 <p align="right"><a name="gferretackwordword" href="#user-content-gferretackwordword"><code>g:FerretAckWordWord</code></a></p>
