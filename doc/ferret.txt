@@ -531,7 +531,7 @@ itself lazily on first use by default. If you wish to force immediate
 initialization (for example, to cause |'grepprg'| and |'grepformat'| to be set
 as soon as Vim launches), then set |g:FerretLazyInit| to 0 in your |.vimrc|:
 >
-    let g:FerrerLazyInit=0
+    let g:FerretLazyInit=0
 <
 
                                                            *g:FerretAckWordWord*
@@ -800,6 +800,7 @@ Ferret is written and maintained by Greg Hurrell <greg@hurrell.net>.
 Other contributors that have submitted patches include (in alphabetical
 order):
 
+- Andrew Macpherson
 - Daniel Silva
 - Filip Szymański
 - Joe Lencioni

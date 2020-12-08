@@ -363,6 +363,7 @@
 " Other contributors that have submitted patches include (in alphabetical
 " order):
 "
+" - Andrew Macpherson
 " - Daniel Silva
 " - Filip Szymański
 " - Joe Lencioni
@@ -560,7 +561,7 @@ set cpoptions&vim
 " launches), then set |g:FerretLazyInit| to 0 in your |.vimrc|:
 "
 " ```
-" let g:FerrerLazyInit=0
+" let g:FerretLazyInit=0
 " ```
 if !get(g:, 'FerretLazyInit', 1)
   call ferret#private#init()

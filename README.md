@@ -1,20 +1,20 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.jpg" />
 </p>
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/wincent/ferret/media/ferret.gif" />
 </p>
 
 # ferret<a name="ferret-ferret" href="#user-content-ferret-ferret"></a>
 
-
 ## Intro<a name="ferret-intro" href="#user-content-ferret-intro"></a>
 
 > &quot;ferret (verb)<br />(ferret something out) search tenaciously for and find something: she had the ability to ferret out the facts.&quot;
 
 <p align="right"><a name="ferret-features" href="#user-content-ferret-features"><code>ferret-features</code></a></p>
-Ferret improves Vim's multi-file search in four ways:
 
+Ferret improves Vim's multi-file search in four ways:
 
 ### 1. Powerful multi-file search<a name="ferret-1-powerful-multi-file-search" href="#user-content-ferret-1-powerful-multi-file-search"></a>
 
@@ -26,13 +26,11 @@ Results are normally displayed in the <strong>`quickfix`</strong> window, but Fe
 
 <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> are analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>, but scoped to search within currently open buffers only. <strong>[`:Quack`](#user-content-quack)</strong> is scoped to search among the files currently in the <strong>`quickfix`</strong> list.
 
-
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
 
 The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: &quot;Ack substitute&quot;, accessible via shortcut &lt;leader&gt;r), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong> (or <strong>[`:Back`](#user-content-back)</strong>, or <strong>[`:Quack`](#user-content-quack)</strong>).
 
 Correspondingly, results obtained by <strong>[`:Lack`](#user-content-lack)</strong> can be targeted for replacement with <strong>[`:Lacks`](#user-content-lacks)</strong>.
-
 
 ### 3. Quickfix listing enhancements<a name="ferret-3-quickfix-listing-enhancements" href="#user-content-ferret-3-quickfix-listing-enhancements"></a>
 
@@ -40,13 +38,11 @@ The <strong>`quickfix`</strong> listing itself is enhanced with settings to impr
 
 Additionally, Vim's <strong>`:cn`</strong>, <strong>`:cp`</strong>, <strong>`:cnf`</strong> and <strong>`:cpf`</strong> commands are tweaked to make it easier to immediately identify matches by centering them within the viewport.
 
-
 ### 4. Easy operations on files in the quickfix listing<a name="ferret-4-easy-operations-on-files-in-the-quickfix-listing" href="#user-content-ferret-4-easy-operations-on-files-in-the-quickfix-listing"></a>
 
 Finally, Ferret provides a <strong>[`:Qargs`](#user-content-qargs)</strong> command that puts the files currently in the <strong>`quickfix`</strong> listing into the <strong>`:args`</strong> list, where they can be operated on in bulk via the <strong>`:argdo`</strong> command. This is what's used under the covers on older versions of Vim by <strong>[`:Acks`](#user-content-acks)</strong> to do its work (on newer versions the built-in <strong>`:cdo`</strong> or <strong>`:cfdo`</strong> are used instead).
 
 Ferret also provides a <strong>[`:Largs`](#user-content-largs)</strong> command, which is a <strong>`location-list`</strong> analog for <strong>[`:Qargs`](#user-content-qargs)</strong>.
-
 
 ## Installation<a name="ferret-installation" href="#user-content-ferret-installation"></a>
 
@@ -70,7 +66,6 @@ To generate help tags under Pathogen, you can do so from inside Vim with:
 ```
 :call pathogen#helptags()
 ```
-
 
 ## Commands<a name="ferret-commands" href="#user-content-ferret-commands"></a>
 
@@ -209,9 +204,7 @@ Just like <strong>[`:Qargs`](#user-content-qargs)</strong>, but applies to the c
 
 It takes the files in the current <strong>`location-list`</strong> and sets them as <strong>`:args`</strong> so that they can be operated on en masse via the <strong>`:argdo`</strong> command.
 
-
 ## Mappings<a name="ferret-mappings" href="#user-content-ferret-mappings"></a>
-
 
 ### Circumstances where mappings do not get set up<a name="ferret-circumstances-where-mappings-do-not-get-set-up" href="#user-content-ferret-circumstances-where-mappings-do-not-get-set-up"></a>
 
@@ -221,7 +214,6 @@ Note that Ferret will not try to set up the &lt;leader&gt; mappings if any of th
 - An alternative mapping for the same functionality has already been set up from a <strong>`.vimrc`</strong>.
 - The mapping has been suppressed by setting <strong>[`g:FerretMap`](#user-content-gferretmap)</strong> to 0 in your <strong>`.vimrc`</strong>.
 
-
 ### Mappings specific to the quickfix window<a name="ferret-mappings-specific-to-the-quickfix-window" href="#user-content-ferret-mappings-specific-to-the-quickfix-window"></a>
 
 Additionally, Ferret will set up special mappings in <strong>`quickfix`</strong> listings, unless prevented from doing so by <strong>[`g:FerretQFMap`](#user-content-gferretqfmap)</strong>:
@@ -229,7 +221,6 @@ Additionally, Ferret will set up special mappings in <strong>`quickfix`</strong>
 - `d` (<strong>`visual-mode`</strong>): delete visual selection
 - `dd` (<strong>`Normal-mode`</strong>): delete current line
 - `d`{motion} (<strong>`Normal-mode`</strong>): delete range indicated by {motion}
-
 
 ### `<Plug>(FerretAck)`<a name="ferret-plugferretack" href="#user-content-ferret-plugferretack"></a>
 
@@ -240,7 +231,6 @@ Ferret maps &lt;leader&gt;a to <strong>[`<Plug>(FerretAck)`](#user-content-plugf
 nmap <leader>x <Plug>(FerretAck)
 ```
 
-
 ### `<Plug>(FerretLack)`<a name="ferret-plugferretlack" href="#user-content-ferret-plugferretlack"></a>
 
 Ferret maps &lt;leader&gt;l to <strong>[`<Plug>(FerretLack)`](#user-content-plugferretlack)</strong>, which triggers the <strong>[`:Lack`](#user-content-lack)</strong> command. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
@@ -249,7 +239,6 @@ Ferret maps &lt;leader&gt;l to <strong>[`<Plug>(FerretLack)`](#user-content-plug
 " Instead of <leader>l, use <leader>y.
 nmap <leader>y <Plug>(FerretLack)
 ```
-
 
 ### `<Plug>(FerretAckWord)`<a name="ferret-plugferretackword" href="#user-content-ferret-plugferretackword"></a>
 
@@ -260,7 +249,6 @@ Ferret maps &lt;leader&gt;s (mnemonic: &quot;selection) to <strong>[`<Plug>(Ferr
 nmap <leader>z <Plug>(FerretAckWord)
 ```
 
-
 ### `<Plug>(FerretAcks)`<a name="ferret-plugferretacks" href="#user-content-ferret-plugferretacks"></a>
 
 Ferret maps &lt;leader&gt;r (mnemonic: &quot;replace&quot;) to <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong>, which triggers the <strong>[`:Acks`](#user-content-acks)</strong> command and fills the prompt with the last search term from Ferret. to use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
@@ -269,7 +257,6 @@ Ferret maps &lt;leader&gt;r (mnemonic: &quot;replace&quot;) to <strong>[`<Plug>(
 " Instead of <leader>r, use <leader>u.
 nmap <leader>u <Plug>(FerretAcks)
 ```
-
 
 ## Options<a name="ferret-options" href="#user-content-ferret-options"></a>
 
@@ -447,7 +434,7 @@ let g:FerretLoaded=1
 In order to minimize impact on Vim start-up time Ferret will initialize itself lazily on first use by default. If you wish to force immediate initialization (for example, to cause <strong>`'grepprg'`</strong> and <strong>`'grepformat'`</strong> to be set as soon as Vim launches), then set <strong>[`g:FerretLazyInit`](#user-content-gferretlazyinit)</strong> to 0 in your <strong>`.vimrc`</strong>:
 
 ```
-let g:FerrerLazyInit=0
+let g:FerretLazyInit=0
 ```
 
 <p align="right"><a name="gferretackwordword" href="#user-content-gferretackwordword"><code>g:FerretAckWordWord</code></a></p>
@@ -490,7 +477,6 @@ let g:FerretQFCommands=0
 
 Sets the '<strong>`grepformat`</strong>' used by Ferret.
 
-
 ## Functions<a name="ferret-functions" href="#user-content-ferret-functions"></a>
 
 <p align="right"><a name="ferretgetdefaultarguments" href="#user-content-ferretgetdefaultarguments"><code>ferret#get_default_arguments()</code></a></p>
@@ -505,10 +491,10 @@ echo ferret#get_default_arguments('rg')
 
 This may be useful if you wish to extend or otherwise modify the arguments by setting <strong>[`g:FerretExecutableArguments`](#user-content-gferretexecutablearguments)</strong>.
 
-
 ## Custom autocommands<a name="ferret-custom-autocommands" href="#user-content-ferret-custom-autocommands"></a>
 
 <p align="right"><a name="ferretdidwrite" href="#user-content-ferretdidwrite"><code>FerretDidWrite</code></a> <a name="ferretwillwrite" href="#user-content-ferretwillwrite"><code>FerretWillWrite</code></a></p>
+
 For maximum compatibility with other plug-ins, Ferret runs the following &quot;User&quot; autocommands before and after running the file writing operations during <strong>[`:Acks`](#user-content-acks)</strong> or <strong>[`:Lacks`](#user-content-lacks)</strong>:
 
 - FerretWillWrite
@@ -522,7 +508,6 @@ autocmd User FerretWillWrite call CustomWillWrite()
 autocmd! User FerretDidWrite
 autocmd User FerretDidWrite call CustomDidWrite()
 ```
-
 
 ## Overrides<a name="ferret-overrides" href="#user-content-ferret-overrides"></a>
 
@@ -572,7 +557,6 @@ To prevent any of these <strong>`quickfix`</strong>-specific overrides from bein
 let g:FerretQFOptions=0
 ```
 
-
 ## Troubleshooting<a name="ferret-troubleshooting" href="#user-content-ferret-troubleshooting"></a>
 
 <p align="right"><a name="ferret-quotes" href="#user-content-ferret-quotes"><code>ferret-quotes</code></a></p>
@@ -613,9 +597,7 @@ This approach to escaping is taken in order to make it straightfoward to use pow
 :Ack \blog\((['"]).*?\1\) -i --ignore-dir=src/vendor src dist build
 ```
 
-
 ## FAQ<a name="ferret-faq" href="#user-content-ferret-faq"></a>
-
 
 ### Why do Ferret commands start with "Ack", "Lack" and so on?<a name="ferret-why-do-ferret-commands-start-with-ack-lack-and-so-on" href="#user-content-ferret-why-do-ferret-commands-start-with-ack-lack-and-so-on"></a>
 
@@ -623,13 +605,11 @@ Ferret was originally the thinnest of wrappers (7 lines of code in my <strong>`.
 
 So, even though Ferret has a new name now and actually prefers `rg` then `ag` over `ack`/`ack-grep` when available, I prefer to keep the command names intact and benefit from years of accumulated muscle-memory.
 
-
 ## Related<a name="ferret-related" href="#user-content-ferret-related"></a>
 
 Just as Ferret aims to improve the multi-file search and replace experience, Loupe does the same for within-file searching:
 
 https://github.com/wincent/loupe
-
 
 ## Website<a name="ferret-website" href="#user-content-ferret-website"></a>
 
@@ -645,7 +625,6 @@ Official releases are listed at:
 
 http://www.vim.org/scripts/script.php?script_id=5220
 
-
 ## License<a name="ferret-license" href="#user-content-ferret-license"></a>
 
 Copyright 2015-present Greg Hurrell. All rights reserved.
@@ -658,14 +637,11 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 ## Development<a name="ferret-development" href="#user-content-ferret-development"></a>
-
 
 ### Contributing patches<a name="ferret-contributing-patches" href="#user-content-ferret-contributing-patches"></a>
 
 Patches can be sent via mail to greg@hurrell.net, or as GitHub pull requests at: https://github.com/wincent/ferret/pulls
-
 
 ### Cutting a new release<a name="ferret-cutting-a-new-release" href="#user-content-ferret-cutting-a-new-release"></a>
 
@@ -700,13 +676,13 @@ git archive -o ferret-$VERSION.zip HEAD -- .
 
 - Upload to http://www.vim.org/scripts/script.php?script_id=5220
 
-
 ## Authors<a name="ferret-authors" href="#user-content-ferret-authors"></a>
 
 Ferret is written and maintained by Greg Hurrell &lt;greg@hurrell.net&gt;.
 
 Other contributors that have submitted patches include (in alphabetical order):
 
+- Andrew Macpherson
 - Daniel Silva
 - Filip Szymański
 - Joe Lencioni
@@ -723,9 +699,7 @@ This list produced with:
 :read !git shortlog -s HEAD | grep -v 'Greg Hurrell' | cut -f 2-3 | sed -e 's/^/- /'
 ```
 
-
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
-
 
 ### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
 
@@ -733,7 +707,6 @@ This list produced with:
 - Use `:normal!` instead of <strong>`:normal`</strong> to avoid running custom mappings (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
 - Append a trailing slash when autocompleting a directory name (https://github.com/wincent/ferret/issues/69).
 - Fixed failure to detect pre-existing mapping to <strong>[`<Plug>(FerretLack)`](#user-content-plugferretlack)</strong>.
-
 
 ### 5.0 (8 June 2019)<a name="ferret-50-8-june-2019" href="#user-content-ferret-50-8-june-2019"></a>
 
@@ -743,22 +716,18 @@ This list produced with:
 - Likewise, Ferret now has a <strong>[`:Largs`](#user-content-largs)</strong> command, analogous to <strong>[`:Qargs`](#user-content-qargs)</strong>, which applies to the <strong>`location-list`</strong> instead of the <strong>`quickfix`</strong> window.
 - The Ferret bindings that are set-up in the <strong>`quickfix`</strong> window when <strong>[`g:FerretQFMap`](#user-content-gferretqfmap)</strong> is enabled now also apply to the <strong>`location-list`</strong>.
 
-
 ### 4.1 (31 January 2019)<a name="ferret-41-31-january-2019" href="#user-content-ferret-41-31-january-2019"></a>
 
 - Added <strong>[`:Quack`](#user-content-quack)</strong> command, analogous to <strong>[`:Ack`](#user-content-ack)</strong> but scoped to the files currently listed in the <strong>`quickfix`</strong> window.
 - Fixed option autocompletion.
 
-
 ### 4.0.2 (11 January 2019)<a name="ferret-402-11-january-2019" href="#user-content-ferret-402-11-january-2019"></a>
 
 - Restore compatibility with versions of `rg` prior to v0.8 (https://github.com/wincent/ferret/issues/59).
 
-
 ### 4.0.1 (8 January 2019)<a name="ferret-401-8-january-2019" href="#user-content-ferret-401-8-january-2019"></a>
 
 - Make <strong>[`:Acks`](#user-content-acks)</strong> behavior the same irrespective of the <strong>`'gdefault'`</strong> setting.
-
 
 ### 4.0 (25 December 2018)<a name="ferret-40-25-december-2018" href="#user-content-ferret-40-25-december-2018"></a>
 
@@ -766,21 +735,17 @@ This list produced with:
 - Put search term in <strong>`w:quickfix_title`</strong> for use in statuslines (https://github.com/wincent/ferret/pull/57).
 - Add <strong>[`g:FerretExecutableArguments`](#user-content-gferretexecutablearguments)</strong> and <strong>[`ferret#get_default_arguments()`](#user-content-ferretgetdefaultarguments)</strong> (https://github.com/wincent/ferret/pull/46).
 
-
 ### 3.0.3 (23 March 2018)<a name="ferret-303-23-march-2018" href="#user-content-ferret-303-23-march-2018"></a>
 
 - Fix for <strong>[`:Lack`](#user-content-lack)</strong> results opening in quickfix listing in Neovim (https://github.com/wincent/ferret/issues/47).
-
 
 ### 3.0.2 (25 October 2017)<a name="ferret-302-25-october-2017" href="#user-content-ferret-302-25-october-2017"></a>
 
 - Fix broken <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> commands (https://github.com/wincent/ferret/issues/48).
 
-
 ### 3.0.1 (24 August 2017)<a name="ferret-301-24-august-2017" href="#user-content-ferret-301-24-august-2017"></a>
 
 - Fix failure to handle search patterns containing multiple escaped spaces (https://github.com/wincent/ferret/issues/49).
-
 
 ### 3.0 (13 June 2017)<a name="ferret-30-13-june-2017" href="#user-content-ferret-30-13-june-2017"></a>
 
@@ -788,11 +753,9 @@ This list produced with:
 - Add <strong>[`g:FerretAutojump`](#user-content-gferretautojump)</strong>.
 - Drop support for vim-dispatch.
 
-
 ### 2.0 (6 June 2017)<a name="ferret-20-6-june-2017" href="#user-content-ferret-20-6-june-2017"></a>
 
 - Add support for Neovim, along with <strong>[`g:FerretNvim`](#user-content-gferretnvim)</strong> setting.
-
 
 ### 1.5 "Cinco de Cuatro" (4 May 2017)<a name="ferret-15-cinco-de-cuatro-4-may-2017" href="#user-content-ferret-15-cinco-de-cuatro-4-may-2017"></a>
 
@@ -802,12 +765,10 @@ This list produced with:
 - Added <strong>[`g:FerretMaxResults`](#user-content-gferretmaxresults)</strong>.
 - Added feature-detection for `rg` and `ag`, allowing Ferret to gracefully work with older versions of those tools that do not support all desired command-line switches.
 
-
 ### 1.4 (21 January 2017)<a name="ferret-14-21-january-2017" href="#user-content-ferret-14-21-january-2017"></a>
 
 - Drop broken support for `grep`, printing a prompt to install `rg`, `ag`, or `ack`/`ack-grep` instead.
 - If an `ack` executable is not found, search for `ack-grep`, which is the name used on Debian-derived distros.
-
 
 ### 1.3 (8 January 2017)<a name="ferret-13-8-january-2017" href="#user-content-ferret-13-8-january-2017"></a>
 
@@ -817,16 +778,13 @@ This list produced with:
 - Remove superfluous <strong>`QuickFixCmdPost`</strong> autocommands, resolving clash with Neomake plug-in (patch from Tom Dooner, #36).
 - Add support for searching with ripgrep (`rg`).
 
-
 ### 1.2a (16 May 2016)<a name="ferret-12a-16-may-2016" href="#user-content-ferret-12a-16-may-2016"></a>
 
 - Add optional support for running searches asynchronously using Vim's <strong>`+job`</strong> feature (enabled by default in sufficiently recent versions of Vim); see <strong>[`g:FerretJob`](#user-content-gferretjob)</strong>, <strong>[`:FerretCancelAsync`](#user-content-ferretcancelasync)</strong> and <strong>[`:FerretPullAsync`](#user-content-ferretpullasync)</strong>.
 
-
 ### 1.1.1 (7 March 2016)<a name="ferret-111-7-march-2016" href="#user-content-ferret-111-7-march-2016"></a>
 
 - Fix another edge case when searching for patterns containing &quot;#&quot;, only manifesting under dispatch.vim.
-
 
 ### 1.1 (7 March 2016)<a name="ferret-11-7-march-2016" href="#user-content-ferret-11-7-march-2016"></a>
 
@@ -834,7 +792,6 @@ This list produced with:
 - Fix edge case when searching for patterns containing &quot;#&quot; and &quot;%&quot;.
 - Provide completion for `ag` and `ack` options when using <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>.
 - Fix display of error messages under dispatch.vim.
-
 
 ### 1.0 (28 December 2015)<a name="ferret-10-28-december-2015" href="#user-content-ferret-10-28-december-2015"></a>
 
@@ -845,18 +802,15 @@ This list produced with:
 - When using `ag`, report multiple matches per line instead of just the first (patch from Daniel Silva).
 - Improve content and display of error messages.
 
-
 ### 0.3 (24 July 2015)<a name="ferret-03-24-july-2015" href="#user-content-ferret-03-24-july-2015"></a>
 
 - Added highlighting of search pattern and related <strong>[`g:FerretHlsearch`](#user-content-gferrethlsearch)</strong> option (patch from Nelo-Thara Wallus).
 - Add better error reporting for failed or incorrect searches.
 
-
 ### 0.2 (16 July 2015)<a name="ferret-02-16-july-2015" href="#user-content-ferret-02-16-july-2015"></a>
 
 - Added <strong>[`FerretDidWrite`](#user-content-ferretdidwrite)</strong> and <strong>[`FerretWillWrite`](#user-content-ferretwillwrite)</strong> autocommands (patch from Joe Lencioni).
 - Add <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong> mapping (patch from Nelo-Thara Wallus).
-
 
 ### 0.1 (8 July 2015)<a name="ferret-01-8-july-2015" href="#user-content-ferret-01-8-july-2015"></a>
 
