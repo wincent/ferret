@@ -363,6 +363,7 @@
 " Other contributors that have submitted patches include (in alphabetical
 " order):
 "
+" - Andrew Macpherson
 " - Daniel Silva
 " - Filip Szymański
 " - Joe Lencioni
