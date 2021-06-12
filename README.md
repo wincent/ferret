@@ -664,8 +664,8 @@ git tag -s -m "$VERSION release" $VERSION
 - Publish the code:
 
 ```
-git push origin master --follow-tags
-git push github master --follow-tags
+git push origin main --follow-tags
+git push github main --follow-tags
 ```
 
 - Produce the release archive:
@@ -701,7 +701,7 @@ This list produced with:
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-### master (not yet released)<a name="ferret-master-not-yet-released" href="#user-content-ferret-master-not-yet-released"></a>
+### main (not yet released)<a name="ferret-main-not-yet-released" href="#user-content-ferret-main-not-yet-released"></a>
 
 - Add <strong>[`g:FerretAckWordWord`](#user-content-gferretackwordword)</strong> setting, to pass `-w` to the underlying search tool when <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong> is pressed (https://github.com/wincent/ferret/issues/66).
 - Use `:normal!` instead of <strong>`:normal`</strong> to avoid running custom mappings (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).

@@ -343,8 +343,8 @@
 " - Publish the code:
 "
 " ```
-" git push origin master --follow-tags
-" git push github master --follow-tags
+" git push origin main --follow-tags
+" git push github main --follow-tags
 " ```
 "
 " - Produce the release archive:
@@ -382,7 +382,7 @@
 "
 " # History
 "
-" ## master (not yet released)
+" ## main (not yet released)
 "
 " - Add |g:FerretAckWordWord| setting, to pass `-w` to the underlying search
 "   tool when |<Plug>(FerretAckWord)| is pressed
