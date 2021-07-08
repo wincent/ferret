@@ -493,7 +493,7 @@ This may be useful if you wish to extend or otherwise modify the arguments by se
 
 ## Custom autocommands<a name="ferret-custom-autocommands" href="#user-content-ferret-custom-autocommands"></a>
 
-<p align="right"><a name="ferretdidwrite" href="#user-content-ferretdidwrite"><code>FerretDidWrite</code></a> <a name="ferretwillwrite" href="#user-content-ferretwillwrite"><code>FerretWillWrite</code></a></p>
+<p align="right"><a name="ferretasyncfinish" href="#user-content-ferretasyncfinish"><code>FerretAsyncFinish</code></a> <a name="ferretasyncstart" href="#user-content-ferretasyncstart"><code>FerretAsyncStart</code></a> <a name="ferretdidwrite" href="#user-content-ferretdidwrite"><code>FerretDidWrite</code></a> <a name="ferretwillwrite" href="#user-content-ferretwillwrite"><code>FerretWillWrite</code></a></p>
 
 For maximum compatibility with other plug-ins, Ferret runs the following &quot;User&quot; autocommands before and after running the file writing operations during <strong>[`:Acks`](#user-content-acks)</strong> or <strong>[`:Lacks`](#user-content-lacks)</strong>:
 
@@ -508,6 +508,11 @@ autocmd User FerretWillWrite call CustomWillWrite()
 autocmd! User FerretDidWrite
 autocmd User FerretDidWrite call CustomDidWrite()
 ```
+
+Additionally, Ferret runs these autocommands when an async search begins and ends:
+
+- FerretAsyncStart
+- FerretAsyncFinish
 
 ## Overrides<a name="ferret-overrides" href="#user-content-ferret-overrides"></a>
 

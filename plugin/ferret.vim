@@ -128,7 +128,7 @@
 "
 " # Custom autocommands
 "
-"                                                *FerretWillWrite* *FerretDidWrite*
+"      *FerretAsyncStart* *FerretAsyncFinish* *FerretWillWrite* *FerretDidWrite*
 " For maximum compatibility with other plug-ins, Ferret runs the following
 " "User" autocommands before and after running the file writing operations
 " during |:Acks| or |:Lacks|:
@@ -146,6 +146,11 @@
 " autocmd User FerretDidWrite call CustomDidWrite()
 " ```
 "
+" Additionally, Ferret runs these autocommands when an async search begins and
+" ends:
+"
+" - FerretAsyncStart
+" - FerretAsyncFinish
 "
 " # Overrides
 "
