@@ -9,9 +9,23 @@ function! s:info_from_job(job)
   endif
 endfunction
 
+let s:ripgrep_hack=0
+
+function! s:prefinalize(output)
+  if s:ripgrep_hack
+    " When `rg` is passed a '.' or './' search path, it reports results as
+    " './a/b/c' instead of 'a/b/c', which is super ugly in the quickfix listing,
+    " so filter those out...
+    return map(a:output, 'substitute(v:val, "^\\./", "", "g")')
+  else
+    return a:output
+  endif
+endfunction
+
 function! ferret#private#nvim#search(command, ack, bang) abort
   call ferret#private#nvim#cancel()
   call ferret#private#autocmd('FerretAsyncStart')
+  let s:ripgrep_hack=0
   let l:executable=split(ferret#private#executable())
   let l:default_search_paths=[]
   if l:executable[0] ==# 'rg'
@@ -19,18 +33,25 @@ function! ferret#private#nvim#search(command, ack, bang) abort
     " see: https://github.com/wincent/ferret/issues/78
     let l:seen_search_term=0
     let l:seen_search_path=0
+    let l:search_paths_include_dot=0
     for l:arg in a:command
       if !ferret#private#option(l:arg)
         if !l:seen_search_term
           let l:seen_search_term=1
         else
           let l:seen_search_path=1
-          break
+          if l:arg ==# '.' || l:arg ==# './'
+            let l:search_paths_include_dot=1
+            break
+          endif
         end
       end
     endfor
     if !l:seen_search_path
+      let s:ripgrep_hack=1
       call extend(l:default_search_paths, ['.'])
+    elseif l:search_paths_include_dot
+      let s:ripgrep_hack=1
     endif
   endif
   call extend(l:executable, a:command)
@@ -135,7 +156,7 @@ function! ferret#private#nvim#close_cb(job, data, event) abort dict
       " If this is a :Lack search, try to focus appropriate window.
       call win_gotoid(l:info.window)
     endif
-    call ferret#private#shared#finalize_search(l:info.output, l:info.ack)
+    call ferret#private#shared#finalize_search(s:prefinalize(l:info.output), l:info.ack)
     for l:error in l:info.errors
       unsilent echomsg l:error
     endfor
@@ -145,7 +166,7 @@ endfunction
 function! ferret#private#nvim#pull() abort
   for l:job in keys(s:jobs)
     let l:info=s:jobs[l:job]
-    call ferret#private#shared#finalize_search(l:info.output, l:info.ack)
+    call ferret#private#shared#finalize_search(s:prefinalize(l:info.output), l:info.ack)
   endfor
 endfunction
 
@@ -163,7 +184,7 @@ endfunction
 
 " Stop a single job as a result of hitting g:FerretMaxResults.
 function! s:MaxResultsExceeded(info)
-  call ferret#private#shared#finalize_search(a:info.output, a:info.ack)
+  call ferret#private#shared#finalize_search(s:prefinalize(a:info.output), a:info.ack)
   call jobstop(a:info.job)
   call remove(s:jobs, a:info.job)
   call ferret#private#autocmd('FerretAsyncFinish')
