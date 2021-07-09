@@ -712,6 +712,7 @@ This list produced with:
 - Use `:normal!` instead of <strong>`:normal`</strong> to avoid running custom mappings (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
 - Append a trailing slash when autocompleting a directory name (https://github.com/wincent/ferret/issues/69).
 - Fixed failure to detect pre-existing mapping to <strong>[`<Plug>(FerretLack)`](#user-content-plugferretlack)</strong>.
+- Worked around breakage caused by `rg` v13.0.0 (https://github.com/wincent/ferret/issues/78).
 
 ### 5.0 (8 June 2019)<a name="ferret-50-8-june-2019" href="#user-content-ferret-50-8-june-2019"></a>
 

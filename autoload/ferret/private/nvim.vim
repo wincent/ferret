@@ -12,8 +12,30 @@ endfunction
 function! ferret#private#nvim#search(command, ack, bang) abort
   call ferret#private#nvim#cancel()
   call ferret#private#autocmd('FerretAsyncStart')
-  let l:command_and_args=extend(split(ferret#private#executable()), a:command)
-  let l:job=jobstart(l:command_and_args, {
+  let l:executable=split(ferret#private#executable())
+  let l:default_search_paths=[]
+  if l:executable[0] ==# 'rg'
+    " Hack for breakage caused by rg v13.0.0;
+    " see: https://github.com/wincent/ferret/issues/78
+    let l:seen_search_term=0
+    let l:seen_search_path=0
+    for l:arg in a:command
+      if !ferret#private#option(l:arg)
+        if !l:seen_search_term
+          let l:seen_search_term=1
+        else
+          let l:seen_search_path=1
+          break
+        end
+      end
+    endfor
+    if !l:seen_search_path
+      call extend(l:default_search_paths, ['.'])
+    endif
+  endif
+  call extend(l:executable, a:command)
+  call extend(l:executable, l:default_search_paths)
+  let l:job=jobstart(l:executable, {
         \   'on_stderr': 'ferret#private#nvim#err_cb',
         \   'on_stdout': 'ferret#private#nvim#out_cb',
         \   'on_exit': 'ferret#private#nvim#close_cb'

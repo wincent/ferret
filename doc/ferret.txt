@@ -833,6 +833,8 @@ main (not yet released) ~
 - Append a trailing slash when autocompleting a directory name
   (https://github.com/wincent/ferret/issues/69).
 - Fixed failure to detect pre-existing mapping to |<Plug>(FerretLack)|.
+- Worked around breakage caused by `rg` v13.0.0
+  (https://github.com/wincent/ferret/issues/78).
 
 5.0 (8 June 2019) ~
 
