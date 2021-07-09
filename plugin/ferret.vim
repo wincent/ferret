@@ -387,7 +387,7 @@
 "
 " # History
 "
-" ## main (not yet released)
+" ## 5.1 (9 July 2021)
 "
 " - Add |g:FerretAckWordWord| setting, to pass `-w` to the underlying search
 "   tool when |<Plug>(FerretAckWord)| is pressed

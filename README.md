@@ -706,7 +706,7 @@ This list produced with:
 
 ## History<a name="ferret-history" href="#user-content-ferret-history"></a>
 
-### main (not yet released)<a name="ferret-main-not-yet-released" href="#user-content-ferret-main-not-yet-released"></a>
+### 5.1 (9 July 2021)<a name="ferret-51-9-july-2021" href="#user-content-ferret-51-9-july-2021"></a>
 
 - Add <strong>[`g:FerretAckWordWord`](#user-content-gferretackwordword)</strong> setting, to pass `-w` to the underlying search tool when <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong> is pressed (https://github.com/wincent/ferret/issues/66).
 - Use `:normal!` instead of <strong>`:normal`</strong> to avoid running custom mappings (patch from Yoni Weill, https://github.com/wincent/ferret/pull/67).
