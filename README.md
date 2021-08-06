@@ -338,7 +338,7 @@ let g:FerretLacksCommand='lfdo'
 
 ### `g:FerretVeryMagic` (boolean, default: 1)<a name="ferret-gferretverymagic-boolean-default-1" href="#user-content-ferret-gferretverymagic-boolean-default-1"></a>
 
-Controls whether the <strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong> mapping should populate the command line with the <strong>`/\v`</strong> &quot;very magic&quot; marker. Given that the argument passed to <strong>[`:Acks`](#user-content-acks)</strong> is handed straight to Vim, using &quot;very magic&quot; makes it more likely that the (probably Perl-compatible) regular expression used in the initial search can be used directly with Vim's (famously not-Perl-compatible) regular expression engine.
+Controls whether the <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong> mapping should populate the command line with the <strong>`/\v`</strong> &quot;very magic&quot; marker. Given that the argument passed to <strong>[`:Acks`](#user-content-acks)</strong> is handed straight to Vim, using &quot;very magic&quot; makes it more likely that the (probably Perl-compatible) regular expression used in the initial search can be used directly with Vim's (famously not-Perl-compatible) regular expression engine.
 
 To prevent the automatic use of <strong>`/\v`</strong>, set this option to 0:
 

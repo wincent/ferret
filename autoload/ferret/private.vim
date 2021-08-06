@@ -470,7 +470,7 @@ endfunction
 ""
 " @option g:FerretVeryMagic boolean 1
 "
-" Controls whether the |<Plug>(FerretAck)| mapping should populate the command
+" Controls whether the |<Plug>(FerretAcks)| mapping should populate the command
 " line with the |/\v| "very magic" marker. Given that the argument passed to
 " |:Acks| is handed straight to Vim, using "very magic" makes it more likely
 " that the (probably Perl-compatible) regular expression used in the initial
