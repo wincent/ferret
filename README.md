@@ -20,15 +20,15 @@ Ferret improves Vim's multi-file search in four ways:
 
 Ferret provides an <strong>[`:Ack`](#user-content-ack)</strong> command for searching across multiple files using ripgrep (https://github.com/BurntSushi/ripgrep), The Silver Searcher (https://github.com/ggreer/the_silver_searcher), or Ack (http://beyondgrep.com/). Support for passing options through to the underlying search command exists, along with the ability to use full regular expression syntax without doing special escaping. On modern versions of Vim (version 8 or higher, or Neovim), searches are performed asynchronously (without blocking the UI).
 
-Shortcut mappings are provided to start an <strong>[`:Ack`](#user-content-ack)</strong> search (&lt;leader&gt;a) or to search for the word currently under the cursor (&lt;leader&gt;s).
+Shortcut mappings are provided to start an <strong>[`:Ack`](#user-content-ack)</strong> search (`<Leader>a`) or to search for the word currently under the cursor (`<Leader>s`).
 
-Results are normally displayed in the <strong>`quickfix`</strong> window, but Ferret also provides a <strong>[`:Lack`](#user-content-lack)</strong> command that behaves like <strong>[`:Ack`](#user-content-ack)</strong> but uses the <strong>`location-list`</strong> instead, and a &lt;leader&gt;l mapping as a shortcut to <strong>[`:Lack`](#user-content-lack)</strong>.
+Results are normally displayed in the <strong>`quickfix`</strong> window, but Ferret also provides a <strong>[`:Lack`](#user-content-lack)</strong> command that behaves like <strong>[`:Ack`](#user-content-ack)</strong> but uses the <strong>`location-list`</strong> instead, and a `<Leader>l` mapping as a shortcut to <strong>[`:Lack`](#user-content-lack)</strong>.
 
 <strong>[`:Back`](#user-content-back)</strong> and <strong>[`:Black`](#user-content-black)</strong> are analogous to <strong>[`:Ack`](#user-content-ack)</strong> and <strong>[`:Lack`](#user-content-lack)</strong>, but scoped to search within currently open buffers only. <strong>[`:Quack`](#user-content-quack)</strong> is scoped to search among the files currently in the <strong>`quickfix`</strong> list.
 
 ### 2. Streamlined multi-file replace<a name="ferret-2-streamlined-multi-file-replace" href="#user-content-ferret-2-streamlined-multi-file-replace"></a>
 
-The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: &quot;Ack substitute&quot;, accessible via shortcut &lt;leader&gt;r), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong> (or <strong>[`:Back`](#user-content-back)</strong>, or <strong>[`:Quack`](#user-content-quack)</strong>).
+The companion to <strong>[`:Ack`](#user-content-ack)</strong> is <strong>[`:Acks`](#user-content-acks)</strong> (mnemonic: &quot;Ack substitute&quot;, accessible via shortcut `<Leader>r`), which allows you to run a multi-file replace across all the files placed in the <strong>`quickfix`</strong> window by a previous invocation of <strong>[`:Ack`](#user-content-ack)</strong> (or <strong>[`:Back`](#user-content-back)</strong>, or <strong>[`:Quack`](#user-content-quack)</strong>).
 
 Correspondingly, results obtained by <strong>[`:Lack`](#user-content-lack)</strong> can be targeted for replacement with <strong>[`:Lacks`](#user-content-lacks)</strong>.
 
@@ -93,7 +93,7 @@ Likewise, {options} are passed through. In this example, we pass the `-w` option
 :Ack -w something foo bar
 ```
 
-As a convenience &lt;leader&gt;a is set-up (<strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong>) as a shortcut to enter <strong>`Cmdline-mode`</strong> with `:Ack` inserted on the <strong>`Cmdline`</strong>. Likewise &lt;leader&gt;s (<strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong>) is a shortcut for running <strong>[`:Ack`](#user-content-ack)</strong> with the word currently under the cursor.
+As a convenience `<Leader>a` is set-up (<strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong>) as a shortcut to enter <strong>`Cmdline-mode`</strong> with `:Ack` inserted on the <strong>`Cmdline`</strong>. Likewise `<Leader>s` (<strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong>) is a shortcut for running <strong>[`:Ack`](#user-content-ack)</strong> with the word currently under the cursor.
 
 <p align="right"><a name="ack" href="#user-content-ack"><code>:Ack!</code></a></p>
 
@@ -208,7 +208,7 @@ It takes the files in the current <strong>`location-list`</strong> and sets them
 
 ### Circumstances where mappings do not get set up<a name="ferret-circumstances-where-mappings-do-not-get-set-up" href="#user-content-ferret-circumstances-where-mappings-do-not-get-set-up"></a>
 
-Note that Ferret will not try to set up the &lt;leader&gt; mappings if any of the following are true:
+Note that Ferret will not try to set up the <strong>`<Leader>`</strong> mappings if any of the following are true:
 
 - A mapping with the same <strong>`{lhs}`</strong> already exists.
 - An alternative mapping for the same functionality has already been set up from a <strong>`.vimrc`</strong>.
@@ -227,7 +227,7 @@ Additionally, Ferret will set up special mappings in <strong>`quickfix`</strong>
 Ferret provides <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong> which can be used to trigger the <strong>[`:Back`](#user-content-back)</strong> command. To configure a mapping for it, use <strong>`:nmap`</strong>:
 
 ```
-nmap <leader>fb <Plug>(FerretBack)
+nmap <Leader>fb <Plug>(FerretBack)
 ```
 
 ### `<Plug>(FerretBlack)`<a name="ferret-plugferretblack" href="#user-content-ferret-plugferretblack"></a>
@@ -235,7 +235,7 @@ nmap <leader>fb <Plug>(FerretBack)
 Ferret provides <strong>[`<Plug>(FerretBlack)`](#user-content-plugferretblack)</strong> which can be used to trigger the <strong>[`:Black`](#user-content-black)</strong> command. To configure a mapping for it, use <strong>`:nmap`</strong>:
 
 ```
-nmap <leader>fl <Plug>(FerretBlack)
+nmap <Leader>fl <Plug>(FerretBlack)
 ```
 
 ### `<Plug>(FerretQuack)`<a name="ferret-plugferretquack" href="#user-content-ferret-plugferretquack"></a>
@@ -243,43 +243,43 @@ nmap <leader>fl <Plug>(FerretBlack)
 Ferret provides <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong> which can be used to trigger the <strong>[`:Quack`](#user-content-quack)</strong> command. To configure a mapping for it, use <strong>`:nmap`</strong>:
 
 ```
-nmap <leader>fq <Plug>(FerretQuack)
+nmap <Leader>fq <Plug>(FerretQuack)
 ```
 
 ### `<Plug>(FerretAck)`<a name="ferret-plugferretack" href="#user-content-ferret-plugferretack"></a>
 
-Ferret maps &lt;leader&gt;a to <strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong>, which triggers the <strong>[`:Ack`](#user-content-ack)</strong> command. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
+Ferret maps `<Leader>a` to <strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong>, which triggers the <strong>[`:Ack`](#user-content-ack)</strong> command. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
 
 ```
-" Instead of <leader>a, use <leader>x.
-nmap <leader>x <Plug>(FerretAck)
+" Instead of <Leader>a, use <Leader>x.
+nmap <Leader>x <Plug>(FerretAck)
 ```
 
 ### `<Plug>(FerretLack)`<a name="ferret-plugferretlack" href="#user-content-ferret-plugferretlack"></a>
 
-Ferret maps &lt;leader&gt;l to <strong>[`<Plug>(FerretLack)`](#user-content-plugferretlack)</strong>, which triggers the <strong>[`:Lack`](#user-content-lack)</strong> command. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
+Ferret maps `<Leader>l` to <strong>[`<Plug>(FerretLack)`](#user-content-plugferretlack)</strong>, which triggers the <strong>[`:Lack`](#user-content-lack)</strong> command. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
 
 ```
-" Instead of <leader>l, use <leader>y.
-nmap <leader>y <Plug>(FerretLack)
+" Instead of <Leader>l, use <Leader>y.
+nmap <Leader>y <Plug>(FerretLack)
 ```
 
 ### `<Plug>(FerretAckWord)`<a name="ferret-plugferretackword" href="#user-content-ferret-plugferretackword"></a>
 
-Ferret maps &lt;leader&gt;s (mnemonic: &quot;selection) to <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong>, which uses <strong>[`:Ack`](#user-content-ack)</strong> to search for the word currently under the cursor. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
+Ferret maps `<Leader>s` (mnemonic: &quot;selection) to <strong>[`<Plug>(FerretAckWord)`](#user-content-plugferretackword)</strong>, which uses <strong>[`:Ack`](#user-content-ack)</strong> to search for the word currently under the cursor. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
 
 ```
-" Instead of <leader>s, use <leader>z.
-nmap <leader>z <Plug>(FerretAckWord)
+" Instead of <Leader>s, use <Leader>z.
+nmap <Leader>z <Plug>(FerretAckWord)
 ```
 
 ### `<Plug>(FerretAcks)`<a name="ferret-plugferretacks" href="#user-content-ferret-plugferretacks"></a>
 
-Ferret maps &lt;leader&gt;r (mnemonic: &quot;replace&quot;) to <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong>, which triggers the <strong>[`:Acks`](#user-content-acks)</strong> command and fills the prompt with the last search term from Ferret. to use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
+Ferret maps `<Leader>r` (mnemonic: &quot;replace&quot;) to <strong>[`<Plug>(FerretAcks)`](#user-content-plugferretacks)</strong>, which triggers the <strong>[`:Acks`](#user-content-acks)</strong> command and fills the prompt with the last search term from Ferret. to use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
 
 ```
-" Instead of <leader>r, use <leader>u.
-nmap <leader>u <Plug>(FerretAcks)
+" Instead of <Leader>r, use <Leader>u.
+nmap <Leader>u <Plug>(FerretAcks)
 ```
 
 ## Options<a name="ferret-options" href="#user-content-ferret-options"></a>
