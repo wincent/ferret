@@ -288,6 +288,27 @@ unless prevented from doing so by |g:FerretQFMap|:
 - `d`{motion} (|Normal-mode|): delete range indicated by {motion}
 
 
+                                                            *<Plug>(FerretBack)*
+Ferret provides |<Plug>(FerretBack)| which can be used to trigger the |:Back|
+command. To configure a mapping for it, use |:nmap|:
+>
+    nmap <leader>fb <Plug>(FerretBack)
+<
+
+                                                           *<Plug>(FerretBlack)*
+Ferret provides |<Plug>(FerretBlack)| which can be used to trigger the |:Black|
+command. To configure a mapping for it, use |:nmap|:
+>
+    nmap <leader>fl <Plug>(FerretBlack)
+<
+
+                                                           *<Plug>(FerretQuack)*
+Ferret provides |<Plug>(FerretBack)| which can be used to trigger the |:Quack|
+command. To configure a mapping for it, use |:nmap|:
+>
+    nmap <leader>fq <Plug>(FerretQuack)
+<
+
                                                              *<Plug>(FerretAck)*
 Ferret maps <leader>a to |<Plug>(FerretAck)|, which triggers the |:Ack| command.
 To use an alternative mapping instead, create a different one in your |.vimrc|
@@ -825,7 +846,8 @@ HISTORY                                                         *ferret-history*
 
 main (not yet released) ~
 
-- ...
+- Add |<Plug>(FerretBack)|, |<Plug>(FerretBlack)|, and |<Plug>(FerretQuack)|
+  targets for use in mappings (https://github.com/wincent/ferret/issues/79).
 
 5.1 (9 July 2021) ~
 

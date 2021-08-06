@@ -222,6 +222,30 @@ Additionally, Ferret will set up special mappings in <strong>`quickfix`</strong>
 - `dd` (<strong>`Normal-mode`</strong>): delete current line
 - `d`{motion} (<strong>`Normal-mode`</strong>): delete range indicated by {motion}
 
+### `<Plug>(FerretBack)`<a name="ferret-plugferretback" href="#user-content-ferret-plugferretback"></a>
+
+Ferret provides <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong> which can be used to trigger the <strong>[`:Back`](#user-content-back)</strong> command. To configure a mapping for it, use <strong>`:nmap`</strong>:
+
+```
+nmap <leader>fb <Plug>(FerretBack)
+```
+
+### `<Plug>(FerretBlack)`<a name="ferret-plugferretblack" href="#user-content-ferret-plugferretblack"></a>
+
+Ferret provides <strong>[`<Plug>(FerretBlack)`](#user-content-plugferretblack)</strong> which can be used to trigger the <strong>[`:Black`](#user-content-black)</strong> command. To configure a mapping for it, use <strong>`:nmap`</strong>:
+
+```
+nmap <leader>fl <Plug>(FerretBlack)
+```
+
+### `<Plug>(FerretQuack)`<a name="ferret-plugferretquack" href="#user-content-ferret-plugferretquack"></a>
+
+Ferret provides <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong> which can be used to trigger the <strong>[`:Quack`](#user-content-quack)</strong> command. To configure a mapping for it, use <strong>`:nmap`</strong>:
+
+```
+nmap <leader>fq <Plug>(FerretQuack)
+```
+
 ### `<Plug>(FerretAck)`<a name="ferret-plugferretack" href="#user-content-ferret-plugferretack"></a>
 
 Ferret maps &lt;leader&gt;a to <strong>[`<Plug>(FerretAck)`](#user-content-plugferretack)</strong>, which triggers the <strong>[`:Ack`](#user-content-ack)</strong> command. To use an alternative mapping instead, create a different one in your <strong>`.vimrc`</strong> instead using <strong>`:nmap`</strong>:
@@ -708,7 +732,7 @@ This list produced with:
 
 ### main (not yet released)<a name="ferret-main-not-yet-released" href="#user-content-ferret-main-not-yet-released"></a>
 
-- ...
+- Add <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong>, <strong>[`<Plug>(FerretBlack)`](#user-content-plugferretblack)</strong>, and <strong>[`<Plug>(FerretQuack)`](#user-content-plugferretquack)</strong> targets for use in mappings (https://github.com/wincent/ferret/issues/79).
 
 ### 5.1 (9 July 2021)<a name="ferret-51-9-july-2021" href="#user-content-ferret-51-9-july-2021"></a>
 

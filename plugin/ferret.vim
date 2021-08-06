@@ -389,7 +389,8 @@
 "
 " ## main (not yet released)
 "
-" - ...
+" - Add |<Plug>(FerretBack)|, |<Plug>(FerretBlack)|, and |<Plug>(FerretQuack)|
+"   targets for use in mappings (https://github.com/wincent/ferret/issues/79).
 "
 " ## 5.1 (9 July 2021)
 "
@@ -744,6 +745,39 @@ command! FerretPullAsync call ferret#private#async#pull()
 
 nnoremap <Plug>(FerretAck) :Ack<space>
 nnoremap <Plug>(FerretLack) :Lack<space>
+
+""
+" @mapping <Plug>(FerretBack)
+"
+" Ferret provides |<Plug>(FerretBack)| which can be used to trigger the |:Back|
+" command. To configure a mapping for it, use |:nmap|:
+"
+" ```
+" nmap <leader>fb <Plug>(FerretBack)
+" ```
+nnoremap <Plug>(FerretBack) :Back<space>
+
+""
+" @mapping <Plug>(FerretBlack)
+"
+" Ferret provides |<Plug>(FerretBlack)| which can be used to trigger the |:Black|
+" command. To configure a mapping for it, use |:nmap|:
+"
+" ```
+" nmap <leader>fl <Plug>(FerretBlack)
+" ```
+nnoremap <Plug>(FerretBlack) :Black<space>
+
+""
+" @mapping <Plug>(FerretQuack)
+"
+" Ferret provides |<Plug>(FerretBack)| which can be used to trigger the |:Quack|
+" command. To configure a mapping for it, use |:nmap|:
+"
+" ```
+" nmap <leader>fq <Plug>(FerretQuack)
+" ```
+nnoremap <Plug>(FerretQuack) :Quack<space>
 
 ""
 " @option g:FerretAckWordWord boolean 0
