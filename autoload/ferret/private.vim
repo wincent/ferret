@@ -149,7 +149,9 @@ function! s:parse(args) abort
   "
   let l:odd_number_of_backslashes='\\\@<!\\\(\\\\\)*\\\@!'
   let l:unescaped_space='\('.l:odd_number_of_backslashes.'\)\@<! '
-  let l:args=split(a:args, l:unescaped_space)
+  " Replace non-ASCII code by \u escape to get a better error message:
+  let l:args = substitute(a:args, "[\u00A0-\uFFFF]", "\\=printf('\\u%04x', char2nr(submatch(0)))", 'g')
+  let l:args=split(l:args, l:unescaped_space)
   let l:expanded_args=[]
 
   for l:arg in l:args
@@ -211,7 +213,9 @@ function! ferret#private#post(type) abort
   let l:tip=' [see `:help ferret-quotes`]'
   let l:len=s:qfsize(a:type)
   if l:len == 0
-    let l:base='No results for search pattern `' . l:lastsearch . '`'
+    " Substitute non ASCII characters with their Unicode escape sequence \u0000
+    let l:lastfullsearch = substitute(l:lastsearch, '\\u\([0-9a-fA-F]\{4\}\)', '\=nr2char(str2nr(submatch(1), 16))', 'g')
+    let l:base='No results for search pattern `' . l:lastfullsearch . '`'
 
     " Search pattern has no spaces and is entirely enclosed in quotes;
     " eg 'foo' or "bar"
