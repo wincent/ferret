@@ -29,23 +29,40 @@ function! ferret#private#nvim#search(command, ack, bang) abort
   let l:executable=split(ferret#private#executable())
   let l:default_search_paths=[]
   if l:executable[0] ==# 'rg'
-    " Hack for breakage caused by rg v13.0.0;
-    " see: https://github.com/wincent/ferret/issues/78
+    " Hack for breakage caused by rg v13.0.0; see:
+    " - https://github.com/wincent/ferret/issues/78
+    " - https://github.com/wincent/ferret/issues/82
+    let l:expect_option_argument=0
     let l:seen_search_term=0
     let l:seen_search_path=0
     let l:search_paths_include_dot=0
     for l:arg in a:command
-      if !ferret#private#option(l:arg)
-        if !l:seen_search_term
-          let l:seen_search_term=1
+      if l:expect_option_argument
+        let l:option=ferret#private#option(l:arg)
+        if l:option == 2
+          " Probably a user error.
+        elseif l:option == 1
+          " Probably a user error.
+          let l:expect_option_argument=0
         else
-          let l:seen_search_path=1
-          if l:arg ==# '.' || l:arg ==# './'
-            let l:search_paths_include_dot=1
-            break
+          let l:expect_option_argument=0
+        endif
+      else
+        let l:option=ferret#private#option(l:arg)
+        if l:option == 2
+          let l:expect_option_argument=1
+        elseif l:option != 1
+          if !l:seen_search_term
+            let l:seen_search_term=1
+          else
+            let l:seen_search_path=1
+            if l:arg ==# '.' || l:arg ==# './'
+              let l:search_paths_include_dot=1
+              break
+            endif
           endif
-        end
-      end
+        endif
+      endif
     endfor
     if !l:seen_search_path
       let s:ripgrep_hack=1
