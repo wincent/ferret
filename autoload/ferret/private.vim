@@ -27,12 +27,12 @@ function! s:delete(first, last)
   " Update listing and go to next entry.
   if l:type ==# 'qf'
     call setqflist(l:list, 'r')
-    if len(filter(l:list, 'v:val')) > 0
+    if len(filter(l:list, 'type(v:val) != v:t_number || v:val != 0')) > 0
       execute 'cc ' . a:first
     endif
   else
     call setloclist(0, l:list, 'r')
-    if len(filter(l:list, 'v:val')) > 0
+    if len(filter(l:list, 'type(v:val) != v:t_number || v:val != 0')) > 0
       execute 'll ' . a:first
     endif
   endif
