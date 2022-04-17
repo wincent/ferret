@@ -19,7 +19,7 @@ function! s:delete(first, last)
   let l:line=a:first
 
   while l:line >= a:first && l:line <= a:last
-    " Non-dictionary items will be ignored. This effectively deletes the line.
+    " Non-dictionary items will be ignored. Setting to 0 effectively deletes.
     let l:list[l:line - 1]=0
     let l:line=l:line + 1
   endwhile
@@ -27,10 +27,14 @@ function! s:delete(first, last)
   " Update listing and go to next entry.
   if l:type ==# 'qf'
     call setqflist(l:list, 'r')
-    execute 'cc ' . a:first
+    if len(filter(l:list, 'v:val')) > 0
+      execute 'cc ' . a:first
+    endif
   else
     call setloclist(0, l:list, 'r')
-    execute 'll ' . a:first
+    if len(filter(l:list, 'v:val')) > 0
+      execute 'll ' . a:first
+    endif
   endif
 
   " Move focus back to listing.
