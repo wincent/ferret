@@ -17,6 +17,9 @@ function! s:delete(first, last)
   let l:type=s:is_quickfix() ? 'qf' : 'location'
   let l:list=l:type == 'qf' ? getqflist() : getloclist(0)
   let l:line=a:first
+  if len(l:list) == 0
+    return
+  endif
 
   while l:line >= a:first && l:line <= a:last
     " Non-dictionary items will be ignored. Setting to 0 effectively deletes.
