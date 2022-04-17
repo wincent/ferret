@@ -733,6 +733,8 @@ This list produced with:
 ### main (not yet released)<a name="ferret-main-not-yet-released" href="#user-content-ferret-main-not-yet-released"></a>
 
 - Add <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong>, <strong>[`<Plug>(FerretBlack)`](#user-content-plugferretblack)</strong>, and <strong>[`<Plug>(FerretQuack)`](#user-content-plugferretquack)</strong> targets for use in mappings (https://github.com/wincent/ferret/issues/79).
+- Fix hangs produced by options that take arguments in `rg` v13.0.0 (https://github.com/wincent/ferret/issues/82).
+- Fix <strong>`E42`</strong> and <strong>`E684`</strong> errors when deleting last item in listing, or trying to delete from an empty listing (https://github.com/wincent/ferret/issues/83).
 
 ### 5.1 (9 July 2021)<a name="ferret-51-9-july-2021" href="#user-content-ferret-51-9-july-2021"></a>
 

@@ -391,6 +391,10 @@
 "
 " - Add |<Plug>(FerretBack)|, |<Plug>(FerretBlack)|, and |<Plug>(FerretQuack)|
 "   targets for use in mappings (https://github.com/wincent/ferret/issues/79).
+" - Fix hangs produced by options that take arguments in `rg` v13.0.0
+"   (https://github.com/wincent/ferret/issues/82).
+" - Fix |E42| and |E684| errors when deleting last item in listing, or trying to
+"   delete from an empty listing (https://github.com/wincent/ferret/issues/83).
 "
 " ## 5.1 (9 July 2021)
 "
