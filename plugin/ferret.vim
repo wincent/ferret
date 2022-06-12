@@ -395,6 +395,7 @@
 "   (https://github.com/wincent/ferret/issues/82).
 " - Fix |E42| and |E684| errors when deleting last item in listing, or trying to
 "   delete from an empty listing (https://github.com/wincent/ferret/issues/83).
+" - Add |g:FerretCommandNames| (https://github.com/wincent/ferret/issues/75).
 "
 " ## 5.1 (9 July 2021)
 "
@@ -584,6 +585,61 @@ if !get(g:, 'FerretLazyInit', 1)
 endif
 
 ""
+" @option g:FerretCommandNames dictionary {}
+"
+" Ferret's command names are mostly chosen because the plugin started as a
+" simple `ack` wrapper. As related commands were added over time, a pattern
+" involving common suffixes evolved, to make the commands easy to remember
+" (even once Ferret started offering support for non-`ack` tools, such as
+" `ag` and `rg`). As such, |:Ack|, |:Back|, |:Black|, |:Lack|, and |:Quack|
+" are all commands, as are the variants |:Acks| and |:Lacks|, along with
+" |:Qargs| and |:Largs|. Exceptions to the pattern are |:FerretCancelAsync| and
+" |:FerretPullAsync|.
+"
+" Should you wish to override any or all of these names, you may define
+" |g:FerretCommandNames| early on in your |.vimrc| (before Ferret is loaded),
+" and it will use the specified names instead, falling back to the defaults for
+" any undefined commands. For example, to use `:Rg` in place of the |:Ack|
+" command, and `:Rgb` in place of |:Back|, but keep using the standard names for
+" all other commands, you would write:
+"
+" ```
+" let g:FerretCommandNames={'Ack': 'Rg', 'Back': 'Rgb'}
+" ```
+"
+" Overriding may be useful to avoid conflicts with other plug-ins that compete
+" to define commands with the same names, or simply to match personal
+" preferences.
+let s:FerretCommandNames={
+      \   'Ack': 'Ack',
+      \   'Acks': 'Acks',
+      \   'Back': 'Back',
+      \   'Black': 'Black',
+      \   'FerretCancelAsync': 'FerretCancelAsync',
+      \   'FerretPullAsync': 'FerretPullAsync',
+      \   'Lack': 'Lack',
+      \   'Lacks': 'Lacks',
+      \   'Largs': 'Largs',
+      \   'Qargs': 'Qargs',
+      \   'Quack': 'Quack'
+      \ }
+let s:FerretCommandNameOverrides=get(g:, 'FerretCommandNames', {})
+if type(s:FerretCommandNameOverrides) == v:t_dict
+  for [command, alias] in items(s:FerretCommandNameOverrides)
+    if has_key(s:FerretCommandNames, command)
+      if type(alias) == v:t_string &&
+            \ match(alias, '\v\C^[A-Z][A-Za-z]*$') == 0
+        let s:FerretCommandNames[command]=alias
+      else
+        echoerr 'Skipping bad alias for command ' . command . ' in g:FerretCommandNames'
+      end
+    else
+      echoerr 'Skipping bad command name ' . command . ' in g:FerretCommandNames'
+    endif
+  endfor
+endif
+
+""
 " @command :Ack {pattern} {options}
 "
 " Searches for {pattern} in all the files under the current directory (see
@@ -627,7 +683,9 @@ endif
 " Like |:Ack|, but returns all results irrespective of the value of
 " |g:FerretMaxResults|.
 "
-command! -bang -nargs=1 -complete=customlist,ferret#private#ackcomplete Ack call ferret#private#ack(<bang>0, <q-args>)
+execute 'command! -bang -nargs=1 -complete=customlist,ferret#private#ackcomplete ' .
+      \ s:FerretCommandNames['Ack'] .
+      \ ' call ferret#private#ack(<bang>0, <q-args>)'
 
 ""
 " @command :Lack {pattern} {options}
@@ -643,7 +701,9 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#ackcomplete Ack call
 " Like |:Lack|, but returns all results irrespective of the value of
 " |g:FerretMaxResults|.
 "
-command! -bang -nargs=1 -complete=customlist,ferret#private#lackcomplete Lack call ferret#private#lack(<bang>0, <q-args>)
+execute 'command! -bang -nargs=1 -complete=customlist,ferret#private#lackcomplete ' .
+      \ s:FerretCommandNames['Lack'] .
+      \ ' call ferret#private#lack(<bang>0, <q-args>)'
 
 ""
 " @command :Back {pattern} {options}
@@ -659,7 +719,9 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#lackcomplete Lack ca
 " Like |:Back|, but returns all results irrespective of the value of
 " |g:FerretMaxResults|.
 "
-command! -bang -nargs=1 -complete=customlist,ferret#private#backcomplete Back call ferret#private#back(<bang>0, <q-args>)
+execute 'command! -bang -nargs=1 -complete=customlist,ferret#private#backcomplete ' .
+      \ s:FerretCommandNames['Back'] .
+      \ ' call ferret#private#back(<bang>0, <q-args>)'
 
 ""
 " @command :Black {pattern} {options}
@@ -675,7 +737,9 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#backcomplete Back ca
 " Like |:Black|, but returns all results irrespective of the value of
 " |g:FerretMaxResults|.
 "
-command! -bang -nargs=1 -complete=customlist,ferret#private#blackcomplete Black call ferret#private#black(<bang>0, <q-args>)
+execute 'command! -bang -nargs=1 -complete=customlist,ferret#private#blackcomplete ' .
+      \ s:FerretCommandNames['Black'] .
+      \ ' call ferret#private#black(<bang>0, <q-args>)'
 
 ""
 " @command :Quack {pattern} {options}
@@ -692,7 +756,9 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#blackcomplete Black 
 " Like |:Quack|, but returns all results irrespective of the value of
 " |g:FerretMaxResults|.
 "
-command! -bang -nargs=1 -complete=customlist,ferret#private#quackcomplete Quack call ferret#private#quack(<bang>0, <q-args>)
+execute 'command! -bang -nargs=1 -complete=customlist,ferret#private#quackcomplete ' .
+      \ s:FerretCommandNames['Quack'] .
+      \ ' call ferret#private#quack(<bang>0, <q-args>)'
 
 ""
 " @command :Acks /{pattern}/{replacement}/
@@ -719,7 +785,9 @@ command! -bang -nargs=1 -complete=customlist,ferret#private#quackcomplete Quack 
 " ```
 " :Acks /\v(foo\d+)(bar)/\2\1/
 " ```
-command! -nargs=1 Acks call ferret#private#acks(<q-args>, 'qf')
+execute 'command! -nargs=1 ' .
+      \ s:FerretCommandNames['Acks'] .
+      \ ' call ferret#private#acks(<q-args>, "qf")'
 
 ""
 " @command :Lacks /{pattern}/{replacement}/
@@ -729,14 +797,18 @@ command! -nargs=1 Acks call ferret#private#acks(<q-args>, 'qf')
 " of the |:Acks| command, but operates on the |location-list| instead of the
 " |quickfix| listing.
 "
-command! -nargs=1 Lacks call ferret#private#acks(<q-args>, 'location')
+execute 'command! -nargs=1 ' .
+      \ s:FerretCommandNames['Lacks'] .
+      \ ' call ferret#private#acks(<q-args>, "location")'
 
 ""
 " @command :FerretCancelAsync
 "
 " Cancels any asynchronous search that may be in progress in the background.
 "
-command! FerretCancelAsync call ferret#private#async#cancel()
+execute 'command! ' .
+      \ s:FerretCommandNames['FerretCancelAsync'] .
+      \ ' call ferret#private#async#cancel()'
 
 ""
 " @command :FerretPullAsync
@@ -745,7 +817,9 @@ command! FerretCancelAsync call ferret#private#async#cancel()
 " that may have been produced by a long-running asynchronous search in progress
 " in the background.
 "
-command! FerretPullAsync call ferret#private#async#pull()
+execute 'command! ' .
+      \ s:FerretCommandNames['FerretPullAsync'] .
+      \ ' call ferret#private#async#pull()'
 
 nnoremap <Plug>(FerretAck) :Ack<space>
 nnoremap <Plug>(FerretLack) :Lack<space>
@@ -891,7 +965,9 @@ endif
 "
 " It takes the files currently in the |quickfix| listing and sets them as
 " |:args| so that they can be operated on en masse via the |:argdo| command.
-command! -bar Qargs execute 'args' ferret#private#args('qf')
+execute 'command! -bar ' .
+      \ s:FerretCommandNames['Qargs'] .
+      \ ' execute "args" ferret#private#args("qf")'
 
 ""
 " @command :Largs
@@ -900,7 +976,9 @@ command! -bar Qargs execute 'args' ferret#private#args('qf')
 "
 " It takes the files in the current |location-list| and sets them as
 " |:args| so that they can be operated on en masse via the |:argdo| command.
-command! -bar Largs execute 'args' ferret#private#args('location')
+execute 'command! -bar ' .
+      \ s:FerretCommandNames['Largs'] .
+      \ ' execute "args" ferret#private#args("location")'
 
 ""
 " @option g:FerretQFCommands boolean 1

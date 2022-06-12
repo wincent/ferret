@@ -555,6 +555,31 @@ as soon as Vim launches), then set |g:FerretLazyInit| to 0 in your |.vimrc|:
     let g:FerretLazyInit=0
 <
 
+                                                          *g:FerretCommandNames*
+|g:FerretCommandNames|                                  dictionary (default: {})
+
+Ferret's command names are mostly chosen because the plugin started as a
+simple `ack` wrapper. As related commands were added over time, a pattern
+involving common suffixes evolved, to make the commands easy to remember
+(even once Ferret started offering support for non-`ack` tools, such as `ag` and
+`rg`). As such, |:Ack|, |:Back|, |:Black|, |:Lack|, and |:Quack| are all commands, as
+are the variants |:Acks| and |:Lacks|, along with |:Qargs| and |:Largs|. Exceptions
+to the pattern are |:FerretCancelAsync| and |:FerretPullAsync|.
+
+Should you wish to override any or all of these names, you may define
+|g:FerretCommandNames| early on in your |.vimrc| (before Ferret is loaded), and
+it will use the specified names instead, falling back to the defaults for
+any undefined commands. For example, to use `:Rg` in place of the |:Ack|
+command, and `:Rgb` in place of |:Back|, but keep using the standard names for
+all other commands, you would write:
+>
+    let g:FerretCommandNames={'Ack': 'Rg', 'Back': 'Rgb'}
+<
+Overriding may be useful to avoid conflicts with other plug-ins that compete
+to define commands with the same names, or simply to match personal
+preferences.
+
+
                                                            *g:FerretAckWordWord*
 |g:FerretAckWordWord|                                       boolean (default: 0)
 
@@ -852,6 +877,7 @@ main (not yet released) ~
   (https://github.com/wincent/ferret/issues/82).
 - Fix |E42| and |E684| errors when deleting last item in listing, or trying to
   delete from an empty listing (https://github.com/wincent/ferret/issues/83).
+- Add |g:FerretCommandNames| (https://github.com/wincent/ferret/issues/75).
 
 5.1 (9 July 2021) ~
 

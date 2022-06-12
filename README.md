@@ -461,6 +461,20 @@ In order to minimize impact on Vim start-up time Ferret will initialize itself l
 let g:FerretLazyInit=0
 ```
 
+<p align="right"><a name="gferretcommandnames" href="#user-content-gferretcommandnames"><code>g:FerretCommandNames</code></a></p>
+
+### `g:FerretCommandNames` (dictionary, default: {})<a name="ferret-gferretcommandnames-dictionary-default-" href="#user-content-ferret-gferretcommandnames-dictionary-default-"></a>
+
+Ferret's command names are mostly chosen because the plugin started as a simple `ack` wrapper. As related commands were added over time, a pattern involving common suffixes evolved, to make the commands easy to remember (even once Ferret started offering support for non-`ack` tools, such as `ag` and `rg`). As such, <strong>[`:Ack`](#user-content-ack)</strong>, <strong>[`:Back`](#user-content-back)</strong>, <strong>[`:Black`](#user-content-black)</strong>, <strong>[`:Lack`](#user-content-lack)</strong>, and <strong>[`:Quack`](#user-content-quack)</strong> are all commands, as are the variants <strong>[`:Acks`](#user-content-acks)</strong> and <strong>[`:Lacks`](#user-content-lacks)</strong>, along with <strong>[`:Qargs`](#user-content-qargs)</strong> and <strong>[`:Largs`](#user-content-largs)</strong>. Exceptions to the pattern are <strong>[`:FerretCancelAsync`](#user-content-ferretcancelasync)</strong> and <strong>[`:FerretPullAsync`](#user-content-ferretpullasync)</strong>.
+
+Should you wish to override any or all of these names, you may define <strong>[`g:FerretCommandNames`](#user-content-gferretcommandnames)</strong> early on in your <strong>`.vimrc`</strong> (before Ferret is loaded), and it will use the specified names instead, falling back to the defaults for any undefined commands. For example, to use `:Rg` in place of the <strong>[`:Ack`](#user-content-ack)</strong> command, and `:Rgb` in place of <strong>[`:Back`](#user-content-back)</strong>, but keep using the standard names for all other commands, you would write:
+
+```
+let g:FerretCommandNames={'Ack': 'Rg', 'Back': 'Rgb'}
+```
+
+Overriding may be useful to avoid conflicts with other plug-ins that compete to define commands with the same names, or simply to match personal preferences.
+
 <p align="right"><a name="gferretackwordword" href="#user-content-gferretackwordword"><code>g:FerretAckWordWord</code></a></p>
 
 ### `g:FerretAckWordWord` (boolean, default: 0)<a name="ferret-gferretackwordword-boolean-default-0" href="#user-content-ferret-gferretackwordword-boolean-default-0"></a>
@@ -735,6 +749,7 @@ This list produced with:
 - Add <strong>[`<Plug>(FerretBack)`](#user-content-plugferretback)</strong>, <strong>[`<Plug>(FerretBlack)`](#user-content-plugferretblack)</strong>, and <strong>[`<Plug>(FerretQuack)`](#user-content-plugferretquack)</strong> targets for use in mappings (https://github.com/wincent/ferret/issues/79).
 - Fix hangs produced by options that take arguments in `rg` v13.0.0 (https://github.com/wincent/ferret/issues/82).
 - Fix <strong>`E42`</strong> and <strong>`E684`</strong> errors when deleting last item in listing, or trying to delete from an empty listing (https://github.com/wincent/ferret/issues/83).
+- Add <strong>[`g:FerretCommandNames`](#user-content-gferretcommandnames)</strong> (https://github.com/wincent/ferret/issues/75).
 
 ### 5.1 (9 July 2021)<a name="ferret-51-9-july-2021" href="#user-content-ferret-51-9-july-2021"></a>
 
