@@ -78,9 +78,7 @@ function! ferret#private#async()
   " ```
   let l:async=get(g:, 'FerretJob', 1)
 
-  " Nothing special about 1829; it's just the version I am testing with as I
-  " write this.
-  return l:async && has('patch-7-4-1829')
+  return l:async && has('job')
 endfunction
 
 function! ferret#private#error(message) abort
