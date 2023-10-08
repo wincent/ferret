@@ -280,11 +280,7 @@
 "
 " # Website
 "
-" The official Ferret source code repo is at:
-"
-"   http://git.wincent.com/ferret.git
-"
-" A mirror exists at:
+" Source code:
 "
 "   https://github.com/wincent/ferret
 "

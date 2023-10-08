@@ -656,11 +656,7 @@ https://github.com/wincent/loupe
 
 ## Website<a name="ferret-website" href="#user-content-ferret-website"></a>
 
-The official Ferret source code repo is at:
-
-http://git.wincent.com/ferret.git
-
-A mirror exists at:
+Source code:
 
 https://github.com/wincent/ferret
 
