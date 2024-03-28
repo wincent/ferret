@@ -263,7 +263,7 @@
 "
 " Ferret was originally the thinnest of wrappers (7 lines of code in my
 " |.vimrc|) around `ack`. The earliest traces of it can be seen in the initial
-" commit to my dotfiles repo in May, 2009 (https://wincent.com/h).
+" commit to my dotfiles repo in May, 2009 (https://wincent.dev/h).
 "
 " So, even though Ferret has a new name now and actually prefers `rg` then `ag`
 " over `ack`/`ack-grep` when available, I prefer to keep the command names
