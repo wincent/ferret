@@ -190,7 +190,7 @@ endfunction
 function! ferret#private#nvim#cancel() abort
   let l:canceled=0
   for l:job in keys(s:jobs)
-    call jobstop(l:job)
+    call jobstop(str2nr(l:job))
     call remove(s:jobs, l:job)
     let l:canceled=1
   endfor
