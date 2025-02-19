@@ -124,6 +124,8 @@ endfunction
 " Parses arguments, extracting a search pattern (which is stored in
 " g:ferret_lastsearch) and escaping space-delimited arguments for use by
 " `system()`. A string containing all the escaped arguments is returned.
+"
+" Environment variables get expanded, if possible.
 function! s:parse(args) abort
   if exists('g:ferret_lastsearch')
     unlet g:ferret_lastsearch
@@ -166,7 +168,7 @@ function! s:parse(args) abort
       " Options get passed through as-is.
       call add(l:expanded_args, l:arg)
     elseif exists('g:ferret_lastsearch')
-      let l:file_args=glob(l:arg, 1, 1) " Ignore 'wildignore', return a list.
+      let l:file_args=s:glob(l:arg, 1)
       if len(l:file_args)
         call extend(l:expanded_args, l:file_args)
       else
@@ -187,6 +189,63 @@ function! s:parse(args) abort
   let l:each_word_shell_escaped=map(l:expanded_args, 'shellescape(v:val)')
   let l:joined=join(l:each_word_shell_escaped)
   return escape(l:joined, '<>#')
+endfunction
+
+" Wrapper for `glob()` that tries a bit harder to expand environment variables.
+"
+" The built-in `glob()` (see `:help glob()`) will expand variables like "$HOME"
+" that refer to existing paths. It will also expand patterns like `{a,b}` (if
+" they match existing paths).
+"
+" This wrapper additionally supports variables like "$PATH" that may contain
+" colon-separated entries, and ultimately falls back to comma-separated, then
+" space-separated components (eg. for "$FOO='a b c'" it would effectively
+" merge the results of calling `glob('a')`, `glob('b')`, and `glob('c')`).
+"
+" Returns a list of existing file system paths, or an empty list if non were
+" found.
+function! s:glob(candidate, recurse) abort
+  let l:ignore_wildignore=1
+  let l:return_list=1
+  let l:files=glob(a:candidate, l:ignore_wildignore, l:return_list)
+  if len(l:files) >= 1
+    return l:files
+  endif
+
+  if a:recurse == 1 && a:candidate =~# '^\$'
+    let l:environ=environ()
+    if l:environ->has_key(a:candidate[1:])
+      let l:value=l:environ[a:candidate[1:]]
+      let l:components=split(l:value, ':')
+      if len(l:components) > 1
+        let l:files=[]
+        for l:component in l:components
+          call extend(l:files, s:glob(l:component, 0))
+        endfor
+        return l:files
+      else
+        let l:components=split(l:value, ',')
+        if len(l:components) > 1
+          let l:files=[]
+          for l:component in l:components
+            call extend(l:files, s:glob(l:component, 0))
+          endfor
+          return l:files
+        else
+          let l:components=split(l:value)
+          if len(l:components) > 1
+            let l:files=[]
+            for l:component in l:components
+              call extend(l:files, s:glob(l:component, 0))
+            endfor
+            return l:files
+          endif
+        endif
+      endif
+    endif
+  endif
+
+  return []
 endfunction
 
 function! ferret#private#clearautocmd() abort
@@ -948,9 +1007,15 @@ function! ferret#private#complete(cmd, arglead, cmdline, cursorpos, files) abort
       endif
     elseif l:pattern_seen && a:files
       if a:cursorpos <= l:position
-        " Assume this is a filename, and it's the one we're trying to complete.
-        " Do -complete=file style completion.
-        return map(glob(a:arglead . '*', 1, 1), 'isdirectory(v:val) ? v:val . "/" : v:val')
+        if a:arglead =~# '^\$'
+          let l:env_candidate=a:arglead[1:]
+          " Expand environment variables.
+          return filter(environ()->keys(), 'v:val =~# "^" . l:env_candidate . ".*"')->map('"$" . v:val')
+        else
+          " Assume this is a filename, and it's the one we're trying to complete.
+          " Do -complete=file style completion.
+          return map(glob(a:arglead . '*', 1, 1), 'isdirectory(v:val) ? v:val . "/" : v:val')
+        endif
       end
     elseif l:command_seen
       " Let the pattern through unaltered.
